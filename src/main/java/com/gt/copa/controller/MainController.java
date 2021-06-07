@@ -22,6 +22,9 @@ public class MainController {
 	@Autowired
 	ConfigPaneController configPaneController;
 
+	@Autowired
+	DataSetCrudController setDatosCrudController;
+
 	@FXML
 	private BorderPane mainView;
 
@@ -36,14 +39,27 @@ public class MainController {
 
 	}
 
-	@FXML
-	void miPruebaClick(ActionEvent event) {
-		openOtherWindows();
+	private void hideAllPane() {
+		configPaneController.hide();
+		setDatosCrudController.hide();
 	}
 
 	@FXML
-	void configurar(ActionEvent event) {
+	void mnuConfigurarClick(ActionEvent event) {
+		hideAllPane();
 		configPaneController.show();
+	}
+
+	@FXML
+	void mnuSetDatosClick(ActionEvent event) {
+		hideAllPane();
+		setDatosCrudController.show();
+		setDatosCrudController.loadData();
+	}
+
+	@FXML
+	void miPruebaClick(ActionEvent event) {
+		openOtherWindows();
 	}
 
 	public void openOtherWindows() {
@@ -58,4 +74,5 @@ public class MainController {
 		stage.setResizable(false);
 		stage.show();
 	}
+
 }

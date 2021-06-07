@@ -7,70 +7,68 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="mainView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.MainController">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="Archivo">
-            <items>
-              <MenuItem mnemonicParsing="false" 
-              onAction="#miPruebaClick" text="Prueba" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Situación">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Sets de datos" />
-              <MenuItem mnemonicParsing="false" text="Empresas" />
-              <MenuItem mnemonicParsing="false" text="Escenarios" />
-              <MenuItem mnemonicParsing="false" text="Períodos" />
-              <MenuItem mnemonicParsing="false" text="Clasificaciones" />
-              <MenuItem mnemonicParsing="false" text="Situación actual" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Costeo por actividad">
-            <items>
-              <Menu mnemonicParsing="false" text="Elementos">
-                <MenuItem mnemonicParsing="false" text="Recursos" />
-                <MenuItem mnemonicParsing="false" text="Datos" />
-                <MenuItem mnemonicParsing="false" text="Procesos" />
-                <MenuItem mnemonicParsing="false" text="Actividades" />
-                <MenuItem mnemonicParsing="false" text="Objetos de costo" />
-              </Menu>
-              <Menu mnemonicParsing="false" text="Asignaciones">
-                <MenuItem mnemonicParsing="false" text="Valores de datos" />
-                <MenuItem mnemonicParsing="false" text="Recursos en actividades" />
-                <MenuItem mnemonicParsing="false" text="Actividades en actividades" />
-                <MenuItem mnemonicParsing="false" text="Actividades en objetos de costo" />
-              </Menu>
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Costeo integral">
+  <top>
+    <MenuBar BorderPane.alignment="CENTER">
+      <menus>
+        <Menu mnemonicParsing="false" text="Archivo">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#miPruebaClick" text="Prueba" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Situación">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Sets de datos" onAction="#mnuSetDatosClick" />
+            <MenuItem mnemonicParsing="false" text="Empresas" />
+            <MenuItem mnemonicParsing="false" text="Escenarios" />
+            <MenuItem mnemonicParsing="false" text="Períodos" />
+            <MenuItem mnemonicParsing="false" text="Clasificaciones" />
+            <MenuItem mnemonicParsing="false" text="Situación actual" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Costeo por actividad">
+          <items>
+            <Menu mnemonicParsing="false" text="Elementos">
+              <MenuItem mnemonicParsing="false" text="Recursos" />
+              <MenuItem mnemonicParsing="false" text="Datos" />
+              <MenuItem mnemonicParsing="false" text="Procesos" />
+              <MenuItem mnemonicParsing="false" text="Actividades" />
+              <MenuItem mnemonicParsing="false" text="Objetos de costo" />
+            </Menu>
+            <Menu mnemonicParsing="false" text="Asignaciones">
+              <MenuItem mnemonicParsing="false" text="Valores de datos" />
+              <MenuItem mnemonicParsing="false" text="Recursos en actividades" />
+              <MenuItem mnemonicParsing="false" text="Actividades en actividades" />
+              <MenuItem mnemonicParsing="false" text="Actividades en objetos de costo" />
+            </Menu>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Costeo integral">
+          <MenuItem mnemonicParsing="false" text="Artículos" />
+          <MenuItem mnemonicParsing="false" text="Artículo en Objeto de costo" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Herramientas">
+          <MenuItem mnemonicParsing="false" onAction="#mnuConfigurarClick" text="Configurar" />
+          <Menu mnemonicParsing="false" text="Importar archivo">
+            <MenuItem mnemonicParsing="false" text="Set de datos" />
+            <MenuItem mnemonicParsing="false" text="Valores de datos" />
             <MenuItem mnemonicParsing="false" text="Artículos" />
-            <MenuItem mnemonicParsing="false" text="Artículo en Objeto de costo" />
           </Menu>
-          <Menu mnemonicParsing="false" text="Herramientas">
-            <MenuItem mnemonicParsing="false" onAction="#configurar" text="Configurar" />
-            <Menu mnemonicParsing="false" text="Importar archivo">
-              <MenuItem mnemonicParsing="false" text="Set de datos" />
-              <MenuItem mnemonicParsing="false" text="Valores de datos" />
-              <MenuItem mnemonicParsing="false" text="Artículos" />
-            </Menu>
-            <Menu mnemonicParsing="false" text="Exportar archivo">
-              <MenuItem mnemonicParsing="false" text="Set de datos" />
-              <MenuItem mnemonicParsing="false" text="Valores de datos" />
-              <MenuItem mnemonicParsing="false" text="Artículos" />
-            </Menu>
+          <Menu mnemonicParsing="false" text="Exportar archivo">
+            <MenuItem mnemonicParsing="false" text="Set de datos" />
+            <MenuItem mnemonicParsing="false" text="Valores de datos" />
+            <MenuItem mnemonicParsing="false" text="Artículos" />
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" >
-        <fx:include source="./ConfigPaneView.fxml" />
-      </VBox>
-   </center>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+  <center>
+    <fx:include source="./DataSetCrudView.fxml" />
+    <fx:include source="./ConfigPaneView.fxml" />
+  </center>
 </BorderPane>

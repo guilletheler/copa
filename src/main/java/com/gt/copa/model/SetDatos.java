@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @Entity
 @Table(name = "setsdatos")
-public class SetDatos extends CodigoNombre {
+public class SetDatos extends CodigoNombre implements IWithId<Integer> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

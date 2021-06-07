@@ -1,7 +1,5 @@
 package com.gt.copa.controller;
 
-import java.time.LocalDate;
-
 import org.springframework.stereotype.Component;
 
 import javafx.fxml.FXML;
@@ -12,28 +10,31 @@ import net.rgielen.fxweaver.core.FxmlView;
 @Component
 @FxmlView("/com/gt/copa/view/ConfigPaneView.fxml")
 public class ConfigPaneController {
-    
+
     @FXML
     DatePicker dpFecha;
-    
+
     @FXML
-    VBox configView;
+    VBox nodeView;
 
     @FXML
     public void initialize() {
-        // dpFecha.setValue(LocalDate.now());
+        nodeView.setVisible(false);
     }
 
     public void show() {
-        if(configView.isVisible()) {
-            configView.setVisible(false);
-
-        } else {
-        configView.setVisible(true);
-        }
+        nodeView.setVisible(true);
     }
 
     public void hide() {
-        configView.setVisible(false);
+        nodeView.setVisible(false);
+    }
+
+    public void toggleView() {
+        if(nodeView.isVisible()) {
+            this.hide();
+        } else {
+            this.show();
+        }
     }
 }

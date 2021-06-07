@@ -66,6 +66,12 @@ public class DatoImpl implements IDato {
     public String getNombre() {
         return referencia;
     }
+    
+    @Override
+    public void setNombre(String nombre) {
+        setReferencia(nombre);
+    }
+
 
     public Set<IClasificacion> getClasificaciones() {
         if (clasificaciones == null) {
