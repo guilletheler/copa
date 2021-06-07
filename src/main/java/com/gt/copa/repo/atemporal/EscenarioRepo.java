@@ -1,4 +1,4 @@
-package com.gt.copa.repo;
+package com.gt.copa.repo.atemporal;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EscenarioRepo extends PagingAndSortingRepository<Escenario, Integer>,
-JpaSpecificationExecutor<Escenario> {
+public interface EscenarioRepo
+		extends PagingAndSortingRepository<Escenario, Integer>, JpaSpecificationExecutor<Escenario> {
 
 	List<Escenario> findByEmpresa(Empresa empresa);
 }

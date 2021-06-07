@@ -12,8 +12,11 @@ import com.gt.copa.calc.api.IArticulo;
 import com.gt.copa.calc.api.ICostoEstandarEnArticulo;
 import com.gt.copa.calc.api.IObjetoDeCostoEnArticulo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -21,6 +24,9 @@ import lombok.ToString;
  * @author guillermo
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ArticuloImpl implements IArticulo {
 
 	Integer codigo;
@@ -34,14 +40,6 @@ public class ArticuloImpl implements IArticulo {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	List<IObjetoDeCostoEnArticulo> objetosDeCostoInducidos;
-
-	public ArticuloImpl() {
-	}
-
-	public ArticuloImpl(Integer codigo, String nombre) {
-		this.codigo = codigo;
-		this.nombre = nombre;
-	}
 
 	public List<ICostoEstandarEnArticulo> getCostosEstandarInducidos() {
 		if (costosEstandarInducidos == null) {

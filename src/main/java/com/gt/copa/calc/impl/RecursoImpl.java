@@ -15,12 +15,14 @@ import com.gt.copa.calc.api.TipoDistribucion;
 import com.gt.copa.calc.api.TratamientoMuestra;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author guille
  */
 @Data
+@NoArgsConstructor
 public class RecursoImpl implements IRecurso {
 
 	Integer codigo;
@@ -36,9 +38,6 @@ public class RecursoImpl implements IRecurso {
 	List<IRecursoEnActividad> asignacionesActividades;
 
 	Boolean promedioNoVacio = true;
-
-	public RecursoImpl() {
-	}
 
 	public RecursoImpl(Integer codigo, String nombre) {
 		this.codigo = codigo;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.gt.copa.service;
+package com.gt.copa.infra;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import lombok.Getter;
  * @author guille
  */
 @Data
-public class CopaFiltroDatos implements Serializable {
+public class CopaStatus implements Serializable {
 
     /**
 	 * 
@@ -43,7 +43,6 @@ public class CopaFiltroDatos implements Serializable {
     /**
      * Tipo de clasificacion que se utiliza para el calculo
      */
-    @Getter(value = AccessLevel.NONE)
     TipoClasificacionDato tipoClasificacion;
 
     @Getter(value = AccessLevel.NONE)

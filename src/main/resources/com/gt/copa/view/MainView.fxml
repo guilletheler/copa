@@ -18,10 +18,48 @@
               <MenuItem mnemonicParsing="false" onAction="#miPruebaClick" text="Prueba" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Situación">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" text="Sets de datos" />
+              <MenuItem mnemonicParsing="false" text="Empresas" />
+              <MenuItem mnemonicParsing="false" text="Escenarios" />
+              <MenuItem mnemonicParsing="false" text="Períodos" />
+              <MenuItem mnemonicParsing="false" text="Clasificaciones" />
+              <MenuItem mnemonicParsing="false" text="Situación actual" />
             </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Costeo por actividad">
+            <items>
+              <Menu mnemonicParsing="false" text="Elementos">
+                <MenuItem mnemonicParsing="false" text="Recursos" />
+                <MenuItem mnemonicParsing="false" text="Datos" />
+                <MenuItem mnemonicParsing="false" text="Procesos" />
+                <MenuItem mnemonicParsing="false" text="Actividades" />
+                <MenuItem mnemonicParsing="false" text="Objetos de costo" />
+              </Menu>
+              <Menu mnemonicParsing="false" text="Asignaciones">
+                <MenuItem mnemonicParsing="false" text="Valores de datos" />
+                <MenuItem mnemonicParsing="false" text="Recursos en actividades" />
+                <MenuItem mnemonicParsing="false" text="Actividades en actividades" />
+                <MenuItem mnemonicParsing="false" text="Actividades en objetos de costo" />
+              </Menu>
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Costeo integral">
+            <MenuItem mnemonicParsing="false" text="Artículos" />
+            <MenuItem mnemonicParsing="false" text="Artículo en Objeto de costo" />
+          </Menu>
+          <Menu mnemonicParsing="false" text="Herramientas">
+            <Menu mnemonicParsing="false" text="Importar archivo">
+              <MenuItem mnemonicParsing="false" text="Set de datos" />
+              <MenuItem mnemonicParsing="false" text="Valores de datos" />
+              <MenuItem mnemonicParsing="false" text="Artículos" />
+            </Menu>
+            <Menu mnemonicParsing="false" text="Exportar archivo">
+              <MenuItem mnemonicParsing="false" text="Set de datos" />
+              <MenuItem mnemonicParsing="false" text="Valores de datos" />
+              <MenuItem mnemonicParsing="false" text="Artículos" />
+            </Menu>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>

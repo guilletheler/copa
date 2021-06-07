@@ -38,7 +38,7 @@ import lombok.Setter;
  * Cargar drivers, ej: kw, toneladas, hs mantenimiento<br/>
  * Cargar componentes de drivers, ej: kw moler, kw peletear, toneladas molido, toneladas peleteado<br/>
  * Cargar asignaciones de recursos en actividades<br/>
- * Cargar asignaciones de actividades em actividades<br/>
+ * Cargar asignaciones de actividades en actividades<br/>
  * Cargar Objetos de costo, ej: Toneladas molidas, Toneladas peleteado<br/>
  * Cargar asignaciones de actividades en objetos de costo<br/>
  * Cargar artículos<br/>

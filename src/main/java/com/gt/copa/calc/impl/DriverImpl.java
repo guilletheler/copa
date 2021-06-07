@@ -11,27 +11,25 @@ import java.util.List;
 import com.gt.copa.calc.api.IComponenteDriver;
 import com.gt.copa.calc.api.IDriver;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author guille
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class DriverImpl implements IDriver {
 
 	Integer codigo;
 	String nombre;
 
 	List<IComponenteDriver> componentes;
-
-	public DriverImpl() {
-	}
-
-	public DriverImpl(Integer codigo, String nombre) {
-		this.codigo = codigo;
-		this.nombre = nombre;
-	}
 
 	public IComponenteDriver searchComponente(String nombre) {
 		for (IComponenteDriver cd : this.getComponentes()) {
