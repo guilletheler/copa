@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.MainController">
-   <center>
-      <Label text="Hola mundo" BorderPane.alignment="CENTER" />
-   </center>
+<BorderPane fx:id="mainView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.MainController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#miPruebaClick" text="Prueba" />
+              <MenuItem mnemonicParsing="false" 
+              onAction="#miPruebaClick" text="Prueba" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Situación">
@@ -50,6 +48,7 @@
             <MenuItem mnemonicParsing="false" text="Artículo en Objeto de costo" />
           </Menu>
           <Menu mnemonicParsing="false" text="Herramientas">
+            <MenuItem mnemonicParsing="false" onAction="#configurar" text="Configurar" />
             <Menu mnemonicParsing="false" text="Importar archivo">
               <MenuItem mnemonicParsing="false" text="Set de datos" />
               <MenuItem mnemonicParsing="false" text="Valores de datos" />
@@ -69,4 +68,9 @@
         </menus>
       </MenuBar>
    </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" >
+        <fx:include source="./ConfigPaneView.fxml" />
+      </VBox>
+   </center>
 </BorderPane>

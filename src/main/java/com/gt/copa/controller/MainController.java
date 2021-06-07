@@ -2,6 +2,7 @@ package com.gt.copa.controller;
 
 import java.io.InputStream;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javafx.event.ActionEvent;
@@ -17,6 +18,9 @@ import net.rgielen.fxweaver.core.FxmlView;
 @Component
 @FxmlView("/com/gt/copa/view/MainView.fxml")
 public class MainController {
+
+	@Autowired
+	ConfigPaneController configPaneController;
 
 	@FXML
 	private BorderPane mainView;
@@ -35,6 +39,11 @@ public class MainController {
 	@FXML
 	void miPruebaClick(ActionEvent event) {
 		openOtherWindows();
+	}
+
+	@FXML
+	void configurar(ActionEvent event) {
+		configPaneController.show();
 	}
 
 	public void openOtherWindows() {
