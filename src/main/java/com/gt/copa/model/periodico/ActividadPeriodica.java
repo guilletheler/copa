@@ -19,6 +19,7 @@ import javax.persistence.TableGenerator;
 
 import com.gt.copa.calc.api.TipoDistribucion;
 import com.gt.copa.model.atemporal.Actividad;
+import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
 import com.gt.copa.model.temporal.Periodo;
 
@@ -51,6 +52,9 @@ public class ActividadPeriodica implements Serializable {
 
     @Enumerated(EnumType.STRING)
     TipoDistribucion tipoDistribucion;
+    
+	@ManyToOne
+	Empresa empresa;
 
     @ManyToOne
     Escenario escenario;

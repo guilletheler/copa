@@ -1,8 +1,7 @@
 package com.gt.copa.repo.atemporal;
 
-import java.util.List;
+import java.util.Optional;
 
-import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -13,5 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface EscenarioRepo
 		extends PagingAndSortingRepository<Escenario, Integer>, JpaSpecificationExecutor<Escenario> {
 
-	List<Escenario> findByEmpresa(Empresa empresa);
+    Optional<Escenario> findByNombre(String string);
+
 }

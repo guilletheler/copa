@@ -2,6 +2,7 @@ package com.gt.copa.repo.periodico;
 
 import java.util.List;
 
+import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
 import com.gt.copa.model.periodico.RecursoPeriodico;
 import com.gt.copa.model.temporal.Periodo;
@@ -14,6 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface RecursoPeriodicoRepo
 		extends PagingAndSortingRepository<RecursoPeriodico, Integer>, JpaSpecificationExecutor<RecursoPeriodico> {
 
-    List<RecursoPeriodico> findByEscenarioAndPeriodo(Escenario escenario, Periodo periodo);
+    List<RecursoPeriodico> findByEmpresaAndEscenarioAndPeriodo(Empresa empresa, Escenario escenario, Periodo periodo);
 
 }

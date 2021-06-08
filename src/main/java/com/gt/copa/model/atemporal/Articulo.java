@@ -21,7 +21,7 @@ import lombok.ToString;
 public class Articulo extends CodigoNombre {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 	
 	@ManyToOne

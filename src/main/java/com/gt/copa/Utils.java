@@ -42,6 +42,8 @@ public class Utils implements Serializable {
 
 	public static final SimpleDateFormat SDF_DMYY = new SimpleDateFormat("ddMMyyyy");
 
+	public static final SimpleDateFormat SDF_YM = new SimpleDateFormat("yyyyMM");
+
 	public static final SimpleDateFormat SDF_DMY = new SimpleDateFormat("ddMMyy");
 
 	public static final SimpleDateFormat SDF_MD = new SimpleDateFormat("MMdd");

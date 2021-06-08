@@ -28,7 +28,7 @@ import lombok.ToString;
 public class Recurso extends CodigoNombre {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 
 	@ManyToOne

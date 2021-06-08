@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gt.copa.model.SetDatos;
 import com.gt.copa.model.atemporal.ClasificacionDato;
 import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
@@ -32,7 +31,6 @@ public class CopaStatus implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-    SetDatos setDatos;
 	Escenario escenario;
     Empresa empresa;
     Periodo periodo;

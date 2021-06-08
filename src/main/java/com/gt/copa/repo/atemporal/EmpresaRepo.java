@@ -1,8 +1,7 @@
 package com.gt.copa.repo.atemporal;
 
-import java.util.List;
+import java.util.Optional;
 
-import com.gt.copa.model.SetDatos;
 import com.gt.copa.model.atemporal.Empresa;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -13,5 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface EmpresaRepo extends PagingAndSortingRepository<Empresa, Integer>,
 		JpaSpecificationExecutor<Empresa> {
 
-	List<Empresa> findBySetDatos(SetDatos setDatos);
+    Optional<Empresa> findByNombre(String string);
+
 }

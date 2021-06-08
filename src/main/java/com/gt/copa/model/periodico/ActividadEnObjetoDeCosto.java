@@ -17,6 +17,7 @@ import javax.persistence.TableGenerator;
 
 import com.gt.copa.model.atemporal.Actividad;
 import com.gt.copa.model.atemporal.ComponenteDriver;
+import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
 import com.gt.copa.model.atemporal.ObjetoDeCosto;
 import com.gt.copa.model.temporal.Periodo;
@@ -50,6 +51,9 @@ public class ActividadEnObjetoDeCosto implements Serializable {
     
     @ManyToOne
     Periodo periodo;
+    
+	@ManyToOne
+	Empresa empresa;
     
     @ManyToOne
     Escenario escenario;

@@ -2,6 +2,11 @@ package com.gt.copa.controller;
 
 import java.io.InputStream;
 
+import com.gt.copa.CopaApplication;
+import com.gt.copa.service.atemporal.EscenarioService;
+import com.gt.copa.service.atemporal.TipoClasificacionDatoService;
+import com.gt.copa.service.temporal.PeriodoService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +15,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 
@@ -23,7 +30,31 @@ public class MainController {
 	ConfigPaneController configPaneController;
 
 	@Autowired
-	DataSetCrudController setDatosCrudController;
+	EmpresaCrudController empresaCrudController;
+
+	@Autowired
+	EscenarioCrudController escenarioCrudController;
+
+	@Autowired
+	PeriodoCrudController periodoCrudController;
+
+	@Autowired
+	TipoClasificacionDatoCrudController tipoClasificacionDatoCrudController;
+
+	@Autowired
+	ClasificacionDatoCrudController clasificacionDatoCrudController;
+
+	@Autowired
+	SituacionActualController situacionActualController;
+
+	@Autowired
+	EscenarioService escenarioService;
+
+	@Autowired
+	PeriodoService periodoService;
+
+	@Autowired
+	TipoClasificacionDatoService tipoClasificacionDatoService;
 
 	@FXML
 	private BorderPane mainView;
@@ -37,24 +68,96 @@ public class MainController {
 	@FXML
 	void initialize() {
 
-	}
+		periodoService.checkYear();
+		escenarioService.checkDefaults();
+		tipoClasificacionDatoService.checkDefaults();
 
-	private void hideAllPane() {
-		configPaneController.hide();
-		setDatosCrudController.hide();
+		FxControllerAndView<ConfigPaneController, VBox> configPane = fxWeaver.load(ConfigPaneController.class);
+		configPane.getView().orElse(null);
+		configPane.getController();
+
+		FxControllerAndView<EmpresaCrudController, VBox> empresaPane = fxWeaver.load(EmpresaCrudController.class);
+		empresaPane.getView().orElse(null);
+		empresaPane.getController();
+
+		FxControllerAndView<EscenarioCrudController, VBox> escenarioPane = fxWeaver.load(EscenarioCrudController.class);
+		escenarioPane.getView().orElse(null);
+		escenarioPane.getController();
+
+		FxControllerAndView<PeriodoCrudController, VBox> periodoPane = fxWeaver.load(PeriodoCrudController.class);
+		periodoPane.getView().orElse(null);
+		periodoPane.getController();
+
+		FxControllerAndView<TipoClasificacionDatoCrudController, VBox> tipoClasificacionPane = fxWeaver.load(TipoClasificacionDatoCrudController.class);
+		tipoClasificacionPane.getView().orElse(null);
+		tipoClasificacionPane.getController();
+
+		FxControllerAndView<ClasificacionDatoCrudController, VBox> clasificacionPane = fxWeaver.load(ClasificacionDatoCrudController.class);
+		clasificacionPane.getView().orElse(null);
+		clasificacionPane.getController();
+
+		FxControllerAndView<SituacionActualController, VBox> situacionActualPane = fxWeaver.load(SituacionActualController.class);
+		situacionActualPane.getView().orElse(null);
+		situacionActualPane.getController();
+
 	}
 
 	@FXML
 	void mnuConfigurarClick(ActionEvent event) {
-		hideAllPane();
-		configPaneController.show();
+
+		this.mainView.setCenter(configPaneController.getNodeView());
 	}
 
 	@FXML
-	void mnuSetDatosClick(ActionEvent event) {
-		hideAllPane();
-		setDatosCrudController.show();
-		setDatosCrudController.loadData();
+	void mnuEmpresasClick(ActionEvent event) {
+
+		empresaCrudController.loadData();
+		this.mainView.setCenter(empresaCrudController.getNodeView());
+	}
+
+	@FXML
+	void mnuEscenariosClick(ActionEvent event) {
+
+		escenarioCrudController.loadData();
+		this.mainView.setCenter(escenarioCrudController.getNodeView());
+	}
+
+	@FXML
+	void mnuPeriodosClick(ActionEvent event) {
+
+		periodoCrudController.loadData();
+		this.mainView.setCenter(periodoCrudController.getNodeView());
+	}
+
+	@FXML
+	void mnuTipoClasificacionClick(ActionEvent event) {
+
+		tipoClasificacionDatoCrudController.loadData();
+		this.mainView.setCenter(tipoClasificacionDatoCrudController.getNodeView());
+	}
+
+	@FXML
+	void mnuClasificacionClick(ActionEvent event) {
+
+		clasificacionDatoCrudController.loadData();
+		this.mainView.setCenter(clasificacionDatoCrudController.getNodeView());
+	}
+
+	@FXML
+	void mnuSituacionActualClick(ActionEvent event) {
+
+		situacionActualController.loadData();
+		this.mainView.setCenter(situacionActualController.getNodeView());
+	}
+
+	@FXML
+	void reiniciarClick(ActionEvent event) {
+
+		restartApp();
+	}
+
+	public void restartApp() {
+		CopaApplication.restart();
 	}
 
 	@FXML

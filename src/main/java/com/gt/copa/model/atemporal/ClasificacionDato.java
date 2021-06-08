@@ -11,9 +11,11 @@ import com.gt.copa.model.CodigoNombre;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
@@ -21,9 +23,15 @@ import lombok.ToString;
 public class ClasificacionDato extends CodigoNombre {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 
 	@ManyToOne
 	private TipoClasificacionDato tipoClasificacion;
+
+	public ClasificacionDato(TipoClasificacionDato tipo, Integer codigo, String nombre) {
+		setCodigo(codigo);
+		setNombre(nombre);
+		setTipoClasificacion(tipo);
+	}
 }

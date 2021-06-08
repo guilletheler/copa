@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import org.controlsfx.control.CheckListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@copa.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.SituacionActualController">
+   <children>
+      <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" text="Situacion Actual">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Label>
+      <HBox prefWidth="730.0">
+         <children>
+            <VBox prefHeight="1000.0" prefWidth="5000.0">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="Empresa">
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="cmbEmpresa" prefWidth="300.0">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0">
+                     <children>
+                        <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="Escenario">
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="cmbEscenario" prefWidth="300.0">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="30.0">
+                     <children>
+                        <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="Periodo">
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="cmbPeriodo" prefWidth="300.0">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="50.0">
+                     <children>
+                        <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="Tipo Clasificacion">
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="cmbTipoClasificacion" prefWidth="300.0">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="85.0">
+                     <children>
+                        <Label maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="Clasificaciones">
+                           <HBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <CheckListView fx:id="lstClasificaciones" prefHeight="300.0" prefWidth="300.0">
+                           <HBox.margin>
+                              <Insets top="5.0" />
+                           </HBox.margin>
+                        </CheckListView>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox maxWidth="70.0" minWidth="70.0" prefHeight="1000.0" prefWidth="0.0">
+               <children>
+                  <Button alignment="CENTER" maxWidth="60.0" mnemonicParsing="false" onAction="#btnAplicarClick" text="Aplicar">
+                     <VBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

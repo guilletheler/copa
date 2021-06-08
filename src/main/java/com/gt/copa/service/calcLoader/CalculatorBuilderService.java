@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import com.gt.copa.calc.api.IClasificacion;
 import com.gt.copa.calc.api.IComponenteDriver;
@@ -160,7 +161,7 @@ public class CalculatorBuilderService {
 
 	private void cargarClasificaciones(CopaCalculator calc, CopaStatus filtros) {
 
-		clasificacionDatoRepo.findByTipoClasificacion_Empresa(filtros.getEmpresa()).stream()
+		StreamSupport.stream(clasificacionDatoRepo.findAll().spliterator(), false)
 				.forEach(cd -> calc.getClasificaciones().put(cd.getCodigo(),
 						ClasificacionImpl.builder().codigo(cd.getCodigo()).nombre(cd.getNombre()).build()));
 
@@ -168,8 +169,8 @@ public class CalculatorBuilderService {
 
 	private void cargarRecursos(CopaCalculator copaCalc, CopaStatus filtros) {
 
-		List<RecursoPeriodico> list = recursoPeriodicoRepo.findByEscenarioAndPeriodo(filtros.getEscenario(),
-				filtros.getPeriodo());
+		List<RecursoPeriodico> list = recursoPeriodicoRepo.findByEmpresaAndEscenarioAndPeriodo(filtros.getEmpresa(),
+				filtros.getEscenario(), filtros.getPeriodo());
 
 		for (RecursoPeriodico r : list) {
 
@@ -267,8 +268,8 @@ public class CalculatorBuilderService {
 
 			copaCalc.addProceso(proceso);
 
-			List<ActividadPeriodica> lsta = actividadPeriodicaRepo.findByEscenarioAndPeriodo(filtros.getEscenario(),
-					filtros.getPeriodo());
+			List<ActividadPeriodica> lsta = actividadPeriodicaRepo.findByEmpresaAndEscenarioAndPeriodo(
+					filtros.getEmpresa(), filtros.getEscenario(), filtros.getPeriodo());
 
 			for (ActividadPeriodica a : lsta) {
 				ActividadImpl actividad = new ActividadImpl(a.getActividad().getCodigo(), a.getActividad().getNombre(),
@@ -294,7 +295,8 @@ public class CalculatorBuilderService {
 	private Map<Integer, IComponenteDriver> cargarComponentesDriver(CopaStatus filtros, Map<Integer, IDriver> drivers) {
 
 		List<ComponenteDriverPeriodico> componentesDrivers = componenteDriverPeriodicoRepo
-				.findByEscenarioAndPeriodo(filtros.getEscenario(), filtros.getPeriodo());
+				.findByEmpresaAndEscenarioAndPeriodo(filtros.getEmpresa(), filtros.getEscenario(),
+						filtros.getPeriodo());
 
 		Map<Integer, IComponenteDriver> componentesDriversMap = new HashMap<>();
 
@@ -310,8 +312,8 @@ public class CalculatorBuilderService {
 	private void cargarObjetosDeCosto(CopaCalculator calc, CopaStatus filtros,
 			Map<Integer, IComponenteDriver> componentesDrivers) {
 
-		List<ObjetoDeCostoPeriodico> lst = objetoDeCostoPeriodicoRepo.findByEscenarioAndPeriodo(filtros.getEscenario(),
-				filtros.getPeriodo());
+		List<ObjetoDeCostoPeriodico> lst = objetoDeCostoPeriodicoRepo.findByEmpresaAndEscenarioAndPeriodo(
+				filtros.getEmpresa(), filtros.getEscenario(), filtros.getPeriodo());
 
 		for (ObjetoDeCostoPeriodico oc : lst) {
 
@@ -351,8 +353,8 @@ public class CalculatorBuilderService {
 
 	private void cargarCostosEstandar(CopaCalculator copaCalc, CopaStatus filtros) {
 
-		List<CostoEstandarPeriodico> lstCE = costoEstandarPeriodicoRepo
-				.findByEscenarioAndPeriodo(filtros.getEscenario(), filtros.getPeriodo());
+		List<CostoEstandarPeriodico> lstCE = costoEstandarPeriodicoRepo.findByEmpresaAndEscenarioAndPeriodo(
+				filtros.getEmpresa(), filtros.getEscenario(), filtros.getPeriodo());
 
 		for (CostoEstandarPeriodico ce : lstCE) {
 
@@ -396,8 +398,8 @@ public class CalculatorBuilderService {
 	private void cargarRxA(CopaCalculator copaCalc, CopaStatus filtros,
 			Map<Integer, IComponenteDriver> componentesDrivers) {
 
-		List<RecursoEnActividad> lstrea = recursoEnActividadRepo.findByEscenarioAndPeriodo(filtros.getEscenario(),
-				filtros.getPeriodo());
+		List<RecursoEnActividad> lstrea = recursoEnActividadRepo.findByEmpresaAndEscenarioAndPeriodo(
+				filtros.getEmpresa(), filtros.getEscenario(), filtros.getPeriodo());
 
 		for (RecursoEnActividad rxa : lstrea) {
 			RecursoCalculado rcalc = copaCalc.searchRecursoCalculado(rxa.getRecurso().getCodigo());
@@ -432,8 +434,8 @@ public class CalculatorBuilderService {
 	private void cargarAxA(CopaCalculator copaCalc, CopaStatus filtros,
 			Map<Integer, IComponenteDriver> componentesDrivers) {
 
-		List<ActividadEnActividad> lstaea = actividadEnActividadRepo.findByEscenarioAndPeriodo(filtros.getEscenario(),
-				filtros.getPeriodo());
+		List<ActividadEnActividad> lstaea = actividadEnActividadRepo.findByEmpresaAndEscenarioAndPeriodo(
+				filtros.getEmpresa(), filtros.getEscenario(), filtros.getPeriodo());
 
 		for (ActividadEnActividad axa : lstaea) {
 			ActividadCalculada<?> aOrigen = copaCalc.searchActividadCalculada(axa.getOrigen().getCodigo());
@@ -466,8 +468,8 @@ public class CalculatorBuilderService {
 
 	private void cargarAxOC(CopaCalculator copaCalc, CopaStatus filtros,
 			Map<Integer, IComponenteDriver> componentesDrivers) {
-		List<ActividadEnObjetoDeCosto> lstaeoc = actividadEnObjetoDeCostoRepo
-				.findByEscenarioAndPeriodo(filtros.getEscenario(), filtros.getPeriodo());
+		List<ActividadEnObjetoDeCosto> lstaeoc = actividadEnObjetoDeCostoRepo.findByEmpresaAndEscenarioAndPeriodo(
+				filtros.getEmpresa(), filtros.getEscenario(), filtros.getPeriodo());
 
 		for (ActividadEnObjetoDeCosto axoc : lstaeoc) {
 			ActividadCalculada<?> aOrigen = copaCalc.searchActividadCalculada(axoc.getActividad().getCodigo());
@@ -501,8 +503,8 @@ public class CalculatorBuilderService {
 
 	private void cargarOCxA(CopaCalculator copaCalc, CopaStatus filtros,
 			Map<Integer, IComponenteDriver> componentesDrivers) {
-		List<ObjetoDeCostoEnArticulo> lstocea = objetoDeCostoEnArticuloRepo
-				.findByEscenarioAndPeriodo(filtros.getEscenario(), filtros.getPeriodo());
+		List<ObjetoDeCostoEnArticulo> lstocea = objetoDeCostoEnArticuloRepo.findByEmpresaAndEscenarioAndPeriodo(
+				filtros.getEmpresa(), filtros.getEscenario(), filtros.getPeriodo());
 
 		for (ObjetoDeCostoEnArticulo ocxa : lstocea) {
 			ObjetoDeCostoCalculado ocOrigen = copaCalc
@@ -536,8 +538,8 @@ public class CalculatorBuilderService {
 
 	private void cargarCExA(CopaCalculator copaCalc, CopaStatus filtros,
 			Map<Integer, IComponenteDriver> componentesDrivers) {
-		List<CostoEstandarEnArticulo> lstceea = costoEstandarEnArticuloRepo
-				.findByEscenarioAndPeriodo(filtros.getEscenario(), filtros.getPeriodo());
+		List<CostoEstandarEnArticulo> lstceea = costoEstandarEnArticuloRepo.findByEmpresaAndEscenarioAndPeriodo(
+				filtros.getEmpresa(), filtros.getEscenario(), filtros.getPeriodo());
 
 		for (CostoEstandarEnArticulo cexa : lstceea) {
 			CostoEstandarCalculado ceOrigen = copaCalc

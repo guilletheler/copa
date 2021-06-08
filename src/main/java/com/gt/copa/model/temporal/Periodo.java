@@ -13,12 +13,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
 import com.gt.copa.model.CodigoNombre;
-import com.gt.copa.model.atemporal.Empresa;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,7 +34,7 @@ import lombok.ToString;
 public class Periodo extends CodigoNombre {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Temporal(javax.persistence.TemporalType.DATE)
@@ -47,8 +45,5 @@ public class Periodo extends CodigoNombre {
 
 	@Enumerated(EnumType.STRING)
 	TipoPeriodo tipoPeriodo;
-
-	@ManyToOne
-	Empresa empresa;
 
 }

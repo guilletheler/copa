@@ -19,6 +19,7 @@ import javax.persistence.TableGenerator;
 
 import com.gt.copa.calc.api.TipoDistribucion;
 import com.gt.copa.calc.api.TratamientoMuestra;
+import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
 import com.gt.copa.model.atemporal.Recurso;
 import com.gt.copa.model.temporal.Periodo;
@@ -61,6 +62,9 @@ public class RecursoPeriodico implements Serializable {
 	TipoDistribucion tipoDistribucion;
 
 	Boolean promedioNoVacio;
+	
+	@ManyToOne
+	Empresa empresa;
 
 	@ManyToOne
 	Escenario escenario;

@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -28,11 +27,8 @@ import lombok.ToString;
 public class TipoClasificacionDato extends CodigoNombre {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
-
-	@ManyToOne
-	Empresa empresa;
 
 	@Getter(value = AccessLevel.NONE)
 	@EqualsAndHashCode.Exclude

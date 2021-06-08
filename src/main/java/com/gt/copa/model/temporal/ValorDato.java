@@ -22,6 +22,7 @@ import javax.persistence.Temporal;
 
 import com.gt.copa.model.atemporal.ClasificacionDato;
 import com.gt.copa.model.atemporal.Dato;
+import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
 
 import lombok.AccessLevel;
@@ -40,7 +41,7 @@ import lombok.ToString;
 public class ValorDato {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@ManyToOne
@@ -48,6 +49,9 @@ public class ValorDato {
 
 	@Temporal(javax.persistence.TemporalType.DATE)
 	private Date fecha;
+	
+	@ManyToOne
+	Empresa empresa;
 
 	@ManyToOne
 	private Escenario escenario;

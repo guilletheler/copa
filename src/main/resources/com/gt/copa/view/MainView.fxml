@@ -13,16 +13,17 @@
         <Menu mnemonicParsing="false" text="Archivo">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#miPruebaClick" text="Prueba" />
+            <MenuItem mnemonicParsing="false" onAction="#reiniciarClick" text="Reiniciar" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Situación">
           <items>
-            <MenuItem mnemonicParsing="false" text="Sets de datos" onAction="#mnuSetDatosClick" />
-            <MenuItem mnemonicParsing="false" text="Empresas" />
-            <MenuItem mnemonicParsing="false" text="Escenarios" />
-            <MenuItem mnemonicParsing="false" text="Períodos" />
-            <MenuItem mnemonicParsing="false" text="Clasificaciones" />
-            <MenuItem mnemonicParsing="false" text="Situación actual" />
+            <MenuItem mnemonicParsing="false" text="Empresas" onAction="#mnuEmpresasClick" />
+            <MenuItem mnemonicParsing="false" text="Escenarios" onAction="#mnuEscenariosClick" />
+            <MenuItem mnemonicParsing="false" text="Períodos" onAction="#mnuPeriodosClick" />
+            <MenuItem mnemonicParsing="false" text="Tipos de Clasificaciones" onAction="#mnuTipoClasificacionClick" />
+            <MenuItem mnemonicParsing="false" text="Clasificaciones" onAction="#mnuClasificacionClick" />
+            <MenuItem mnemonicParsing="false" text="Situación actual" onAction="#mnuSituacionActualClick" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Costeo por actividad">
@@ -35,11 +36,12 @@
               <MenuItem mnemonicParsing="false" text="Objetos de costo" />
             </Menu>
             <Menu mnemonicParsing="false" text="Asignaciones">
-              <MenuItem mnemonicParsing="false" text="Valores de datos" />
+              <MenuItem mnemonicParsing="false" text="Datos en recursos" />
               <MenuItem mnemonicParsing="false" text="Recursos en actividades" />
               <MenuItem mnemonicParsing="false" text="Actividades en actividades" />
               <MenuItem mnemonicParsing="false" text="Actividades en objetos de costo" />
             </Menu>
+            <MenuItem mnemonicParsing="false" text="Valores de datos" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Costeo integral">
@@ -68,7 +70,6 @@
     </MenuBar>
   </top>
   <center>
-    <fx:include source="./DataSetCrudView.fxml" />
-    <fx:include source="./ConfigPaneView.fxml" />
+
   </center>
 </BorderPane>
