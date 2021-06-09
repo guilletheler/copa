@@ -1,11 +1,11 @@
 package com.gt.copa;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.CodeSource;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -34,19 +34,24 @@ public class CopaApplication {
 	}
 
 	public static void restart() {
-        ApplicationArguments args = currentContext.getBean(ApplicationArguments.class);
+		try {
 
+			ProcessHandle processHandle = ProcessHandle.current();
+			String javaPath = processHandle.info().command().orElse("java");
+
+			String command = javaPath + " -jar " + System.getProperty("app.home") + File.separator + "copasp.jar";
+
+			Logger.getLogger(CopaApplication.class.getName()).log(Level.INFO, "ejecutando: '" + command + "'");
+
+			Runtime rt = Runtime.getRuntime();
+			rt.exec(command);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		currentContext.close();
 		Platform.exit();
-
-        Thread thread = new Thread(() -> {
-            currentContext.close();
-			
-			Application.launch(SpringbootJavaFxApplication.class, args.getSourceArgs());
-        });
-
-        thread.setDaemon(false);
-        thread.start();
-    }
+	}
 
 	public static void setAppHome() {
 		CodeSource codeSource = CopaApplication.class.getProtectionDomain().getCodeSource();
@@ -71,9 +76,9 @@ public class CopaApplication {
 				jarDir = "/" + jarDir;
 			}
 		}
-//
-//       Logger.getLogger(SpringBootConsoleApplication.class.getName()).log(Level.INFO,
-//                       "seteando app.home= '" + jarDir + "'");
+		//
+		// Logger.getLogger(SpringBootConsoleApplication.class.getName()).log(Level.INFO,
+		// "seteando app.home= '" + jarDir + "'");
 
 		System.setProperty("app.home", jarDir);
 

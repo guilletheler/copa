@@ -11,6 +11,8 @@ public class SpringbootJavaFxApplication extends Application {
 
     private ConfigurableApplicationContext context;
 
+    // private static Stage primaryStage;
+
     @Override
     public void init() throws Exception {
         this.context = new SpringApplicationBuilder() //(1)
@@ -20,6 +22,7 @@ public class SpringbootJavaFxApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // SpringbootJavaFxApplication.primaryStage = primaryStage;
         context.publishEvent(new StageReadyEvent(primaryStage)); //(2)
     }
 
@@ -28,4 +31,8 @@ public class SpringbootJavaFxApplication extends Application {
         this.context.close();
         Platform.exit();
     }
+
+//     public static Stage getPrimaryStage() {
+//         return primaryStage;
+//     }
 }

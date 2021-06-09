@@ -5,14 +5,7 @@
     Author     : afsal villan
 */
 
-* {
-	-fx-primary : #2A2E37; /*negro del fondo*/
-	-fx-secondary : #FFFF8D; /*amarillo*/
-	-fx-primarytext : #B2B2B2; /*Gris*/
-	-fx-blue: #1976D2;
-	-fx-red: #FF0000;
-	-fx-color-1:#1976D2;
-}
+
 
 .root{
     -fx-background-color: -fx-primary;

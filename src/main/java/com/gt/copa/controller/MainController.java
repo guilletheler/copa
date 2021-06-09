@@ -1,7 +1,5 @@
 package com.gt.copa.controller;
 
-import java.io.InputStream;
-
 import com.gt.copa.CopaApplication;
 import com.gt.copa.service.atemporal.EscenarioService;
 import com.gt.copa.service.atemporal.TipoClasificacionDatoService;
@@ -12,12 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
@@ -72,34 +65,13 @@ public class MainController {
 		escenarioService.checkDefaults();
 		tipoClasificacionDatoService.checkDefaults();
 
-		FxControllerAndView<ConfigPaneController, VBox> configPane = fxWeaver.load(ConfigPaneController.class);
-		configPane.getView().orElse(null);
-		configPane.getController();
-
-		FxControllerAndView<EmpresaCrudController, VBox> empresaPane = fxWeaver.load(EmpresaCrudController.class);
-		empresaPane.getView().orElse(null);
-		empresaPane.getController();
-
-		FxControllerAndView<EscenarioCrudController, VBox> escenarioPane = fxWeaver.load(EscenarioCrudController.class);
-		escenarioPane.getView().orElse(null);
-		escenarioPane.getController();
-
-		FxControllerAndView<PeriodoCrudController, VBox> periodoPane = fxWeaver.load(PeriodoCrudController.class);
-		periodoPane.getView().orElse(null);
-		periodoPane.getController();
-
-		FxControllerAndView<TipoClasificacionDatoCrudController, VBox> tipoClasificacionPane = fxWeaver.load(TipoClasificacionDatoCrudController.class);
-		tipoClasificacionPane.getView().orElse(null);
-		tipoClasificacionPane.getController();
-
-		FxControllerAndView<ClasificacionDatoCrudController, VBox> clasificacionPane = fxWeaver.load(ClasificacionDatoCrudController.class);
-		clasificacionPane.getView().orElse(null);
-		clasificacionPane.getController();
-
-		FxControllerAndView<SituacionActualController, VBox> situacionActualPane = fxWeaver.load(SituacionActualController.class);
-		situacionActualPane.getView().orElse(null);
-		situacionActualPane.getController();
-
+		fxWeaver.load(ConfigPaneController.class);
+		fxWeaver.load(EmpresaCrudController.class);
+		fxWeaver.load(EscenarioCrudController.class);
+		fxWeaver.load(PeriodoCrudController.class);
+		fxWeaver.load(TipoClasificacionDatoCrudController.class);
+		fxWeaver.load(ClasificacionDatoCrudController.class);
+		fxWeaver.load(SituacionActualController.class);
 	}
 
 	@FXML
@@ -166,16 +138,9 @@ public class MainController {
 	}
 
 	public void openOtherWindows() {
-		Stage stage = new Stage();
-		Scene scene = new Scene(fxWeaver.loadView(PruebaController.class));
-		stage.setScene(scene);
-		stage.setTitle("Prueba");
-		InputStream imgStream = MainController.class.getResourceAsStream("/com/gt/copa/view/copa.png");
-		Image image = new Image(imgStream);
-		stage.getIcons().add(image);
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.setResizable(false);
-		stage.show();
+		FxControllerAndView<PruebaController, BorderPane> tiledDialog = fxWeaver.load(PruebaController.class);
+
+		System.out.println(tiledDialog.getController().show());	
 	}
 
 }

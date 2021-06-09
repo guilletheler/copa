@@ -12,7 +12,6 @@ import lombok.Setter;
 @Component
 public class CurrentStatus {
 
-    @Getter
     @Setter
     CopaStatus copaStatus;
     
@@ -22,5 +21,13 @@ public class CurrentStatus {
 
     public void buildCalculator(CalculatorBuilderService calculatorBuilderService) {
         copaCalculator = calculatorBuilderService.buildCalculator(copaStatus);
+    }
+
+    public CopaStatus getCopaStatus() {
+        if(copaStatus == null) {
+            copaStatus = new CopaStatus();
+        }
+
+        return copaStatus;
     }
 }

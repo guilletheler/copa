@@ -91,9 +91,9 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox maxWidth="70.0" minWidth="70.0" prefHeight="1000.0" prefWidth="0.0">
+            <VBox maxWidth="80.0" minWidth="80.0" prefHeight="1000.0" prefWidth="0.0">
                <children>
-                  <Button alignment="CENTER" maxWidth="60.0" mnemonicParsing="false" onAction="#btnAplicarClick" text="Aplicar">
+                  <Button alignment="CENTER" maxWidth="70.0" mnemonicParsing="false" onAction="#btnAplicarClick" text="Aplicar">
                      <VBox.margin>
                         <Insets left="5.0" top="5.0" />
                      </VBox.margin>

@@ -3,6 +3,7 @@ package com.gt.copa.controller;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.gt.copa.component.CurrentStatus;
 import com.gt.copa.model.atemporal.ClasificacionDato;
 import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
@@ -54,6 +55,9 @@ public class SituacionActualController {
     private CheckListView<ClasificacionDato> lstClasificaciones;
 
     @Autowired
+    CurrentStatus currentStatus;
+
+    @Autowired
     EmpresaRepo empresaRepo;
 
     @Autowired
@@ -70,7 +74,7 @@ public class SituacionActualController {
 
     @FXML
     public void initialize() {
-        
+
     }
 
     public void loadData() {
@@ -79,6 +83,14 @@ public class SituacionActualController {
         configCmbPeriodo();
         configCmbTipoClasificacion();
         configLstClasificaciones();
+
+        cmbEmpresa.getSelectionModel().select(currentStatus.getCopaStatus().getEmpresa());
+        cmbEscenario.getSelectionModel().select(currentStatus.getCopaStatus().getEscenario());
+        cmbPeriodo.getSelectionModel().select(currentStatus.getCopaStatus().getPeriodo());
+        cmbTipoClasificacion.getSelectionModel().select(currentStatus.getCopaStatus().getTipoClasificacion());
+        lstClasificaciones.getCheckModel().clearChecks();
+        currentStatus.getCopaStatus().getFiltroClasificaciones()
+                .forEach(cla -> lstClasificaciones.getCheckModel().check(cla));
     }
 
     private void configCmbEmpresas() {
@@ -225,30 +237,39 @@ public class SituacionActualController {
                     }
                 });
 
-        // lstClasificaciones.getCheckModel().getCheckedIndices().addListener(new ListChangeListener<Integer>() {
-        //     @Override
-        //     public void onChanged(javafx.collections.ListChangeListener.Change<? extends Integer> c) {
-        //         while (c.next()) {
-        //             if (c.wasAdded()) {
-        //                 for (int i : c.getAddedSubList()) {
-        //                     System.out.println(lstClasificaciones.getItems().get(i).getNombre() + " selected");
-        //                 }
-        //             }
-        //             if (c.wasRemoved()) {
-        //                 for (int i : c.getRemoved()) {
-        //                     System.out.println(lstClasificaciones.getItems().get(i).getNombre() + " deselected");
-        //                 }
-        //             }
-        //         }
-        //     }
+        // lstClasificaciones.getCheckModel().getCheckedIndices().addListener(new
+        // ListChangeListener<Integer>() {
+        // @Override
+        // public void onChanged(javafx.collections.ListChangeListener.Change<? extends
+        // Integer> c) {
+        // while (c.next()) {
+        // if (c.wasAdded()) {
+        // for (int i : c.getAddedSubList()) {
+        // System.out.println(lstClasificaciones.getItems().get(i).getNombre() + "
+        // selected");
+        // }
+        // }
+        // if (c.wasRemoved()) {
+        // for (int i : c.getRemoved()) {
+        // System.out.println(lstClasificaciones.getItems().get(i).getNombre() + "
+        // deselected");
+        // }
+        // }
+        // }
+        // }
         // });
 
-        
     }
 
     @FXML
     void btnAplicarClick(ActionEvent event) {
 
+        currentStatus.getCopaStatus().setEmpresa(cmbEmpresa.getSelectionModel().getSelectedItem());
+        currentStatus.getCopaStatus().setEscenario(cmbEscenario.getSelectionModel().getSelectedItem());
+        currentStatus.getCopaStatus().setPeriodo(cmbPeriodo.getSelectionModel().getSelectedItem());
+        currentStatus.getCopaStatus().setTipoClasificacion(cmbTipoClasificacion.getSelectionModel().getSelectedItem());
+        currentStatus.getCopaStatus().getFiltroClasificaciones().clear();
+        currentStatus.getCopaStatus().getFiltroClasificaciones().addAll(lstClasificaciones.getCheckModel().getCheckedItems());
     }
 
 }

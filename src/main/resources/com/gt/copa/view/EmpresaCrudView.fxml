@@ -27,19 +27,19 @@
                   <Insets bottom="5.0" left="5.0" top="5.0" />
                </HBox.margin>
             </TableView>
-            <VBox maxWidth="70.0" minWidth="70.0" prefHeight="239.0" prefWidth="0.0">
+            <VBox maxWidth="80.0" minWidth="80.0" prefHeight="1000">
                <children>
-                  <Button alignment="CENTER" maxWidth="60.0" mnemonicParsing="false" onAction="#btnNuevoClick" text="Nuevo">
+                  <Button alignment="CENTER" maxWidth="70.0" mnemonicParsing="false" onAction="#btnNuevoClick" text="Nuevo">
                      <VBox.margin>
                         <Insets left="5.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="CENTER" maxWidth="60.0" mnemonicParsing="false" onAction="#btnEliminarClick" text="Eliminar">
+                  <Button alignment="CENTER" maxWidth="70.0" mnemonicParsing="false" onAction="#btnEliminarClick" text="Eliminar">
                      <VBox.margin>
                         <Insets left="5.0" top="5.0" />
                      </VBox.margin>
                   </Button>
-                  <Button alignment="CENTER" layoutX="15.0" layoutY="45.0" maxWidth="60.0" mnemonicParsing="false" onAction="#btnGuardarClick" text="Guardar">
+                  <Button alignment="CENTER" maxWidth="70.0" mnemonicParsing="false" onAction="#btnGuardarClick" text="Guardar">
                      <VBox.margin>
                         <Insets left="5.0" top="15.0" />
                      </VBox.margin>

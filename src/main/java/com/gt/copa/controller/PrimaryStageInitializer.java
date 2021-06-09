@@ -38,7 +38,7 @@ public class PrimaryStageInitializer implements ApplicationListener<StageReadyEv
 		Scene scene = new Scene(root);
 		stage.setMaximized(true);
 		stage.setScene(scene);
-		stage.setTitle("Copa");
+		stage.setTitle("CoPA");
 		InputStream imgStream = MainController.class.getResourceAsStream("/com/gt/copa/view/copa.png");
 		Image image = new Image(imgStream);
 		stage.getIcons().add(image);
