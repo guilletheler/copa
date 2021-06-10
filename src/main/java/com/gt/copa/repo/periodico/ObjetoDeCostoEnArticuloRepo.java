@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface ObjetoDeCostoEnArticuloRepo extends PagingAndSortingRepository<ObjetoDeCostoEnArticulo, Integer>,
 		JpaSpecificationExecutor<ObjetoDeCostoEnArticulo> {
 
-    List<ObjetoDeCostoEnArticulo> findByEmpresaAndEscenarioAndPeriodo(Empresa empresa, Escenario escenario, Periodo periodo);
+    List<ObjetoDeCostoEnArticulo> findByConfiguracionPeriodo_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(Empresa empresa, Escenario escenario, Periodo periodo);
 
 }

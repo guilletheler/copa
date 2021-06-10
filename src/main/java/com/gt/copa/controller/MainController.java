@@ -1,6 +1,7 @@
 package com.gt.copa.controller;
 
 import com.gt.copa.CopaApplication;
+import com.gt.copa.component.CurrentStatus;
 import com.gt.copa.service.atemporal.EscenarioService;
 import com.gt.copa.service.atemporal.TipoClasificacionDatoService;
 import com.gt.copa.service.temporal.PeriodoService;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Component;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
-import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 
@@ -41,10 +41,22 @@ public class MainController {
 	SituacionActualController situacionActualController;
 
 	@Autowired
+	RecursoCrudController recursoCrudController;
+
+	@Autowired
+	ProcesoCrudController procesoCrudController;
+
+	@Autowired
+	DatoCrudController datoCrudController;
+
+	@Autowired
 	EscenarioService escenarioService;
 
 	@Autowired
 	PeriodoService periodoService;
+
+	@Autowired
+	CurrentStatus currentStatus;
 
 	@Autowired
 	TipoClasificacionDatoService tipoClasificacionDatoService;
@@ -72,6 +84,9 @@ public class MainController {
 		fxWeaver.load(TipoClasificacionDatoCrudController.class);
 		fxWeaver.load(ClasificacionDatoCrudController.class);
 		fxWeaver.load(SituacionActualController.class);
+		fxWeaver.load(RecursoCrudController.class);
+		fxWeaver.load(DatoCrudController.class);
+		fxWeaver.load(ProcesoCrudController.class);
 	}
 
 	@FXML
@@ -123,6 +138,42 @@ public class MainController {
 	}
 
 	@FXML
+	void mnuRecursosClick(ActionEvent event) {
+
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para administrar los recursos debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+
+		recursoCrudController.loadData();
+		this.mainView.setCenter(recursoCrudController.getNodeView());
+	}
+
+	@FXML
+	void mnuDatosClick(ActionEvent event) {
+
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para administrar los datos debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+
+		datoCrudController.loadData();
+		this.mainView.setCenter(datoCrudController.getNodeView());
+	}
+
+	@FXML
+	void mnuProcesosClick(ActionEvent event) {
+
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para administrar los procesos debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+
+		procesoCrudController.loadData();
+		this.mainView.setCenter(procesoCrudController.getNodeView());
+	}
+
+	@FXML
 	void reiniciarClick(ActionEvent event) {
 
 		restartApp();
@@ -138,9 +189,9 @@ public class MainController {
 	}
 
 	public void openOtherWindows() {
-		FxControllerAndView<PruebaController, BorderPane> tiledDialog = fxWeaver.load(PruebaController.class);
 
-		System.out.println(tiledDialog.getController().show());	
+		System.out.println(ConfirmDialogController.question(fxWeaver, "Dialogo de prueba\n\n¿Desea continuar?", true));	
+		ConfirmDialogController.message(fxWeaver, "Informe", "Este es un mensaje");
 	}
 
 }

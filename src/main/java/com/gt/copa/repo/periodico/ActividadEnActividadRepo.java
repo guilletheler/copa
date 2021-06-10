@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface ActividadEnActividadRepo extends PagingAndSortingRepository<ActividadEnActividad, Integer>,
 		JpaSpecificationExecutor<ActividadEnActividad> {
 
-    List<ActividadEnActividad> findByEmpresaAndEscenarioAndPeriodo(Empresa empresa, Escenario escenario, Periodo periodo);
+    List<ActividadEnActividad> findByConfiguracionPeriodo_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(Empresa empresa, Escenario escenario, Periodo periodo);
 
 }

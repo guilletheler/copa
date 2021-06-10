@@ -1,6 +1,7 @@
 package com.gt.copa.repo.atemporal;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Recurso;
@@ -13,4 +14,6 @@ import org.springframework.stereotype.Repository;
 public interface RecursoRepo extends PagingAndSortingRepository<Recurso, Integer>, JpaSpecificationExecutor<Recurso> {
 
     List<Recurso> findByEmpresa(Empresa empresa);
+
+    Optional<Recurso> findByEmpresaAndNombre(Empresa empresa, String nombre);
 }

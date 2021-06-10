@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.gt.copa.infra.EditingCell;
+import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Escenario;
 import com.gt.copa.repo.atemporal.EscenarioRepo;
 
@@ -87,14 +87,14 @@ public class EscenarioCrudController {
         colId.setCellValueFactory(new PropertyValueFactory<Escenario, Integer>("id"));
 
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        colCodigo.setCellFactory(EditingCell.integerCellFactory());
+        colCodigo.setCellFactory(EditingTextCell.integerCellFactory());
         colCodigo.setOnEditCommit((CellEditEvent<Escenario, Integer> t) -> {
             ((Escenario) t.getTableView().getItems().get(t.getTablePosition().getRow())).setCodigo(t.getNewValue());
             modificado(((Escenario) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
 
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colNombre.setCellFactory(EditingCell.stringCellFactory());
+        colNombre.setCellFactory(EditingTextCell.stringCellFactory());
         colNombre.setOnEditCommit((CellEditEvent<Escenario, String> t) -> {
             ((Escenario) t.getTableView().getItems().get(t.getTablePosition().getRow())).setNombre(t.getNewValue());
             modificado(((Escenario) t.getTableView().getItems().get(t.getTablePosition().getRow())));

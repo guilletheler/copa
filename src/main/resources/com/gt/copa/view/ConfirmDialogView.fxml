@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="dialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="252.0" prefWidth="416.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.PruebaController">
+<BorderPane fx:id="confirmDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="252.0" prefWidth="416.0" style="-fx-border-color: black; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.ConfirmDialogController">
    <center>
       <VBox>
          <children>
-            <Label alignment="TOP_LEFT" prefHeight="1000.0" prefWidth="1000.0" text="Hola prueba" BorderPane.alignment="CENTER">
+            <Label fx:id="lblMessage" alignment="TOP_LEFT" prefHeight="1000.0" prefWidth="1000.0" text="mensaje" BorderPane.alignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font></Label>
@@ -24,7 +24,7 @@
       </VBox>
    </center>
    <top>
-      <Label text="Atencion" BorderPane.alignment="CENTER">
+      <Label fx:id="lblTitle" text="Atención" BorderPane.alignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>
@@ -36,15 +36,15 @@
    <bottom>
       <HBox prefWidth="1000.0" BorderPane.alignment="CENTER">
          <children>
-            <Button minWidth="60.0" mnemonicParsing="false" onAction="#btnCerrarClick" text="Close">
+            <Button fx:id="leftButton" minWidth="80.0" minHeight="40" mnemonicParsing="false" onAction="#btnNoClick" text="No">
                <HBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="10.0" left="10.0" />
                </HBox.margin>
             </Button>
             <Pane prefWidth="500.0" />
-            <Button contentDisplay="RIGHT" minWidth="60.0" mnemonicParsing="false" text="Button">
+            <Button fx:id="rightButton" contentDisplay="RIGHT" minWidth="80.0" minHeight="40" mnemonicParsing="false" onAction="#btnSiClick" text="Si">
                <HBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="10.0" right="10.0" />
                </HBox.margin>
             </Button>
          </children>

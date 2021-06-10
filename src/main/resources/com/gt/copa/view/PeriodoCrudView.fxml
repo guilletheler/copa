@@ -9,22 +9,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@copa.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.PeriodoCrudController">
+<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@copa.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.PeriodoCrudController">
    <children>
-      <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" text="Periodos">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font></Label>
+      <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" text="Periodos" styleClass="pane-header" />
       <HBox prefWidth="730.0">
          <children>
             <TableView fx:id="tblPeriodos" editable="true" minHeight="100.0" minWidth="100" prefHeight="5000.0" prefWidth="5000.0">
                <columns>
-                  <TableColumn fx:id="colId" prefWidth="75.0" text="Id" />
-                  <TableColumn fx:id="colCodigo" prefWidth="75.0" text="Cod" />
+                  <TableColumn id="id-column" fx:id="colId" prefWidth="50.0" text="Id" />
+                  <TableColumn fx:id="colCodigo" prefWidth="75.0" text="Cod" styleClass="number-column" />
                   <TableColumn fx:id="colNombre" prefWidth="75.0" text="Nombre" />
                   <TableColumn fx:id="colTipo" prefWidth="75.0" text="Tipo" />
-                  <TableColumn fx:id="colInicio" prefWidth="75.0" text="Inicio" />
-                  <TableColumn fx:id="colFin" prefWidth="75.0" text="Fin" />
+                  <TableColumn fx:id="colInicio" prefWidth="110.0" text="Inicio" />
+                  <TableColumn fx:id="colFin" prefWidth="110.0" text="Fin" />
                </columns>
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" top="5.0" />

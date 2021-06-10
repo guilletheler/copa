@@ -4,17 +4,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import org.controlsfx.control.CheckListView?>
+<?import org.controlsfx.control.CheckComboBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@copa.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.SituacionActualController">
+<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@copa.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.SituacionActualController">
    <children>
-      <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" text="Situacion Actual">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font></Label>
+      <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" text="Situacion Actual" styleClass="pane-header" />
       <HBox prefWidth="730.0">
          <children>
             <VBox prefHeight="1000.0" prefWidth="5000.0">
@@ -82,11 +79,11 @@
                               <Insets left="5.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <CheckListView fx:id="lstClasificaciones" prefHeight="300.0" prefWidth="300.0">
+                        <CheckComboBox fx:id="lstClasificaciones" prefWidth="5000.0">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
-                        </CheckListView>
+                        </CheckComboBox>
                      </children>
                   </HBox>
                </children>

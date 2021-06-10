@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.gt.copa.infra.EditingCell;
+import com.gt.copa.infra.DatePickerCell;
+import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.temporal.Periodo;
 import com.gt.copa.model.temporal.TipoPeriodo;
 import com.gt.copa.repo.temporal.PeriodoRepo;
@@ -99,14 +100,14 @@ public class PeriodoCrudController {
         colId.setCellValueFactory(new PropertyValueFactory<Periodo, Integer>("id"));
 
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        colCodigo.setCellFactory(EditingCell.integerCellFactory());
+        colCodigo.setCellFactory(EditingTextCell.integerCellFactory());
         colCodigo.setOnEditCommit((CellEditEvent<Periodo, Integer> t) -> {
             ((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())).setCodigo(t.getNewValue());
             modificado(((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
 
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colNombre.setCellFactory(EditingCell.stringCellFactory());
+        colNombre.setCellFactory(EditingTextCell.stringCellFactory());
         colNombre.setOnEditCommit((CellEditEvent<Periodo, String> t) -> {
             ((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())).setNombre(t.getNewValue());
             modificado(((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())));
@@ -122,14 +123,14 @@ public class PeriodoCrudController {
         });
 
         colInicio.setCellValueFactory(new PropertyValueFactory<>("inicio"));
-        colInicio.setCellFactory(EditingCell.dateCellFactory());
+        colInicio.setCellFactory(DatePickerCell.dateCellFactory("dd/MM/yyyy"));
         colInicio.setOnEditCommit((CellEditEvent<Periodo, Date> t) -> {
             ((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())).setInicio(t.getNewValue());
             modificado(((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
 
         colFin.setCellValueFactory(new PropertyValueFactory<>("fin"));
-        colFin.setCellFactory(EditingCell.dateCellFactory());
+        colFin.setCellFactory(DatePickerCell.dateCellFactory("dd/MM/yyyy"));
         colFin.setOnEditCommit((CellEditEvent<Periodo, Date> t) -> {
             ((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())).setFin(t.getNewValue());
             modificado(((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())));

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.gt.copa.infra.EditingCell;
+import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.repo.atemporal.EmpresaRepo;
 
@@ -87,14 +87,14 @@ public class EmpresaCrudController {
         colId.setCellValueFactory(new PropertyValueFactory<Empresa, Integer>("id"));
 
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        colCodigo.setCellFactory(EditingCell.integerCellFactory());
+        colCodigo.setCellFactory(EditingTextCell.integerCellFactory());
         colCodigo.setOnEditCommit((CellEditEvent<Empresa, Integer> t) -> {
             ((Empresa) t.getTableView().getItems().get(t.getTablePosition().getRow())).setCodigo(t.getNewValue());
             modificado(((Empresa) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
 
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colNombre.setCellFactory(EditingCell.stringCellFactory());
+        colNombre.setCellFactory(EditingTextCell.stringCellFactory());
         colNombre.setOnEditCommit((CellEditEvent<Empresa, String> t) -> {
             ((Empresa) t.getTableView().getItems().get(t.getTablePosition().getRow())).setNombre(t.getNewValue());
             modificado(((Empresa) t.getTableView().getItems().get(t.getTablePosition().getRow())));

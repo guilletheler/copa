@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface CostoEstandarPeriodicoRepo extends PagingAndSortingRepository<CostoEstandarPeriodico, Integer>,
 		JpaSpecificationExecutor<CostoEstandarPeriodico> {
 
-    List<CostoEstandarPeriodico> findByEmpresaAndEscenarioAndPeriodo(Empresa empresa, Escenario escenario, Periodo periodo);
+    List<CostoEstandarPeriodico> findByConfiguracionPeriodo_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(Empresa empresa, Escenario escenario, Periodo periodo);
 
 }

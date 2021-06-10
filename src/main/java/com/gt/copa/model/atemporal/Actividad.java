@@ -17,7 +17,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Entity
-@Table(name = "articulos")
+@Table(name = "actividades")
 public class Actividad extends CodigoNombre {
 
 	@Id

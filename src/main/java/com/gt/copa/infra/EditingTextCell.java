@@ -28,17 +28,17 @@ import lombok.Setter;
  *
  * @author Graham Smith
  */
-public class EditingCell<T, V> extends TableCell<T, V> {
+public class EditingTextCell<T, V> extends TableCell<T, V> {
     private TextField textField;
 
     @Getter
     @Setter
     private StringConverter<V> stringConverter;
 
-    public EditingCell() {
+    public EditingTextCell() {
     }
 
-    public EditingCell(StringConverter<V> stringConverter) {
+    public EditingTextCell(StringConverter<V> stringConverter) {
         this.stringConverter = stringConverter;
     }
 
@@ -191,7 +191,7 @@ public class EditingCell<T, V> extends TableCell<T, V> {
         Callback<TableColumn<T, String>, TableCell<T, String>> stringCellFactory = new Callback<TableColumn<T, String>, TableCell<T, String>>() {
             @Override
             public TableCell<T, String> call(TableColumn<T, String> p) {
-                return new EditingCell<T, String>(stringConverter);
+                return new EditingTextCell<T, String>(stringConverter);
             }
         };
 
@@ -223,7 +223,7 @@ public class EditingCell<T, V> extends TableCell<T, V> {
         Callback<TableColumn<T, Integer>, TableCell<T, Integer>> integerCellFactory = new Callback<TableColumn<T, Integer>, TableCell<T, Integer>>() {
             @Override
             public TableCell<T, Integer> call(TableColumn<T, Integer> p) {
-                return new EditingCell<T, Integer>(integerConverter);
+                return new EditingTextCell<T, Integer>(integerConverter);
             }
         };
 
@@ -250,41 +250,22 @@ public class EditingCell<T, V> extends TableCell<T, V> {
                 try {
                     return Utils.SDF_SLASH_DMYY.parse(string);
                 } catch (ParseException e) {
-                    Logger.getLogger(getClass().getName()).log(Level.WARNING, "Error al convertir " + string + " en fecha");
+                    Logger.getLogger(getClass().getName()).log(Level.WARNING,
+                            "Error al convertir " + string + " en fecha");
                 }
                 return null;
             }
 
         };
 
-        Callback<TableColumn<T, Date>, TableCell<T, Date>> integerCellFactory = new Callback<TableColumn<T, Date>, TableCell<T, Date>>() {
+        Callback<TableColumn<T, Date>, TableCell<T, Date>> dateCellFactory = new Callback<TableColumn<T, Date>, TableCell<T, Date>>() {
             @Override
             public TableCell<T, Date> call(TableColumn<T, Date> p) {
-                return new EditingCell<T, Date>(dateConverter);
+                return new EditingTextCell<T, Date>(dateConverter);
             }
         };
 
-        return integerCellFactory;
+        return dateCellFactory;
     }
 
-    // public static <T, V> Callback<TableColumn<T, V>, TableCell<T, V>> comboCellFactory(Collection<V> values) {
-
-    //     Callback<TableColumn<T, V>, TableCell<T, V>> comboCellFactory = new Callback<TableColumn<T, V>, TableCell<T, V>>() {
-    //         @Override
-    //         public TableCell<T, V> call(TableColumn<T, V> p) {
-
-    //             TableCell<T, V> c = new TableCell<>();
-    //             final ComboBox<V> comboBox = new ComboBox<>(FXCollections.observableArrayList(values));
-    //             c.itemProperty().addListener((observable, oldValue, newValue) -> {
-    //                 if (newValue != null) {
-    //                     comboBox.setValue(newValue);
-    //                 }
-    //             });
-    //             c.graphicProperty().bind(Bindings.when(c.emptyProperty()).then((Node) null).otherwise(comboBox));
-    //             return c;
-    //         }
-    //     };
-
-    //     return comboCellFactory;
-    // }
 }

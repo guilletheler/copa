@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface ComponenteDriverPeriodicoRepo extends PagingAndSortingRepository<ComponenteDriverPeriodico, Integer>,
 		JpaSpecificationExecutor<ComponenteDriverPeriodico> {
 
-	List<ComponenteDriverPeriodico> findByEmpresaAndEscenarioAndPeriodo(Empresa empresa, Escenario escenario, Periodo periodo);
+	List<ComponenteDriverPeriodico> findByConfiguracionPeriodo_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(Empresa empresa, Escenario escenario, Periodo periodo);
 
 }

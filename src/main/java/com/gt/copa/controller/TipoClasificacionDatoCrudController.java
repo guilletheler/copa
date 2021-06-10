@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.gt.copa.infra.EditingCell;
+import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.TipoClasificacionDato;
 import com.gt.copa.repo.atemporal.TipoClasificacionDatoRepo;
 
@@ -87,14 +87,14 @@ public class TipoClasificacionDatoCrudController {
         colId.setCellValueFactory(new PropertyValueFactory<TipoClasificacionDato, Integer>("id"));
 
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        colCodigo.setCellFactory(EditingCell.integerCellFactory());
+        colCodigo.setCellFactory(EditingTextCell.integerCellFactory());
         colCodigo.setOnEditCommit((CellEditEvent<TipoClasificacionDato, Integer> t) -> {
             ((TipoClasificacionDato) t.getTableView().getItems().get(t.getTablePosition().getRow())).setCodigo(t.getNewValue());
             modificado(((TipoClasificacionDato) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
 
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colNombre.setCellFactory(EditingCell.stringCellFactory());
+        colNombre.setCellFactory(EditingTextCell.stringCellFactory());
         colNombre.setOnEditCommit((CellEditEvent<TipoClasificacionDato, String> t) -> {
             ((TipoClasificacionDato) t.getTableView().getItems().get(t.getTablePosition().getRow())).setNombre(t.getNewValue());
             modificado(((TipoClasificacionDato) t.getTableView().getItems().get(t.getTablePosition().getRow())));

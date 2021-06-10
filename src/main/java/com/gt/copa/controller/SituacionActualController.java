@@ -1,9 +1,15 @@
 package com.gt.copa.controller;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.gt.copa.component.ClasificacionDatoConverter;
 import com.gt.copa.component.CurrentStatus;
+import com.gt.copa.component.EmpresaConverter;
+import com.gt.copa.component.EscenarioConverter;
+import com.gt.copa.component.PeriodoConverter;
+import com.gt.copa.component.TipoClasificacionDatoConverter;
 import com.gt.copa.model.atemporal.ClasificacionDato;
 import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
@@ -15,7 +21,7 @@ import com.gt.copa.repo.atemporal.EscenarioRepo;
 import com.gt.copa.repo.atemporal.TipoClasificacionDatoRepo;
 import com.gt.copa.repo.temporal.PeriodoRepo;
 
-import org.controlsfx.control.CheckListView;
+import org.controlsfx.control.CheckComboBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,10 +30,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
 
@@ -52,7 +56,7 @@ public class SituacionActualController {
     private ComboBox<TipoClasificacionDato> cmbTipoClasificacion;
 
     @FXML
-    private CheckListView<ClasificacionDato> lstClasificaciones;
+    private CheckComboBox<ClasificacionDato> lstClasificaciones;
 
     @Autowired
     CurrentStatus currentStatus;
@@ -72,9 +76,28 @@ public class SituacionActualController {
     @Autowired
     ClasificacionDatoRepo clasificacionDatoRepo;
 
+    @Autowired
+    EmpresaConverter empresaConverter;
+
+    @Autowired
+    EscenarioConverter escenarioConverter;
+
+    @Autowired
+    PeriodoConverter periodoConverter;
+
+    @Autowired
+    TipoClasificacionDatoConverter tipoClasificacionDatoConverter;
+
+    @Autowired
+    ClasificacionDatoConverter clasificacionDatoConverter;
+
     @FXML
     public void initialize() {
-
+        cmbEmpresa.setConverter(empresaConverter);
+        lstClasificaciones.setConverter(clasificacionDatoConverter);
+        cmbPeriodo.setConverter(periodoConverter);
+        cmbTipoClasificacion.setConverter(tipoClasificacionDatoConverter);
+        cmbEscenario.setConverter(escenarioConverter);
     }
 
     public void loadData() {
@@ -99,28 +122,7 @@ public class SituacionActualController {
 
         empresas.add(0, null);
 
-        StringConverter<Empresa> converter = new StringConverter<Empresa>() {
-
-            @Override
-            public String toString(Empresa object) {
-                if (object == null) {
-                    return "";
-                }
-                return object.getNombre();
-            }
-
-            @Override
-            public Empresa fromString(String string) {
-                if (string == null || string.isEmpty()) {
-                    return null;
-                }
-                return empresaRepo.findByNombre(string).orElse(null);
-            }
-        };
-
-        cmbEmpresa.setConverter(converter);
-
-        cmbEmpresa.setCellFactory(ComboBoxListCell.forListView(converter, empresas));
+        cmbEmpresa.setCellFactory(ComboBoxListCell.forListView(empresaConverter, empresas));
 
         cmbEmpresa.setItems(empresas);
     }
@@ -131,28 +133,7 @@ public class SituacionActualController {
 
         escenarios.add(0, null);
 
-        StringConverter<Escenario> converter = new StringConverter<Escenario>() {
-
-            @Override
-            public String toString(Escenario object) {
-                if (object == null) {
-                    return "";
-                }
-                return object.getNombre();
-            }
-
-            @Override
-            public Escenario fromString(String string) {
-                if (string == null || string.isEmpty()) {
-                    return null;
-                }
-                return escenarioRepo.findByNombre(string).orElse(null);
-            }
-        };
-
-        cmbEscenario.setConverter(converter);
-
-        cmbEscenario.setCellFactory(ComboBoxListCell.forListView(converter, escenarios));
+        cmbEscenario.setCellFactory(ComboBoxListCell.forListView(escenarioConverter, escenarios));
 
         cmbEscenario.setItems(escenarios);
     }
@@ -163,28 +144,7 @@ public class SituacionActualController {
 
         periodos.add(0, null);
 
-        StringConverter<Periodo> converter = new StringConverter<Periodo>() {
-
-            @Override
-            public String toString(Periodo object) {
-                if (object == null) {
-                    return "";
-                }
-                return object.getNombre();
-            }
-
-            @Override
-            public Periodo fromString(String string) {
-                if (string == null || string.isEmpty()) {
-                    return null;
-                }
-                return periodoRepo.findByNombre(string).orElse(null);
-            }
-        };
-
-        cmbPeriodo.setConverter(converter);
-
-        cmbPeriodo.setCellFactory(ComboBoxListCell.forListView(converter, periodos));
+        cmbPeriodo.setCellFactory(ComboBoxListCell.forListView(periodoConverter, periodos));
 
         cmbPeriodo.setItems(periodos);
     }
@@ -195,69 +155,18 @@ public class SituacionActualController {
 
         tiposClasificacion.add(0, null);
 
-        StringConverter<TipoClasificacionDato> converter = new StringConverter<TipoClasificacionDato>() {
-
-            @Override
-            public String toString(TipoClasificacionDato object) {
-                if (object == null) {
-                    return "";
-                }
-                return object.getNombre();
-            }
-
-            @Override
-            public TipoClasificacionDato fromString(String string) {
-                if (string == null || string.isEmpty()) {
-                    return null;
-                }
-                return tipoClasificacionDatoRepo.findByNombre(string).orElse(null);
-            }
-        };
-
-        cmbTipoClasificacion.setConverter(converter);
-
-        cmbTipoClasificacion.setCellFactory(ComboBoxListCell.forListView(converter, tiposClasificacion));
+        cmbTipoClasificacion.setCellFactory(ComboBoxListCell.forListView(tipoClasificacionDatoConverter, tiposClasificacion));
 
         cmbTipoClasificacion.setItems(tiposClasificacion);
     }
 
     void configLstClasificaciones() {
 
-        ObservableList<ClasificacionDato> tiposClasificacion = FXCollections.observableArrayList(StreamSupport
-                .stream(clasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList()));
+        List<ClasificacionDato> clasifDatos = StreamSupport.stream(clasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList());
 
-        lstClasificaciones.setItems(tiposClasificacion);
+        lstClasificaciones.getItems().clear();
 
-        lstClasificaciones.setCellFactory(
-                lv -> new CheckBoxListCell<ClasificacionDato>(lstClasificaciones::getItemBooleanProperty) {
-                    @Override
-                    public void updateItem(ClasificacionDato clasificacionDato, boolean empty) {
-                        super.updateItem(clasificacionDato, empty);
-                        setText(clasificacionDato == null ? "" : clasificacionDato.getNombre());
-                    }
-                });
-
-        // lstClasificaciones.getCheckModel().getCheckedIndices().addListener(new
-        // ListChangeListener<Integer>() {
-        // @Override
-        // public void onChanged(javafx.collections.ListChangeListener.Change<? extends
-        // Integer> c) {
-        // while (c.next()) {
-        // if (c.wasAdded()) {
-        // for (int i : c.getAddedSubList()) {
-        // System.out.println(lstClasificaciones.getItems().get(i).getNombre() + "
-        // selected");
-        // }
-        // }
-        // if (c.wasRemoved()) {
-        // for (int i : c.getRemoved()) {
-        // System.out.println(lstClasificaciones.getItems().get(i).getNombre() + "
-        // deselected");
-        // }
-        // }
-        // }
-        // }
-        // });
+        lstClasificaciones.getItems().addAll(clasifDatos);
 
     }
 
@@ -269,7 +178,8 @@ public class SituacionActualController {
         currentStatus.getCopaStatus().setPeriodo(cmbPeriodo.getSelectionModel().getSelectedItem());
         currentStatus.getCopaStatus().setTipoClasificacion(cmbTipoClasificacion.getSelectionModel().getSelectedItem());
         currentStatus.getCopaStatus().getFiltroClasificaciones().clear();
-        currentStatus.getCopaStatus().getFiltroClasificaciones().addAll(lstClasificaciones.getCheckModel().getCheckedItems());
+        currentStatus.getCopaStatus().getFiltroClasificaciones()
+                .addAll(lstClasificaciones.getCheckModel().getCheckedItems());
     }
 
 }

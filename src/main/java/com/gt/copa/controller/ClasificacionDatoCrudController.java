@@ -2,10 +2,13 @@ package com.gt.copa.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.gt.copa.infra.EditingCell;
+import com.gt.copa.component.TipoClasificacionDatoConverter;
+import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.ClasificacionDato;
 import com.gt.copa.model.atemporal.TipoClasificacionDato;
 import com.gt.copa.repo.atemporal.ClasificacionDatoRepo;
@@ -23,7 +26,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
 
@@ -36,6 +38,9 @@ public class ClasificacionDatoCrudController {
 
     @Autowired
     TipoClasificacionDatoRepo tipoClasificacionDatoRepo;
+
+    @Autowired
+    TipoClasificacionDatoConverter tipoClasificacionDatoConverter;
 
     @Getter
     @FXML
@@ -97,7 +102,7 @@ public class ClasificacionDatoCrudController {
         colId.setCellValueFactory(new PropertyValueFactory<ClasificacionDato, Integer>("id"));
 
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        colCodigo.setCellFactory(EditingCell.integerCellFactory());
+        colCodigo.setCellFactory(EditingTextCell.integerCellFactory());
         colCodigo.setOnEditCommit((CellEditEvent<ClasificacionDato, Integer> t) -> {
             ((ClasificacionDato) t.getTableView().getItems().get(t.getTablePosition().getRow()))
                     .setCodigo(t.getNewValue());
@@ -105,7 +110,7 @@ public class ClasificacionDatoCrudController {
         });
 
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colNombre.setCellFactory(EditingCell.stringCellFactory());
+        colNombre.setCellFactory(EditingTextCell.stringCellFactory());
         colNombre.setOnEditCommit((CellEditEvent<ClasificacionDato, String> t) -> {
             ((ClasificacionDato) t.getTableView().getItems().get(t.getTablePosition().getRow()))
                     .setNombre(t.getNewValue());
@@ -115,6 +120,8 @@ public class ClasificacionDatoCrudController {
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipoClasificacion"));
 
         colTipo.setOnEditCommit((CellEditEvent<ClasificacionDato, TipoClasificacionDato> t) -> {
+
+            Logger.getLogger(getClass().getName()).log(Level.INFO, "cambiando tipo a " + t.getNewValue().getEtiqueta());
             ((ClasificacionDato) t.getTableView().getItems().get(t.getTablePosition().getRow()))
                     .setTipoClasificacion(t.getNewValue());
             modificado(((ClasificacionDato) t.getTableView().getItems().get(t.getTablePosition().getRow())));
@@ -128,18 +135,11 @@ public class ClasificacionDatoCrudController {
     }
 
     public void loadData() {
-        colTipo.setCellFactory(ComboBoxTableCell.forTableColumn(new StringConverter<TipoClasificacionDato>() {
 
-            @Override
-            public String toString(TipoClasificacionDato object) {
-                return object.getNombre();
-            }
-
-            @Override
-            public TipoClasificacionDato fromString(String string) {
-                return tipoClasificacionDatoRepo.findByNombre(string).orElse(null);
-            }}, FXCollections.observableArrayList(StreamSupport
-                .stream(tipoClasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList()))));
+        colTipo.setCellFactory(ComboBoxTableCell.forTableColumn(tipoClasificacionDatoConverter,
+                FXCollections.observableArrayList(
+                        StreamSupport.stream(tipoClasificacionDatoRepo.findAll().spliterator(), false)
+                                .collect(Collectors.toList()))));
 
         tblClasificacionDatos.setItems(FXCollections.observableArrayList(StreamSupport
                 .stream(clasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList())));

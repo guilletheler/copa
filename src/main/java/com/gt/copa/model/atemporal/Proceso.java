@@ -34,16 +34,16 @@ public class Proceso extends CodigoNombre {
 	@ManyToOne
 	private Empresa empresa;
 
-	@Getter(value = AccessLevel.NONE)
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	@OneToMany(mappedBy = "proceso", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Actividad> actividades;
+	// @Getter(value = AccessLevel.NONE)
+	// @EqualsAndHashCode.Exclude
+	// @ToString.Exclude
+	// @OneToMany(mappedBy = "proceso", cascade = CascadeType.ALL, orphanRemoval = true)
+	// private List<Actividad> actividades;
 
-	public List<Actividad> getActividades() {
-		if (actividades == null) {
-			actividades = new ArrayList<>();
-		}
-		return actividades;
-	}
+	// public List<Actividad> getActividades() {
+	// 	if (actividades == null) {
+	// 		actividades = new ArrayList<>();
+	// 	}
+	// 	return actividades;
+	// }
 }
