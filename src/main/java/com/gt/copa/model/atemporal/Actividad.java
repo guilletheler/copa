@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.gt.copa.model.CodigoNombre;
 
@@ -24,6 +25,7 @@ public class Actividad extends CodigoNombre {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Integer id;
 
+	@NotNull
 	@ManyToOne
 	private Proceso proceso;
 

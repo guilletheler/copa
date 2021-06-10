@@ -1,4 +1,4 @@
-package com.gt.copa.controller;
+package com.gt.copa.controller.atemporal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
-@FxmlView("/com/gt/copa/view/ClasificacionDatoCrudView.fxml")
+@FxmlView("/com/gt/copa/view/atemporal/ClasificacionDatoCrudView.fxml")
 public class ClasificacionDatoCrudController {
 
     @Autowired
@@ -128,9 +128,9 @@ public class ClasificacionDatoCrudController {
         });
     }
 
-    private void modificado(ClasificacionDato ClasificacionDato) {
-        if (!paraGuardar.contains(ClasificacionDato)) {
-            paraGuardar.add(ClasificacionDato);
+    private void modificado(ClasificacionDato clasificacionDato) {
+        if (!paraGuardar.contains(clasificacionDato)) {
+            paraGuardar.add(clasificacionDato);
         }
     }
 

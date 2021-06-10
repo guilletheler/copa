@@ -1,6 +1,9 @@
 package com.gt.copa.repo.atemporal;
 
+import java.util.List;
+
 import com.gt.copa.model.atemporal.Actividad;
+import com.gt.copa.model.atemporal.Empresa;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -9,5 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ActividadRepo
 		extends PagingAndSortingRepository<Actividad, Integer>, JpaSpecificationExecutor<Actividad> {
+
+    List<Actividad> findByProceso_Empresa(Empresa empresa);
 
 }

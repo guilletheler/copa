@@ -1,4 +1,4 @@
-package com.gt.copa.controller;
+package com.gt.copa.controller.atemporal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +24,11 @@ import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
-@FxmlView("/com/gt/copa/view/EmpresaCrudView.fxml")
+@FxmlView("/com/gt/copa/view/atemporal/EmpresaCrudView.fxml")
 public class EmpresaCrudController {
 
     @Autowired
-    EmpresaRepo EmpresaRepo;
+    EmpresaRepo empresaRepo;
 
     @Getter
     @FXML
@@ -101,24 +101,24 @@ public class EmpresaCrudController {
         });
     }
 
-    private void modificado(Empresa Empresa) {
-        if (!paraGuardar.contains(Empresa)) {
-            paraGuardar.add(Empresa);
+    private void modificado(Empresa empresa) {
+        if (!paraGuardar.contains(empresa)) {
+            paraGuardar.add(empresa);
         }
     }
 
     public void loadData() {
 
         tblEmpresas.setItems(FXCollections.observableArrayList(
-                StreamSupport.stream(EmpresaRepo.findAll().spliterator(), false).collect(Collectors.toList())));
+                StreamSupport.stream(empresaRepo.findAll().spliterator(), false).collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
     }
 
     public void persist() {
-        paraGuardar.forEach(dto -> EmpresaRepo.save(dto));
+        paraGuardar.forEach(dto -> empresaRepo.save(dto));
         paraEliminar.stream().filter(ds -> ds.getId() != null).map(ds -> ds.getId()).distinct()
-                .forEach(id -> EmpresaRepo.deleteById(id));
+                .forEach(id -> empresaRepo.deleteById(id));
         this.loadData();
     }
 

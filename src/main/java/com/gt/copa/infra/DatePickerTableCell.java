@@ -31,7 +31,7 @@ import lombok.Setter;
  *
  * @author Graham Smith
  */
-public class DatePickerCell<T> extends TableCell<T, Date> {
+public class DatePickerTableCell<T> extends TableCell<T, Date> {
     private DatePicker datePicker;
 
     @Getter
@@ -42,10 +42,10 @@ public class DatePickerCell<T> extends TableCell<T, Date> {
     @Setter
     private StringConverter<LocalDate> stringConverter;
 
-    public DatePickerCell() {
+    public DatePickerTableCell() {
     }
 
-    public DatePickerCell(String pattern) {
+    public DatePickerTableCell(String pattern) {
         
         dateStringConverter = new StringConverter<Date>(){
 
@@ -239,7 +239,7 @@ public class DatePickerCell<T> extends TableCell<T, Date> {
         Callback<TableColumn<T, Date>, TableCell<T, Date>> dateCellFactory = new Callback<TableColumn<T, Date>, TableCell<T, Date>>() {
             @Override
             public TableCell<T, Date> call(TableColumn<T, Date> p) {
-                return new DatePickerCell<T>(pattern);
+                return new DatePickerTableCell<T>(pattern);
             }
         };
 

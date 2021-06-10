@@ -9,18 +9,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@copa.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.DatoCrudController">
+<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@../copa.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.atemporal.ActividadCrudController">
    <children>
-      <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" text="Datos" styleClass="pane-header" />
+      <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" text="Actividades" styleClass="pane-header" />
       <HBox prefWidth="730.0">
          <children>
-            <TableView fx:id="tblDatos" editable="true" minHeight="100.0" minWidth="100" prefHeight="5000.0" prefWidth="5000.0">
+            <TableView fx:id="tblActividades" editable="true" minHeight="100.0" minWidth="100" prefHeight="5000.0" prefWidth="5000.0">
                <columns>
-                  <TableColumn id="id-column" fx:id="colId" text="Id" />
-                  <TableColumn fx:id="colRecurso" prefWidth="200.0" text="Recurso" />
+                  <TableColumn fx:id="colId" id="id-column" text="Id" />
+                  <TableColumn fx:id="colProceso" prefWidth="200.0" text="Proceso" />
                   <TableColumn fx:id="colCodigo" prefWidth="75.0" text="Cod" styleClass="number-column" />
-                  <TableColumn fx:id="colNombre" prefWidth="150.0" text="Nombre" />
-                  <TableColumn fx:id="colClasificaciones" prefWidth="300.0" text="Clasificaciones" />
+                  <TableColumn fx:id="colNombre" prefWidth="300.0" text="Nombre" />
+                  <TableColumn fx:id="colPrimaria" prefWidth="50.0" text="Primaria" />
                </columns>
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" top="5.0" />

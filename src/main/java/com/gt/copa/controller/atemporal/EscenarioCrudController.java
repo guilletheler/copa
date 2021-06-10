@@ -1,4 +1,4 @@
-package com.gt.copa.controller;
+package com.gt.copa.controller.atemporal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +24,11 @@ import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
-@FxmlView("/com/gt/copa/view/EscenarioCrudView.fxml")
+@FxmlView("/com/gt/copa/view/atemporal/EscenarioCrudView.fxml")
 public class EscenarioCrudController {
 
     @Autowired
-    EscenarioRepo EscenarioRepo;
+    EscenarioRepo escenarioRepo;
 
     @Getter
     @FXML
@@ -101,24 +101,24 @@ public class EscenarioCrudController {
         });
     }
 
-    private void modificado(Escenario Escenario) {
-        if (!paraGuardar.contains(Escenario)) {
-            paraGuardar.add(Escenario);
+    private void modificado(Escenario escenario) {
+        if (!paraGuardar.contains(escenario)) {
+            paraGuardar.add(escenario);
         }
     }
 
     public void loadData() {
 
         tblEscenarios.setItems(FXCollections.observableArrayList(
-                StreamSupport.stream(EscenarioRepo.findAll().spliterator(), false).collect(Collectors.toList())));
+                StreamSupport.stream(escenarioRepo.findAll().spliterator(), false).collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
     }
 
     public void persist() {
-        paraGuardar.forEach(dto -> EscenarioRepo.save(dto));
+        paraGuardar.forEach(dto -> escenarioRepo.save(dto));
         paraEliminar.stream().filter(ds -> ds.getId() != null).map(ds -> ds.getId()).distinct()
-                .forEach(id -> EscenarioRepo.deleteById(id));
+                .forEach(id -> escenarioRepo.deleteById(id));
         this.loadData();
     }
 

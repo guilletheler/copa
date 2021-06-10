@@ -1,4 +1,4 @@
-package com.gt.copa.controller;
+package com.gt.copa.controller.atemporal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +25,11 @@ import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
-@FxmlView("/com/gt/copa/view/ProcesoCrudView.fxml")
+@FxmlView("/com/gt/copa/view/atemporal/ProcesoCrudView.fxml")
 public class ProcesoCrudController {
 
     @Autowired
-    ProcesoRepo ProcesoRepo;
+    ProcesoRepo procesoRepo;
 
     @Autowired
     CurrentStatus currentStatus;
@@ -106,25 +106,25 @@ public class ProcesoCrudController {
         });
     }
 
-    private void modificado(Proceso Proceso) {
-        if (!paraGuardar.contains(Proceso)) {
-            paraGuardar.add(Proceso);
+    private void modificado(Proceso proceso) {
+        if (!paraGuardar.contains(proceso)) {
+            paraGuardar.add(proceso);
         }
     }
 
     public void loadData() {
 
         tblProcesos.setItems(FXCollections.observableArrayList(StreamSupport
-                .stream(ProcesoRepo.findByEmpresa(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
+                .stream(procesoRepo.findByEmpresa(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
                 .collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
     }
 
     public void persist() {
-        paraGuardar.forEach(dto -> ProcesoRepo.save(dto));
+        paraGuardar.forEach(dto -> procesoRepo.save(dto));
         paraEliminar.stream().filter(ds -> ds.getId() != null).map(ds -> ds.getId()).distinct()
-                .forEach(id -> ProcesoRepo.deleteById(id));
+                .forEach(id -> procesoRepo.deleteById(id));
         this.loadData();
     }
 

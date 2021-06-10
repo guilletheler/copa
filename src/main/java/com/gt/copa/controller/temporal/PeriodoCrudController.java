@@ -1,4 +1,4 @@
-package com.gt.copa.controller;
+package com.gt.copa.controller.temporal;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.gt.copa.infra.DatePickerCell;
+import com.gt.copa.infra.DatePickerTableCell;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.temporal.Periodo;
 import com.gt.copa.model.temporal.TipoPeriodo;
@@ -28,11 +28,11 @@ import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
-@FxmlView("/com/gt/copa/view/PeriodoCrudView.fxml")
+@FxmlView("/com/gt/copa/view/temporal/PeriodoCrudView.fxml")
 public class PeriodoCrudController {
 
     @Autowired
-    PeriodoRepo PeriodoRepo;
+    PeriodoRepo periodoRepo;
 
     @Getter
     @FXML
@@ -123,14 +123,14 @@ public class PeriodoCrudController {
         });
 
         colInicio.setCellValueFactory(new PropertyValueFactory<>("inicio"));
-        colInicio.setCellFactory(DatePickerCell.dateCellFactory("dd/MM/yyyy"));
+        colInicio.setCellFactory(DatePickerTableCell.dateCellFactory("dd/MM/yyyy"));
         colInicio.setOnEditCommit((CellEditEvent<Periodo, Date> t) -> {
             ((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())).setInicio(t.getNewValue());
             modificado(((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
 
         colFin.setCellValueFactory(new PropertyValueFactory<>("fin"));
-        colFin.setCellFactory(DatePickerCell.dateCellFactory("dd/MM/yyyy"));
+        colFin.setCellFactory(DatePickerTableCell.dateCellFactory("dd/MM/yyyy"));
         colFin.setOnEditCommit((CellEditEvent<Periodo, Date> t) -> {
             ((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())).setFin(t.getNewValue());
             modificado(((Periodo) t.getTableView().getItems().get(t.getTablePosition().getRow())));
@@ -138,24 +138,24 @@ public class PeriodoCrudController {
 
     }
 
-    private void modificado(Periodo Periodo) {
-        if (!paraGuardar.contains(Periodo)) {
-            paraGuardar.add(Periodo);
+    private void modificado(Periodo periodo) {
+        if (!paraGuardar.contains(periodo)) {
+            paraGuardar.add(periodo);
         }
     }
 
     public void loadData() {
 
         tblPeriodos.setItems(FXCollections.observableArrayList(
-                StreamSupport.stream(PeriodoRepo.findAll().spliterator(), false).collect(Collectors.toList())));
+                StreamSupport.stream(periodoRepo.findAll().spliterator(), false).collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
     }
 
     public void persist() {
-        paraGuardar.forEach(dto -> PeriodoRepo.save(dto));
+        paraGuardar.forEach(dto -> periodoRepo.save(dto));
         paraEliminar.stream().filter(ds -> ds.getId() != null).map(ds -> ds.getId()).distinct()
-                .forEach(id -> PeriodoRepo.deleteById(id));
+                .forEach(id -> periodoRepo.deleteById(id));
         this.loadData();
     }
 

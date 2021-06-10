@@ -32,10 +32,10 @@
               <MenuItem mnemonicParsing="false" text="Recursos" onAction="#mnuRecursosClick" />
               <MenuItem mnemonicParsing="false" text="Datos" onAction="#mnuDatosClick" />
               <MenuItem mnemonicParsing="false" text="Procesos" onAction="#mnuProcesosClick" />
-              <MenuItem mnemonicParsing="false" text="Actividades" />
-              <MenuItem mnemonicParsing="false" text="Objetos de costo" />
-              <MenuItem mnemonicParsing="false" text="Drivers" />
-              <MenuItem mnemonicParsing="false" text="Componentes de Drivers" />
+              <MenuItem mnemonicParsing="false" text="Actividades" onAction="#mnuActividadesClick" />
+              <MenuItem mnemonicParsing="false" text="Objetos de costo" onAction="#mnuObjetosDeCostoClick" />
+              <MenuItem mnemonicParsing="false" text="Drivers" onAction="#mnuDriversClick"/>
+              <MenuItem mnemonicParsing="false" text="Componentes de Drivers" onAction="#mnuComponentesDriverClick" />
             </Menu>
             <Menu mnemonicParsing="false" text="Configuracion período">
               <Menu mnemonicParsing="false" text="Comportamiento">

@@ -1,4 +1,4 @@
-package com.gt.copa.controller;
+package com.gt.copa.controller.atemporal;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +9,7 @@ import java.util.stream.StreamSupport;
 import com.gt.copa.component.ClasificacionDatoConverter;
 import com.gt.copa.component.CurrentStatus;
 import com.gt.copa.component.RecursoConverter;
-import com.gt.copa.infra.CheckComboBoxCell;
+import com.gt.copa.infra.CheckComboBoxTableCell;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.ClasificacionDato;
 import com.gt.copa.model.atemporal.Dato;
@@ -37,7 +37,7 @@ import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
-@FxmlView("/com/gt/copa/view/DatoCrudView.fxml")
+@FxmlView("/com/gt/copa/view/atemporal/DatoCrudView.fxml")
 public class DatoCrudController {
 
     @Autowired
@@ -151,9 +151,9 @@ public class DatoCrudController {
         });
     }
 
-    private void modificado(Dato Dato) {
-        if (!paraGuardar.contains(Dato)) {
-            paraGuardar.add(Dato);
+    private void modificado(Dato dato) {
+        if (!paraGuardar.contains(dato)) {
+            paraGuardar.add(dato);
         }
     }
 
@@ -161,16 +161,18 @@ public class DatoCrudController {
 
         Empresa empresa = currentStatus.getCopaStatus().getEmpresa();
 
-        Callback<TableColumn<Dato, Recurso>, TableCell<Dato, Recurso>> recursoCellFactory = ComboBoxTableCell.forTableColumn(recursoConverter, FXCollections.observableArrayList(recursoRepo.findByEmpresa(empresa)));
-        
+        Callback<TableColumn<Dato, Recurso>, TableCell<Dato, Recurso>> recursoCellFactory = ComboBoxTableCell
+                .forTableColumn(recursoConverter,
+                        FXCollections.observableArrayList(recursoRepo.findByEmpresa(empresa)));
+
         colRecurso.setCellFactory(recursoCellFactory);
 
-        colClasificaciones.setCellFactory(CheckComboBoxCell.checkComboCellFactory(StreamSupport.stream(clasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList()), 
-        clasificacionDatoConverter
-        ));
+        colClasificaciones.setCellFactory(CheckComboBoxTableCell.checkComboCellFactory(
+                StreamSupport.stream(clasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList()),
+                clasificacionDatoConverter));
 
-        
-        tblDatos.setItems(FXCollections.observableArrayList(datoService.findByEmpresa(currentStatus.getCopaStatus().getEmpresa())));
+        tblDatos.setItems(FXCollections
+                .observableArrayList(datoService.findByEmpresa(empresa)));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
     }

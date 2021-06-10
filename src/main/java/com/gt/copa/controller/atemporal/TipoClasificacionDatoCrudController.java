@@ -1,4 +1,4 @@
-package com.gt.copa.controller;
+package com.gt.copa.controller.atemporal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +24,11 @@ import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
-@FxmlView("/com/gt/copa/view/TipoClasificacionDatoCrudView.fxml")
+@FxmlView("/com/gt/copa/view/atemporal/TipoClasificacionDatoCrudView.fxml")
 public class TipoClasificacionDatoCrudController {
 
     @Autowired
-    TipoClasificacionDatoRepo TipoClasificacionDatoRepo;
+    TipoClasificacionDatoRepo tipoClasificacionDatoRepo;
 
     @Getter
     @FXML
@@ -101,24 +101,24 @@ public class TipoClasificacionDatoCrudController {
         });
     }
 
-    private void modificado(TipoClasificacionDato TipoClasificacionDato) {
-        if (!paraGuardar.contains(TipoClasificacionDato)) {
-            paraGuardar.add(TipoClasificacionDato);
+    private void modificado(TipoClasificacionDato tipoClasificacionDato) {
+        if (!paraGuardar.contains(tipoClasificacionDato)) {
+            paraGuardar.add(tipoClasificacionDato);
         }
     }
 
     public void loadData() {
 
         tblTipoClasificacionDatos.setItems(FXCollections.observableArrayList(
-                StreamSupport.stream(TipoClasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList())));
+                StreamSupport.stream(tipoClasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
     }
 
     public void persist() {
-        paraGuardar.forEach(dto -> TipoClasificacionDatoRepo.save(dto));
+        paraGuardar.forEach(dto -> tipoClasificacionDatoRepo.save(dto));
         paraEliminar.stream().filter(ds -> ds.getId() != null).map(ds -> ds.getId()).distinct()
-                .forEach(id -> TipoClasificacionDatoRepo.deleteById(id));
+                .forEach(id -> tipoClasificacionDatoRepo.deleteById(id));
         this.loadData();
     }
 

@@ -1,4 +1,4 @@
-package com.gt.copa.controller;
+package com.gt.copa.controller.atemporal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +25,11 @@ import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
-@FxmlView("/com/gt/copa/view/RecursoCrudView.fxml")
+@FxmlView("/com/gt/copa/view/atemporal/RecursoCrudView.fxml")
 public class RecursoCrudController {
 
     @Autowired
-    RecursoRepo RecursoRepo;
+    RecursoRepo recursoRepo;
 
     @Autowired
     CurrentStatus currentStatus;
@@ -106,25 +106,25 @@ public class RecursoCrudController {
         });
     }
 
-    private void modificado(Recurso Recurso) {
-        if (!paraGuardar.contains(Recurso)) {
-            paraGuardar.add(Recurso);
+    private void modificado(Recurso recurso) {
+        if (!paraGuardar.contains(recurso)) {
+            paraGuardar.add(recurso);
         }
     }
 
     public void loadData() {
 
         tblRecursos.setItems(FXCollections.observableArrayList(StreamSupport
-                .stream(RecursoRepo.findByEmpresa(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
+                .stream(recursoRepo.findByEmpresa(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
                 .collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
     }
 
     public void persist() {
-        paraGuardar.forEach(dto -> RecursoRepo.save(dto));
+        paraGuardar.forEach(dto -> recursoRepo.save(dto));
         paraEliminar.stream().filter(ds -> ds.getId() != null).map(ds -> ds.getId()).distinct()
-                .forEach(id -> RecursoRepo.deleteById(id));
+                .forEach(id -> recursoRepo.deleteById(id));
         this.loadData();
     }
 

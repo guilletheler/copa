@@ -27,7 +27,7 @@ import lombok.Setter;
  *
  * @author Graham Smith
  */
-public class CheckComboBoxCell<T, V> extends TableCell<T, Collection<V>> {
+public class CheckComboBoxTableCell<T, V> extends TableCell<T, Collection<V>> {
     private CheckComboBox<V> checkComboBox;
 
     @Getter
@@ -41,11 +41,11 @@ public class CheckComboBoxCell<T, V> extends TableCell<T, Collection<V>> {
     @Setter
     ObservableList<V> items;
 
-    public CheckComboBoxCell(Collection<V> items) {
+    public CheckComboBoxTableCell(Collection<V> items) {
         this.items = FXCollections.observableArrayList(items);
     }
 
-    public CheckComboBoxCell(Collection<V> items, StringConverter<V> stringConverter) {
+    public CheckComboBoxTableCell(Collection<V> items, StringConverter<V> stringConverter) {
         setValueConverter(stringConverter);
         this.items = FXCollections.observableArrayList(items);
     }
@@ -218,7 +218,7 @@ public class CheckComboBoxCell<T, V> extends TableCell<T, Collection<V>> {
         Callback<TableColumn<T, Collection<V>>, TableCell<T, Collection<V>>> comboCellFactory = new Callback<TableColumn<T, Collection<V>>, TableCell<T, Collection<V>>>() {
             @Override
             public TableCell<T, Collection<V>> call(TableColumn<T, Collection<V>> p) {
-                return new CheckComboBoxCell<>(items, converter);
+                return new CheckComboBoxTableCell<>(items, converter);
             }
         };
 

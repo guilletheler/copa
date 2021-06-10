@@ -2,6 +2,18 @@ package com.gt.copa.controller;
 
 import com.gt.copa.CopaApplication;
 import com.gt.copa.component.CurrentStatus;
+import com.gt.copa.controller.atemporal.ActividadCrudController;
+import com.gt.copa.controller.atemporal.ClasificacionDatoCrudController;
+import com.gt.copa.controller.atemporal.ComponenteDriverCrudController;
+import com.gt.copa.controller.atemporal.DatoCrudController;
+import com.gt.copa.controller.atemporal.DriverCrudController;
+import com.gt.copa.controller.atemporal.EmpresaCrudController;
+import com.gt.copa.controller.atemporal.EscenarioCrudController;
+import com.gt.copa.controller.atemporal.ObjetoDeCostoCrudController;
+import com.gt.copa.controller.atemporal.ProcesoCrudController;
+import com.gt.copa.controller.atemporal.RecursoCrudController;
+import com.gt.copa.controller.atemporal.TipoClasificacionDatoCrudController;
+import com.gt.copa.controller.temporal.PeriodoCrudController;
 import com.gt.copa.service.atemporal.EscenarioService;
 import com.gt.copa.service.atemporal.TipoClasificacionDatoService;
 import com.gt.copa.service.temporal.PeriodoService;
@@ -50,6 +62,18 @@ public class MainController {
 	DatoCrudController datoCrudController;
 
 	@Autowired
+	ActividadCrudController actividadCrudController;
+
+	@Autowired
+	ObjetoDeCostoCrudController objetoDeCostoCrudController;
+
+	@Autowired
+	DriverCrudController driverCrudController;
+
+	@Autowired
+	ComponenteDriverCrudController componenteDriverCrudController;
+
+	@Autowired
 	EscenarioService escenarioService;
 
 	@Autowired
@@ -87,6 +111,10 @@ public class MainController {
 		fxWeaver.load(RecursoCrudController.class);
 		fxWeaver.load(DatoCrudController.class);
 		fxWeaver.load(ProcesoCrudController.class);
+		fxWeaver.load(ActividadCrudController.class);
+		fxWeaver.load(ObjetoDeCostoCrudController.class);
+		fxWeaver.load(DriverCrudController.class);
+		fxWeaver.load(ComponenteDriverCrudController.class);
 	}
 
 	@FXML
@@ -171,6 +199,53 @@ public class MainController {
 
 		procesoCrudController.loadData();
 		this.mainView.setCenter(procesoCrudController.getNodeView());
+	}
+
+	@FXML
+	void mnuActividadesClick(ActionEvent event) {
+		
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para administrar las actividades debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+		
+		actividadCrudController.loadData();
+		this.mainView.setCenter(actividadCrudController.getNodeView());
+	}
+	
+	@FXML
+	void mnuObjetosDeCostoClick(ActionEvent event) {
+		
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para administrar los objetos de costo debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+
+		objetoDeCostoCrudController.loadData();
+		this.mainView.setCenter(objetoDeCostoCrudController.getNodeView());
+	}
+	
+	@FXML
+	void mnuDriversClick(ActionEvent event) {
+		
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para administrar los drivers debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+	
+		driverCrudController.loadData();
+		this.mainView.setCenter(driverCrudController.getNodeView());
+	}
+	
+	@FXML
+	void mnuComponentesDriverClick(ActionEvent event) {
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para administrar los componentes de driver debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+	
+		componenteDriverCrudController.loadData();
+		this.mainView.setCenter(componenteDriverCrudController.getNodeView());
 	}
 
 	@FXML
