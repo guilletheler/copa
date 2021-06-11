@@ -3,10 +3,11 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.MainController">
+<BorderPane fx:id="mainView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.MainController">
   <top>
     <MenuBar BorderPane.alignment="CENTER">
       <menus>
@@ -18,31 +19,30 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Situación">
           <items>
-            <MenuItem mnemonicParsing="false" text="Empresas" onAction="#mnuEmpresasClick" />
-            <MenuItem mnemonicParsing="false" text="Escenarios" onAction="#mnuEscenariosClick" />
-            <MenuItem mnemonicParsing="false" text="Períodos" onAction="#mnuPeriodosClick" />
-            <MenuItem mnemonicParsing="false" text="Tipos de Clasificaciones" onAction="#mnuTipoClasificacionClick" />
-            <MenuItem mnemonicParsing="false" text="Clasificaciones" onAction="#mnuClasificacionClick" />
-            <MenuItem mnemonicParsing="false" text="Situación actual" onAction="#mnuSituacionActualClick" />
+            <MenuItem mnemonicParsing="false" onAction="#mnuEmpresasClick" text="Empresas" />
+            <MenuItem mnemonicParsing="false" onAction="#mnuEscenariosClick" text="Escenarios" />
+            <MenuItem mnemonicParsing="false" onAction="#mnuPeriodosClick" text="Períodos" />
+            <MenuItem mnemonicParsing="false" onAction="#mnuTipoClasificacionClick" text="Tipos de Clasificaciones" />
+            <MenuItem mnemonicParsing="false" onAction="#mnuClasificacionClick" text="Clasificaciones" />
+            <MenuItem mnemonicParsing="false" onAction="#mnuSituacionActualClick" text="Situación actual" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Costeo por actividad">
           <items>
             <Menu mnemonicParsing="false" text="Elementos">
-              <MenuItem mnemonicParsing="false" text="Recursos" onAction="#mnuRecursosClick" />
-              <MenuItem mnemonicParsing="false" text="Datos" onAction="#mnuDatosClick" />
-              <MenuItem mnemonicParsing="false" text="Procesos" onAction="#mnuProcesosClick" />
-              <MenuItem mnemonicParsing="false" text="Actividades" onAction="#mnuActividadesClick" />
-              <MenuItem mnemonicParsing="false" text="Objetos de costo" onAction="#mnuObjetosDeCostoClick" />
-              <MenuItem mnemonicParsing="false" text="Drivers" onAction="#mnuDriversClick"/>
-              <MenuItem mnemonicParsing="false" text="Componentes de Drivers" onAction="#mnuComponentesDriverClick" />
+              <MenuItem mnemonicParsing="false" onAction="#mnuRecursosClick" text="Recursos" />
+              <MenuItem mnemonicParsing="false" onAction="#mnuDatosClick" text="Datos" />
+              <MenuItem mnemonicParsing="false" onAction="#mnuProcesosClick" text="Procesos" />
+              <MenuItem mnemonicParsing="false" onAction="#mnuActividadesClick" text="Actividades" />
+              <MenuItem mnemonicParsing="false" onAction="#mnuObjetosDeCostoClick" text="Objetos de costo" />
+              <MenuItem mnemonicParsing="false" onAction="#mnuDriversClick" text="Drivers" />
+              <MenuItem mnemonicParsing="false" onAction="#mnuComponentesDriverClick" text="Componentes de Drivers" />
             </Menu>
             <Menu mnemonicParsing="false" text="Configuracion período">
               <Menu mnemonicParsing="false" text="Comportamiento">
-                <MenuItem mnemonicParsing="false" text="Recursos" />
-                <MenuItem mnemonicParsing="false" text="Actividades" onAction="#mnuConfigActividadPeriodicaClick" />
-                <MenuItem mnemonicParsing="false" text="Objeto de costo" />
-                <MenuItem mnemonicParsing="false" text="Componentes de Drivers" />
+                <MenuItem mnemonicParsing="false" onAction="#mnuConfigRecursoPeriodicoClick" text="Recursos" />
+                <MenuItem mnemonicParsing="false" onAction="#mnuConfigActividadPeriodicaClick" text="Actividades" />
+                <MenuItem mnemonicParsing="false" onAction="#mnuConfigObjetoDeCostoPeriodicoClick" text="Objeto de costo" />
               </Menu>
               <Menu mnemonicParsing="false" text="Asignaciones">
                 <MenuItem mnemonicParsing="false" text="Datos en recursos" />
@@ -50,6 +50,7 @@
                 <MenuItem mnemonicParsing="false" text="Actividades en actividades" />
                 <MenuItem mnemonicParsing="false" text="Actividades en objetos de costo" />
               </Menu>
+              <MenuItem mnemonicParsing="false" text="Valores de Drivers" />
             </Menu>
             <MenuItem mnemonicParsing="false" text="Valores de datos" />
           </items>
@@ -88,4 +89,11 @@
   <center>
 
   </center>
+   <center>
+      <ImageView fitHeight="360.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@copa.png" />
+         </image>
+      </ImageView>
+   </center>
 </BorderPane>

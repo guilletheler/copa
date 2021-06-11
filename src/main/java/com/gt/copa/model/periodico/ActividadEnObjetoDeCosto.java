@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.gt.copa.model.atemporal.Actividad;
-import com.gt.copa.model.atemporal.ComponenteDriver;
 import com.gt.copa.model.atemporal.ObjetoDeCosto;
 
 import lombok.Data;
@@ -43,11 +42,9 @@ public class ActividadEnObjetoDeCosto implements Serializable {
     
     @ManyToOne
     Actividad actividad;
-        
-    @ManyToOne
-    ComponenteDriver componenteDriver;
     
-    Double valorParticular;
+    @Embedded
+    ValorAsignado valorAsignado;
 
     @Embedded
     ConfiguracionPeriodo configuracionPeriodo;

@@ -18,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.gt.copa.calc.api.TipoDistribucion;
-import com.gt.copa.model.atemporal.ComponenteDriver;
 import com.gt.copa.model.atemporal.ObjetoDeCosto;
 
 import lombok.Data;
@@ -45,11 +44,9 @@ public class ObjetoDeCostoPeriodico implements Serializable {
 
     @Enumerated(EnumType.STRING)
     TipoDistribucion tipoDistribucion;
-
-    @ManyToOne
-    ComponenteDriver componenteDriver;
-
-    Double valorParticular;
+    
+    @Embedded
+    ValorAsignado valorAsignado;
 
     @Embedded
     ConfiguracionPeriodo configuracionPeriodo;

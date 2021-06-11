@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.gt.copa.calc.api.TipoDistribucion;
 import com.gt.copa.calc.api.TratamientoMuestra;
@@ -40,6 +41,7 @@ public class RecursoPeriodico implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@NotNull
 	@ManyToOne
 	Recurso recurso;
 
@@ -48,14 +50,18 @@ public class RecursoPeriodico implements Serializable {
 	 */
 	Integer tamanioMuestra;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	TratamientoMuestra tratamientoMuestra;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	TipoDistribucion tipoDistribucion;
 
+	@NotNull
 	Boolean promedioNoVacio;
 
+	@NotNull
 	@Embedded
 	ConfiguracionPeriodo configuracionPeriodo;
 }

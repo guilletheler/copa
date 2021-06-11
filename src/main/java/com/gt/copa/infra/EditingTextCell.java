@@ -16,7 +16,6 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
@@ -29,11 +28,15 @@ import lombok.Setter;
  * @author Graham Smith
  */
 public class EditingTextCell<T, V> extends TableCell<T, V> {
-    private TextField textField;
+    private ValidableTextField textField;
 
     @Getter
     @Setter
     private StringConverter<V> stringConverter;
+    
+    @Getter
+    @Setter
+    ITextFieldValidator textFieldValidator = null;
 
     public EditingTextCell() {
     }
@@ -46,7 +49,7 @@ public class EditingTextCell<T, V> extends TableCell<T, V> {
     public void startEdit() {
         super.startEdit();
         if (textField == null) {
-            createTextField();
+            createValidableTextField();
         }
         setGraphic(textField);
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -86,8 +89,8 @@ public class EditingTextCell<T, V> extends TableCell<T, V> {
         }
     }
 
-    private void createTextField() {
-        textField = new TextField(getString());
+    private void createValidableTextField() {
+        textField = new ValidableTextField(textFieldValidator, getString());
         textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
         textField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -223,11 +226,47 @@ public class EditingTextCell<T, V> extends TableCell<T, V> {
         Callback<TableColumn<T, Integer>, TableCell<T, Integer>> integerCellFactory = new Callback<TableColumn<T, Integer>, TableCell<T, Integer>>() {
             @Override
             public TableCell<T, Integer> call(TableColumn<T, Integer> p) {
-                return new EditingTextCell<T, Integer>(integerConverter);
+                EditingTextCell<T, Integer> ret = new EditingTextCell<>(integerConverter);
+                ret.setTextFieldValidator(new IntegerTextFieldValidator());
+                return ret;
             }
         };
 
         return integerCellFactory;
+    }
+
+    public static <T> Callback<TableColumn<T, Double>, TableCell<T, Double>> doubleCellFactory() {
+
+        StringConverter<Double> doubleConverter = new StringConverter<Double>() {
+
+            @Override
+            public String toString(Double object) {
+                if (object == null) {
+                    return "";
+                }
+                return object.toString();
+            }
+
+            @Override
+            public Double fromString(String string) {
+                if (string == null || string.isEmpty()) {
+                    return null;
+                }
+                return Double.valueOf(string);
+            }
+
+        };
+
+        Callback<TableColumn<T, Double>, TableCell<T, Double>> doubleCellFactory = new Callback<TableColumn<T, Double>, TableCell<T, Double>>() {
+            @Override
+            public TableCell<T, Double> call(TableColumn<T, Double> p) {
+                EditingTextCell<T, Double> ret = new EditingTextCell<>(doubleConverter);
+                ret.setTextFieldValidator(new DoubleTextFieldValidator());
+                return ret;
+            }
+        };
+
+        return doubleCellFactory;
     }
 
     public static <T> Callback<TableColumn<T, Date>, TableCell<T, Date>> dateCellFactory() {

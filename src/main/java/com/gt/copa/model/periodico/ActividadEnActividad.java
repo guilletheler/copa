@@ -14,9 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.gt.copa.model.atemporal.Actividad;
-import com.gt.copa.model.atemporal.ComponenteDriver;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,17 +37,18 @@ public class ActividadEnActividad implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     @ManyToOne
     Actividad origen;
     
+    @NotNull
     @ManyToOne
     Actividad destino;
     
-    @ManyToOne
-    ComponenteDriver componenteDriver;
+    @Embedded
+    ValorAsignado valorAsignado;
     
-    Double valorParticular;
-    
+    @NotNull
     @Embedded
     ConfiguracionPeriodo configuracionPeriodo;
 }

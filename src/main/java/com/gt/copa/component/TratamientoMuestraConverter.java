@@ -1,28 +1,28 @@
 package com.gt.copa.component;
 
-import com.gt.copa.calc.api.TipoDistribucion;
+import com.gt.copa.calc.api.TratamientoMuestra;
 
 import org.springframework.stereotype.Component;
 
 import javafx.util.StringConverter;
 
 @Component
-public class TipoDistribucionConverter extends StringConverter<TipoDistribucion> {
+public class TratamientoMuestraConverter extends StringConverter<TratamientoMuestra> {
 
     @Override
-    public String toString(TipoDistribucion object) {
+    public String toString(TratamientoMuestra object) {
         if (object == null) {
             return "";
         }
         return object.name();
     }
-    
+
     @Override
-    public TipoDistribucion fromString(String string) {
+    public TratamientoMuestra fromString(String string) {
         if (string == null || string.isEmpty()) {
             return null;
         }
-        return TipoDistribucion.valueOf(string);
+        return TratamientoMuestra.valueOf(string);
     }
 
 }

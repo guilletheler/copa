@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.gt.copa.model.atemporal.Articulo;
-import com.gt.copa.model.atemporal.ComponenteDriver;
 import com.gt.copa.model.atemporal.CostoEstandar;
 
 import lombok.Data;
@@ -44,10 +43,8 @@ public class CostoEstandarEnArticulo implements Serializable {
     @ManyToOne
     Articulo articulo;
     
-    @ManyToOne
-    ComponenteDriver componenteDriver;
-
-    Double valorParticular;
+    @Embedded
+    ValorAsignado valorAsignado;
 
     @Embedded
     ConfiguracionPeriodo configuracionPeriodo;

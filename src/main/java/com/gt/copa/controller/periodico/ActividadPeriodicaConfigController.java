@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
@@ -107,9 +108,11 @@ public class ActividadPeriodicaConfigController {
             modificado(((ActividadPeriodica) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
 
+        ObservableList<TipoDistribucion> tiposDistribucionValues = FXCollections.observableArrayList(TipoDistribucion.values());
+        tiposDistribucionValues.add(0, null);
+
         Callback<TableColumn<ActividadPeriodica, TipoDistribucion>, TableCell<ActividadPeriodica, TipoDistribucion>> tipoDistribucionCellFactory = ComboBoxTableCell
-                .forTableColumn(tipoDistribucionConverter,
-                        FXCollections.observableArrayList(TipoDistribucion.values()));
+                .forTableColumn(tipoDistribucionConverter,tiposDistribucionValues);
 
         colTipoDistribucion.setCellFactory(tipoDistribucionCellFactory);
     }

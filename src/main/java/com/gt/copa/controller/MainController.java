@@ -14,6 +14,8 @@ import com.gt.copa.controller.atemporal.ProcesoCrudController;
 import com.gt.copa.controller.atemporal.RecursoCrudController;
 import com.gt.copa.controller.atemporal.TipoClasificacionDatoCrudController;
 import com.gt.copa.controller.periodico.ActividadPeriodicaConfigController;
+import com.gt.copa.controller.periodico.ObjetoDeCostoPeriodicoConfigController;
+import com.gt.copa.controller.periodico.RecursoPeriodicoConfigController;
 import com.gt.copa.controller.temporal.PeriodoCrudController;
 import com.gt.copa.service.atemporal.EscenarioService;
 import com.gt.copa.service.atemporal.TipoClasificacionDatoService;
@@ -78,6 +80,12 @@ public class MainController {
 	ActividadPeriodicaConfigController actividadPeriodicaConfigController;
 
 	@Autowired
+	RecursoPeriodicoConfigController recursoPeriodicoConfigController;
+
+	@Autowired
+	ObjetoDeCostoPeriodicoConfigController objetoDeCostoPeriodicoConfigController;
+
+	@Autowired
 	EscenarioService escenarioService;
 
 	@Autowired
@@ -120,6 +128,8 @@ public class MainController {
 		fxWeaver.load(DriverCrudController.class);
 		fxWeaver.load(ComponenteDriverCrudController.class);
 		fxWeaver.load(ActividadPeriodicaConfigController.class);
+		fxWeaver.load(RecursoPeriodicoConfigController.class);
+		fxWeaver.load(ObjetoDeCostoPeriodicoConfigController.class);
 	}
 
 	@FXML
@@ -256,20 +266,58 @@ public class MainController {
 	@FXML
 	void mnuConfigActividadPeriodicaClick(ActionEvent event) {
 		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para administrar los componentes de driver debe\nseleccionar una empresa en\nSituacion Actual");
+			ConfirmDialogController.message(fxWeaver, "Para configurar las actividades debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
 		if(currentStatus.getCopaStatus().getEscenario() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para administrar los componentes de driver debe\nseleccionar un escenario en\nSituacion Actual");
+			ConfirmDialogController.message(fxWeaver, "Para configurar las actividades debe\nseleccionar un escenario en\nSituacion Actual");
 			return;
 		}
 		if(currentStatus.getCopaStatus().getPeriodo() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para administrar los componentes de driver debe\nseleccionar un período en\nSituacion Actual");
+			ConfirmDialogController.message(fxWeaver, "Para configurar las actividades debe\nseleccionar un período en\nSituacion Actual");
 			return;
 		}
 	
 		actividadPeriodicaConfigController.loadData();
 		this.mainView.setCenter(actividadPeriodicaConfigController.getNodeView());
+	}
+	
+	@FXML
+	void mnuConfigRecursoPeriodicoClick(ActionEvent event) {
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar un escenario en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar un período en\nSituacion Actual");
+			return;
+		}
+	
+		recursoPeriodicoConfigController.loadData();
+		this.mainView.setCenter(recursoPeriodicoConfigController.getNodeView());
+	}
+	
+	@FXML
+	void mnuConfigObjetoDeCostoPeriodicoClick(ActionEvent event) {
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar un escenario en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar un período en\nSituacion Actual");
+			return;
+		}
+	
+		objetoDeCostoPeriodicoConfigController.loadData();
+		this.mainView.setCenter(objetoDeCostoPeriodicoConfigController.getNodeView());
 	}
 
 	@FXML

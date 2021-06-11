@@ -323,11 +323,11 @@ public class CalculatorBuilderService {
 
 			IComponenteDriver cd = null;
 
-			if (oc.getComponenteDriver() == null) {
+			if (oc.getValorAsignado().getComponenteDriver() == null) {
 				log.warning("Advertencia: CopaCalculator - Componente deriver nulo para OC "
 						+ oc.getObjetoDeCosto().getNombre());
 			} else {
-				cd = componentesDrivers.get(oc.getComponenteDriver().getCodigo());
+				cd = componentesDrivers.get(oc.getValorAsignado().getComponenteDriver().getCodigo());
 			}
 
 			if (oc.getTipoDistribucion() == null) {
@@ -337,7 +337,7 @@ public class CalculatorBuilderService {
 			}
 
 			ObjetoDeCostoImpl objetoDeCosto = new ObjetoDeCostoImpl(oc.getObjetoDeCosto().getCodigo(),
-					oc.getObjetoDeCosto().getNombre(), cd, oc.getValorParticular(), oc.getTipoDistribucion());
+					oc.getObjetoDeCosto().getNombre(), cd, oc.getValorAsignado().getValorParticular(), oc.getTipoDistribucion());
 			calc.addObjetoDeCosto(objetoDeCosto);
 		}
 	}
@@ -405,13 +405,13 @@ public class CalculatorBuilderService {
 			ActividadCalculada<?> acalc = copaCalc.searchActividadCalculada(rxa.getActividad().getCodigo());
 			IComponenteDriver cd = null;
 
-			if (rxa.getComponenteDriver() != null) {
+			if (rxa.getValorAsignado().getComponenteDriver() != null) {
 
-				cd = componentesDrivers.get(rxa.getComponenteDriver().getCodigo());
+				cd = componentesDrivers.get(rxa.getValorAsignado().getComponenteDriver().getCodigo());
 
 				if (cd == null) {
 					log.warning("Generando CopaCalc: No se encuentra valor para el componente driver "
-							+ rxa.getComponenteDriver().getCodigo());
+							+ rxa.getValorAsignado().getComponenteDriver().getCodigo());
 				}
 			}
 
@@ -426,7 +426,7 @@ public class CalculatorBuilderService {
 			}
 
 			copaCalc.asignar(new RecursoEnActividadImpl(), rcalc.getDataObject(), acalc.getDataObject(), cd,
-					rxa.getValorParticular());
+					rxa.getValorAsignado().getValorParticular());
 		}
 	}
 
@@ -441,13 +441,13 @@ public class CalculatorBuilderService {
 			ActividadCalculada<?> aDestino = copaCalc.searchActividadCalculada(axa.getDestino().getCodigo());
 			IComponenteDriver cd = null;
 
-			if (axa.getComponenteDriver() != null) {
+			if (axa.getValorAsignado().getComponenteDriver() != null) {
 
-				cd = componentesDrivers.get(axa.getComponenteDriver().getCodigo());
+				cd = componentesDrivers.get(axa.getValorAsignado().getComponenteDriver().getCodigo());
 
 				if (cd == null) {
 					log.warning("Generando CopaCalc: No se encuentra valor para el componente driver "
-							+ axa.getComponenteDriver().getCodigo());
+							+ axa.getValorAsignado().getComponenteDriver().getCodigo());
 				}
 			}
 
@@ -461,7 +461,7 @@ public class CalculatorBuilderService {
 				continue;
 			}
 			copaCalc.asignar(new ActividadEnActividadImpl(), aOrigen.getDataObject(), aDestino.getDataObject(), cd,
-					axa.getValorParticular());
+					axa.getValorAsignado().getValorParticular());
 		}
 	}
 
@@ -476,13 +476,13 @@ public class CalculatorBuilderService {
 					.searchObjetoDeCostoCalculado(axoc.getObjetoDeCosto().getCodigo());
 			IComponenteDriver cd = null;
 
-			if (axoc.getComponenteDriver() != null) {
+			if (axoc.getValorAsignado().getComponenteDriver() != null) {
 
-				cd = componentesDrivers.get(axoc.getComponenteDriver().getCodigo());
+				cd = componentesDrivers.get(axoc.getValorAsignado().getComponenteDriver().getCodigo());
 
 				if (cd == null) {
 					log.warning("Generando CopaCalc: No se encuentra valor para el componente driver "
-							+ axoc.getComponenteDriver().getCodigo());
+							+ axoc.getValorAsignado().getComponenteDriver().getCodigo());
 				}
 			}
 
@@ -496,7 +496,7 @@ public class CalculatorBuilderService {
 				continue;
 			}
 			copaCalc.asignar(new ActividadEnOCImpl(), aOrigen.getDataObject(), ocDestino.getDataObject(), cd,
-					axoc.getValorParticular());
+					axoc.getValorAsignado().getValorParticular());
 		}
 	}
 
@@ -511,13 +511,13 @@ public class CalculatorBuilderService {
 			ArticuloCalculado aDestino = copaCalc.searchArticuloCalculado(ocxa.getArticulo().getCodigo());
 			IComponenteDriver cd = null;
 
-			if (ocxa.getComponenteDriver() != null) {
+			if (ocxa.getValorAsignado().getComponenteDriver() != null) {
 
-				cd = componentesDrivers.get(ocxa.getComponenteDriver().getCodigo());
+				cd = componentesDrivers.get(ocxa.getValorAsignado().getComponenteDriver().getCodigo());
 
 				if (cd == null) {
 					log.warning("Generando CopaCalc: No se encuentra valor para el componente driver "
-							+ ocxa.getComponenteDriver().getCodigo());
+							+ ocxa.getValorAsignado().getComponenteDriver().getCodigo());
 				}
 			}
 
@@ -531,7 +531,7 @@ public class CalculatorBuilderService {
 				continue;
 			}
 			copaCalc.asignar(new ObjetoDeCostoEnArticuloImpl(), ocOrigen.getDataObject(), aDestino.getDataObject(), cd,
-					ocxa.getValorParticular());
+					ocxa.getValorAsignado().getValorParticular());
 		}
 	}
 
@@ -546,13 +546,13 @@ public class CalculatorBuilderService {
 			ArticuloCalculado aDestino = copaCalc.searchArticuloCalculado(cexa.getArticulo().getCodigo());
 			IComponenteDriver cd = null;
 
-			if (cexa.getComponenteDriver() != null) {
+			if (cexa.getValorAsignado().getComponenteDriver() != null) {
 
-				cd = componentesDrivers.get(cexa.getComponenteDriver().getCodigo());
+				cd = componentesDrivers.get(cexa.getValorAsignado().getComponenteDriver().getCodigo());
 
 				if (cd == null) {
 					log.warning("Generando CopaCalc: No se encuentra valor para el componente driver "
-							+ cexa.getComponenteDriver().getCodigo());
+							+ cexa.getValorAsignado().getComponenteDriver().getCodigo());
 				}
 			}
 
@@ -566,7 +566,7 @@ public class CalculatorBuilderService {
 				continue;
 			}
 			copaCalc.asignar(new CostoEstandarEnArticuloImpl(), ceOrigen.getDataObject(), aDestino.getDataObject(), cd,
-					cexa.getValorParticular());
+					cexa.getValorAsignado().getValorParticular());
 		}
 	}
 
