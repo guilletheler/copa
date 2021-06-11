@@ -45,8 +45,7 @@
                 <MenuItem mnemonicParsing="false" onAction="#mnuConfigObjetoDeCostoPeriodicoClick" text="Objeto de costo" />
               </Menu>
               <Menu mnemonicParsing="false" text="Asignaciones">
-                <MenuItem mnemonicParsing="false" text="Datos en recursos" />
-                <MenuItem mnemonicParsing="false" text="Recursos en actividades" />
+                <MenuItem mnemonicParsing="false" onAction="#mnuRecursoEnActividadClick" text="Recursos en actividades" />
                 <MenuItem mnemonicParsing="false" text="Actividades en actividades" />
                 <MenuItem mnemonicParsing="false" text="Actividades en objetos de costo" />
               </Menu>
@@ -62,7 +61,8 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Configuracion período">
             <MenuItem mnemonicParsing="false" text="Costos Estandar" />
-            <MenuItem mnemonicParsing="false" text="Artículo en Objeto de costo" />
+            <MenuItem mnemonicParsing="false" text="Objeto de costo en Artículo" />
+            <MenuItem mnemonicParsing="false" text="Costo estandar en Artículo" />
           </Menu>
         </Menu>
         <Menu mnemonicParsing="false" text="Herramientas">

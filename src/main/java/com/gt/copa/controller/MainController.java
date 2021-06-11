@@ -15,6 +15,7 @@ import com.gt.copa.controller.atemporal.RecursoCrudController;
 import com.gt.copa.controller.atemporal.TipoClasificacionDatoCrudController;
 import com.gt.copa.controller.periodico.ActividadPeriodicaConfigController;
 import com.gt.copa.controller.periodico.ObjetoDeCostoPeriodicoConfigController;
+import com.gt.copa.controller.periodico.RecursoEnActividadController;
 import com.gt.copa.controller.periodico.RecursoPeriodicoConfigController;
 import com.gt.copa.controller.temporal.PeriodoCrudController;
 import com.gt.copa.service.atemporal.EscenarioService;
@@ -86,6 +87,9 @@ public class MainController {
 	ObjetoDeCostoPeriodicoConfigController objetoDeCostoPeriodicoConfigController;
 
 	@Autowired
+	RecursoEnActividadController recursoEnActividadController;
+
+	@Autowired
 	EscenarioService escenarioService;
 
 	@Autowired
@@ -130,6 +134,7 @@ public class MainController {
 		fxWeaver.load(ActividadPeriodicaConfigController.class);
 		fxWeaver.load(RecursoPeriodicoConfigController.class);
 		fxWeaver.load(ObjetoDeCostoPeriodicoConfigController.class);
+		fxWeaver.load(RecursoEnActividadController.class);
 	}
 
 	@FXML
@@ -318,6 +323,25 @@ public class MainController {
 	
 		objetoDeCostoPeriodicoConfigController.loadData();
 		this.mainView.setCenter(objetoDeCostoPeriodicoConfigController.getNodeView());
+	}
+	
+	@FXML
+	void mnuRecursoEnActividadClick(ActionEvent event) {
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar recursos debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar recursos debe\nseleccionar un escenario en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar recursos debe\nseleccionar un período en\nSituacion Actual");
+			return;
+		}
+	
+		recursoEnActividadController.loadData();
+		this.mainView.setCenter(recursoEnActividadController.getNodeView());
 	}
 
 	@FXML

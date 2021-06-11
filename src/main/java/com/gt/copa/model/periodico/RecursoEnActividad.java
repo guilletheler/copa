@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.gt.copa.model.atemporal.Actividad;
 import com.gt.copa.model.atemporal.Recurso;
@@ -37,9 +38,11 @@ public class RecursoEnActividad implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@NotNull
 	@ManyToOne
 	Recurso recurso;
-
+	
+	@NotNull
 	@ManyToOne
 	Actividad actividad;
 	

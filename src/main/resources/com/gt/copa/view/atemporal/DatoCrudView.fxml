@@ -19,7 +19,7 @@
                   <TableColumn fx:id="colId" id="id-column" text="Id" />
                   <TableColumn fx:id="colRecurso" prefWidth="200.0" text="Recurso" />
                   <TableColumn fx:id="colCodigo" prefWidth="75.0" text="Cod" styleClass="number-column" />
-                  <TableColumn fx:id="colNombre" prefWidth="150.0" text="Nombre" />
+                  <TableColumn fx:id="colNombre" prefWidth="150.0" text="Dato" />
                   <TableColumn fx:id="colClasificaciones" prefWidth="300.0" text="Clasificaciones" />
                </columns>
                <HBox.margin>

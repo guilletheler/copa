@@ -106,6 +106,7 @@ public class ActividadCrudController {
         }
 
         actividad.setCodigo(codigo);
+        actividad.setPrimaria(true);
 
         tblActividades.getItems().add(actividad);
     }
