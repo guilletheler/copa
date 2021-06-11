@@ -13,6 +13,7 @@ import com.gt.copa.controller.atemporal.ObjetoDeCostoCrudController;
 import com.gt.copa.controller.atemporal.ProcesoCrudController;
 import com.gt.copa.controller.atemporal.RecursoCrudController;
 import com.gt.copa.controller.atemporal.TipoClasificacionDatoCrudController;
+import com.gt.copa.controller.periodico.ActividadPeriodicaConfigController;
 import com.gt.copa.controller.temporal.PeriodoCrudController;
 import com.gt.copa.service.atemporal.EscenarioService;
 import com.gt.copa.service.atemporal.TipoClasificacionDatoService;
@@ -74,6 +75,9 @@ public class MainController {
 	ComponenteDriverCrudController componenteDriverCrudController;
 
 	@Autowired
+	ActividadPeriodicaConfigController actividadPeriodicaConfigController;
+
+	@Autowired
 	EscenarioService escenarioService;
 
 	@Autowired
@@ -115,6 +119,7 @@ public class MainController {
 		fxWeaver.load(ObjetoDeCostoCrudController.class);
 		fxWeaver.load(DriverCrudController.class);
 		fxWeaver.load(ComponenteDriverCrudController.class);
+		fxWeaver.load(ActividadPeriodicaConfigController.class);
 	}
 
 	@FXML
@@ -246,6 +251,25 @@ public class MainController {
 	
 		componenteDriverCrudController.loadData();
 		this.mainView.setCenter(componenteDriverCrudController.getNodeView());
+	}
+	
+	@FXML
+	void mnuConfigActividadPeriodicaClick(ActionEvent event) {
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para administrar los componentes de driver debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para administrar los componentes de driver debe\nseleccionar un escenario en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para administrar los componentes de driver debe\nseleccionar un período en\nSituacion Actual");
+			return;
+		}
+	
+		actividadPeriodicaConfigController.loadData();
+		this.mainView.setCenter(actividadPeriodicaConfigController.getNodeView());
 	}
 
 	@FXML

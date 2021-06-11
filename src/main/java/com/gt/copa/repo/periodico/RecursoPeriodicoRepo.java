@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface RecursoPeriodicoRepo
 		extends PagingAndSortingRepository<RecursoPeriodico, Integer>, JpaSpecificationExecutor<RecursoPeriodico> {
 
-    List<RecursoPeriodico> findByConfiguracionPeriodo_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(Empresa empresa, Escenario escenario, Periodo periodo);
+    List<RecursoPeriodico> findByRecurso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(Empresa empresa, Escenario escenario, Periodo periodo);
 
 }

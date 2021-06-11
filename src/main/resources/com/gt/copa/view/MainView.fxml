@@ -40,7 +40,7 @@
             <Menu mnemonicParsing="false" text="Configuracion período">
               <Menu mnemonicParsing="false" text="Comportamiento">
                 <MenuItem mnemonicParsing="false" text="Recursos" />
-                <MenuItem mnemonicParsing="false" text="Actividades" />
+                <MenuItem mnemonicParsing="false" text="Actividades" onAction="#mnuConfigActividadPeriodicaClick" />
                 <MenuItem mnemonicParsing="false" text="Objeto de costo" />
                 <MenuItem mnemonicParsing="false" text="Componentes de Drivers" />
               </Menu>

@@ -42,7 +42,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 public class ActividadCrudController {
 
     @Autowired
-    ActividadService datoService;
+    ActividadService actividadService;
 
     @Autowired
     ProcesoRepo procesoRepo;
@@ -191,7 +191,7 @@ public class ActividadCrudController {
 
         colProceso.setCellFactory(procesoCellFactory);
 
-        tblActividades.setItems(FXCollections.observableArrayList(datoService.findByEmpresa(empresa)));
+        tblActividades.setItems(FXCollections.observableArrayList(actividadService.findByEmpresa(empresa)));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
     }
@@ -199,13 +199,13 @@ public class ActividadCrudController {
     public void persist() {
         paraGuardar.forEach(dto -> guardar(dto));
         paraEliminar.stream().filter(ds -> ds.getId() != null).map(ds -> ds.getId()).distinct()
-                .forEach(id -> datoService.getRepo().deleteById(id));
+                .forEach(id -> actividadService.getRepo().deleteById(id));
         this.loadData();
     }
 
     private void guardar(Actividad dto) {
         Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando actividad " + dto.toString());
-        datoService.getRepo().save(dto);
+        actividadService.getRepo().save(dto);
     }
 
     public void show() {

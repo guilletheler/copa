@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.gt.copa.calc.api.TipoDistribucion;
 import com.gt.copa.model.atemporal.Actividad;
@@ -39,12 +40,15 @@ public class ActividadPeriodica implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
     @ManyToOne
     Actividad actividad;
-
+    
+    @NotNull
     @Enumerated(EnumType.STRING)
     TipoDistribucion tipoDistribucion;
 
+    @NotNull
     @Embedded
     ConfiguracionPeriodo configuracionPeriodo;
 }
