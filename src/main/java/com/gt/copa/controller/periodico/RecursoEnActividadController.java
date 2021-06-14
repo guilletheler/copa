@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.gt.copa.component.ActividadConverter;
 import com.gt.copa.component.ComponenteDriverConverter;
@@ -34,6 +35,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -109,6 +111,8 @@ public class RecursoEnActividadController {
     List<RecursoEnActividad> paraGuardar;
     List<RecursoEnActividad> paraEliminar;
 
+    private ObservableList<RecursoEnActividad> rawItems;
+
     @FXML
     void btnNuevoClick(ActionEvent event) {
 
@@ -120,7 +124,9 @@ public class RecursoEnActividadController {
         rxa.setConfiguracionPeriodo(ConfiguracionPeriodo.builder().periodo(currentStatus.getCopaStatus().getPeriodo())
                 .escenario(currentStatus.getCopaStatus().getEscenario()).build());
 
+        rawItems.add(rxa);
         tblAsignaciones.getItems().add(rxa);
+        
     }
 
     @FXML
@@ -128,6 +134,7 @@ public class RecursoEnActividadController {
         if (tblAsignaciones.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblAsignaciones.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblAsignaciones.getSelectionModel().getSelectedItems());
+            rawItems.removeAll(tblAsignaciones.getSelectionModel().getSelectedItems());
             tblAsignaciones.getItems().removeAll(tblAsignaciones.getSelectionModel().getSelectedItems());
         }
     }
@@ -227,10 +234,44 @@ public class RecursoEnActividadController {
 
         colComponenteDriver.setCellFactory(componenteDriverCellFactory);
 
-        tblAsignaciones.setItems(FXCollections.observableArrayList(recursoEnActividadService.getRepo()
-                .findByRecurso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(empresa,
-                        escenario, periodo)));
+        Callback<TableColumn<RecursoEnActividad, Recurso>, TableCell<RecursoEnActividad, Recurso>> recursoCellFactory = ComboBoxTableCell
+                .forTableColumn(recursoConverter,recursos);
+
+        colRecurso.setCellFactory(recursoCellFactory);
+
+        Callback<TableColumn<RecursoEnActividad, Actividad>, TableCell<RecursoEnActividad, Actividad>> actividadCellFactory = ComboBoxTableCell
+                .forTableColumn(actividadConverter,actividades);
+
+        colActividad.setCellFactory(actividadCellFactory);
+
+        rawItems = FXCollections.observableArrayList(recursoEnActividadService.getRepo()
+        .findByRecurso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(empresa,
+                escenario, periodo));
+
+        showFiltredElements();
         paraGuardar = new ArrayList<>();
+        paraEliminar = new ArrayList<>();
+    }
+
+    private void showFiltredElements() {
+        ObservableList<RecursoEnActividad> filtredItems;
+        if(scmbFiltroRecurso.getSelectionModel().getSelectedItem() == null && scmbFiltroActividad.getSelectionModel().getSelectedItem() == null) {
+            filtredItems = rawItems;
+        } else {
+            filtredItems = FXCollections.observableArrayList(
+                rawItems.stream()
+                .filter(rxa -> testInclude(rxa))
+                .collect(Collectors.toList())
+            );
+        }
+        tblAsignaciones.setItems(filtredItems);
+    }
+
+    private boolean testInclude(RecursoEnActividad rxa) {
+        boolean ret = true;
+        ret = ret && (scmbFiltroRecurso.getSelectionModel().getSelectedItem() == null || scmbFiltroRecurso.getSelectionModel().getSelectedItem().equals(rxa.getRecurso()));
+        ret = ret && (scmbFiltroActividad.getSelectionModel().getSelectedItem() == null || scmbFiltroActividad.getSelectionModel().getSelectedItem().equals(rxa.getActividad()));
+        return ret;
     }
 
     private void loadScmbRecursos(ObservableList<Recurso> recursos) {
@@ -238,6 +279,14 @@ public class RecursoEnActividadController {
         scmbFiltroRecurso.setCellFactory(ComboBoxListCell.forListView(recursoConverter, recursos));
 
         scmbFiltroRecurso.setItems(recursos);
+
+        scmbFiltroRecurso.setConverter(recursoConverter);
+
+        scmbFiltroRecurso.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                showFiltredElements();
+            }
+         });
     }
 
     private void loadScmbActividades(ObservableList<Actividad> actividades) {
@@ -245,6 +294,14 @@ public class RecursoEnActividadController {
         scmbFiltroActividad.setCellFactory(ComboBoxListCell.forListView(actividadConverter, actividades));
 
         scmbFiltroActividad.setItems(actividades);
+        
+        scmbFiltroActividad.setConverter(actividadConverter);
+
+        scmbFiltroActividad.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                showFiltredElements();
+            }
+         });
     }
 
     public void persist() {
