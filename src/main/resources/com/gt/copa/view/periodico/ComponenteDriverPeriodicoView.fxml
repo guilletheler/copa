@@ -9,29 +9,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@../copa.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.periodico.ActividadEnObjetoDeCostoController">
+<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@../copa.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.periodico.ComponenteDriverPeriodicoController">
    <children>
-      <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" styleClass="pane-header" text="Actividades en Objetos de Costo" />
+      <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" styleClass="pane-header" text="Valores de componentes de Drivers" />
       <VBox>
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label maxHeight="50.0" prefHeight="46.0" prefWidth="73.0" text="Actividad">
+                  <Label maxHeight="50.0" prefHeight="50.0" text="Driver">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Label>
-                  <SearchableComboBox fx:id="scmbFiltroActividad" prefWidth="300.0">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" top="10.0" />
-                     </HBox.margin>
-                  </SearchableComboBox>
-                  <Label maxHeight="50.0" prefHeight="46.0" prefWidth="128.0" text="Objeto de Costo">
-                     <HBox.margin>
-                        <Insets left="30.0" />
-                     </HBox.margin>
-                  </Label>
-                  <SearchableComboBox fx:id="scmbFiltroObjetoDeCosto" prefWidth="300.0">
+                  <SearchableComboBox fx:id="scmbFiltroDriver" prefWidth="300.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" top="10.0" />
                      </HBox.margin>
@@ -40,13 +30,12 @@
             </HBox>
             <HBox prefWidth="730.0">
                <children>
-                  <TableView fx:id="tblAsignaciones" editable="true" minHeight="100.0" minWidth="100" prefHeight="5000.0" prefWidth="5000.0">
+                  <TableView fx:id="tblComponentesDriver" editable="true" minHeight="100.0" minWidth="100" prefHeight="5000.0" prefWidth="5000.0">
                      <columns>
                         <TableColumn id="id-column" fx:id="colId" text="Id" />
-                        <TableColumn fx:id="colActividad" prefWidth="200.0" text="Actividad" />
-                        <TableColumn fx:id="colObjetoDeCosto" prefWidth="200.0" text="Objecto de Costo" />
-                        <TableColumn fx:id="colComponenteDriver" prefWidth="200.0" text="Driver" />
-                        <TableColumn fx:id="colValorParticular" prefWidth="100.0" styleClass="number-column" text="Valor" />
+                        <TableColumn fx:id="colDriver" prefWidth="200.0" text="Driver" />
+                        <TableColumn fx:id="colComponente" prefWidth="200.0" text="Componente" />
+                        <TableColumn fx:id="colValor" prefWidth="100.0" styleClass="number-column" text="Valor" />
                      </columns>
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" top="5.0" />
@@ -54,11 +43,6 @@
                   </TableView>
                   <VBox maxWidth="80.0" minWidth="80.0" prefHeight="1000">
                      <children>
-                        <Button alignment="CENTER" layoutX="15.0" layoutY="15.0" maxWidth="70.0" mnemonicParsing="false" onAction="#btnNuevoClick" text="Nuevo">
-                           <VBox.margin>
-                              <Insets left="5.0" top="5.0" />
-                           </VBox.margin>
-                        </Button>
                         <Button alignment="CENTER" maxWidth="70.0" mnemonicParsing="false" onAction="#btnEliminarClick" text="Eliminar">
                            <VBox.margin>
                               <Insets left="5.0" top="5.0" />

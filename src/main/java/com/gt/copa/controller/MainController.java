@@ -14,7 +14,9 @@ import com.gt.copa.controller.atemporal.ProcesoCrudController;
 import com.gt.copa.controller.atemporal.RecursoCrudController;
 import com.gt.copa.controller.atemporal.TipoClasificacionDatoCrudController;
 import com.gt.copa.controller.periodico.ActividadEnActividadController;
+import com.gt.copa.controller.periodico.ActividadEnObjetoDeCostoController;
 import com.gt.copa.controller.periodico.ActividadPeriodicaConfigController;
+import com.gt.copa.controller.periodico.ComponenteDriverPeriodicoController;
 import com.gt.copa.controller.periodico.ObjetoDeCostoPeriodicoConfigController;
 import com.gt.copa.controller.periodico.RecursoEnActividadController;
 import com.gt.copa.controller.periodico.RecursoPeriodicoConfigController;
@@ -94,6 +96,12 @@ public class MainController {
 	ActividadEnActividadController actividadEnActividadController;
 
 	@Autowired
+	ActividadEnObjetoDeCostoController actividadEnObjetoDeCostoController;
+
+	@Autowired
+	ComponenteDriverPeriodicoController componenteDriverPeriodicoController;
+
+	@Autowired
 	EscenarioService escenarioService;
 
 	@Autowired
@@ -140,6 +148,8 @@ public class MainController {
 		fxWeaver.load(ObjetoDeCostoPeriodicoConfigController.class);
 		fxWeaver.load(RecursoEnActividadController.class);
 		fxWeaver.load(ActividadEnActividadController.class);
+		fxWeaver.load(ActividadEnObjetoDeCostoController.class);
+		fxWeaver.load(ComponenteDriverPeriodicoController.class);
 	}
 
 	@FXML
@@ -366,6 +376,44 @@ public class MainController {
 	
 		actividadEnActividadController.loadData();
 		this.mainView.setCenter(actividadEnActividadController.getNodeView());
+	}
+	
+	@FXML
+	void mnuActividadEnObjetoDeCostoClick(ActionEvent event) {
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar un escenario en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar un período en\nSituacion Actual");
+			return;
+		}
+	
+		actividadEnObjetoDeCostoController.loadData();
+		this.mainView.setCenter(actividadEnObjetoDeCostoController.getNodeView());
+	}
+	
+	@FXML
+	void mnuComponenteDriverPeriodicoClick(ActionEvent event) {
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar valores de componentes de driver debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar valores de componentes de driver debe\nseleccionar un escenario en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar valores de componentes de driver debe\nseleccionar un período en\nSituacion Actual");
+			return;
+		}
+	
+		componenteDriverPeriodicoController.loadData();
+		this.mainView.setCenter(componenteDriverPeriodicoController.getNodeView());
 	}
 
 	@FXML
