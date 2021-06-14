@@ -115,7 +115,7 @@ public class RecursoCrudController {
     public void loadData() {
 
         tblRecursos.setItems(FXCollections.observableArrayList(StreamSupport
-                .stream(recursoRepo.findByEmpresa(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
+                .stream(recursoRepo.findByEmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
                 .collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();

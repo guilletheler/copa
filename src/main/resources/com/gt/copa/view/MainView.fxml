@@ -46,7 +46,7 @@
               </Menu>
               <Menu mnemonicParsing="false" text="Asignaciones">
                 <MenuItem mnemonicParsing="false" onAction="#mnuRecursoEnActividadClick" text="Recursos en actividades" />
-                <MenuItem mnemonicParsing="false" text="Actividades en actividades" />
+                <MenuItem mnemonicParsing="false" onAction="#mnuActividadEnActividadClick" text="Actividades en actividades" />
                 <MenuItem mnemonicParsing="false" text="Actividades en objetos de costo" />
               </Menu>
               <MenuItem mnemonicParsing="false" text="Valores de Drivers" />

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface ClasificacionDatoRepo
 		extends PagingAndSortingRepository<ClasificacionDato, Integer>, JpaSpecificationExecutor<ClasificacionDato> {
 
-		List<ClasificacionDato> findByTipoClasificacion(TipoClasificacionDato tipoClasificacion);
+		List<ClasificacionDato> findByTipoClasificacionOrderByNombre(TipoClasificacionDato tipoClasificacion);
 
         Optional<ClasificacionDato> findByNombre(String string);
 

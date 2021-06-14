@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface ComponenteDriverRepo
 		extends PagingAndSortingRepository<ComponenteDriver, Integer>, JpaSpecificationExecutor<ComponenteDriver> {
 
-    List<ComponenteDriver> findByDriver_Empresa(Empresa empresa);
+    List<ComponenteDriver> findByDriver_EmpresaOrderByNombre(Empresa empresa);
 
     Optional<ComponenteDriver> findByDriver_EmpresaAndDriver_NombreAndNombre(Empresa empresa, String nombreDriver, String nombre);
 }

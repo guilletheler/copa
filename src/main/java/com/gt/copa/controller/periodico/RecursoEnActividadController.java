@@ -213,12 +213,12 @@ public class RecursoEnActividadController {
         Periodo periodo = currentStatus.getCopaStatus().getPeriodo();
 
         ObservableList<Recurso> recursos = FXCollections
-                .observableArrayList(recursoRepo.findByEmpresa(currentStatus.getCopaStatus().getEmpresa()));
+                .observableArrayList(recursoRepo.findByEmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()));
 
         recursos.add(0, null);
 
         ObservableList<Actividad> actividades = FXCollections
-                .observableArrayList(actividadRepo.findByProceso_Empresa(currentStatus.getCopaStatus().getEmpresa()));
+                .observableArrayList(actividadRepo.findByProceso_EmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()));
 
         actividades.add(0, null);
 
@@ -235,12 +235,18 @@ public class RecursoEnActividadController {
         colComponenteDriver.setCellFactory(componenteDriverCellFactory);
 
         Callback<TableColumn<RecursoEnActividad, Recurso>, TableCell<RecursoEnActividad, Recurso>> recursoCellFactory = ComboBoxTableCell
-                .forTableColumn(recursoConverter,recursos);
+        .forTableColumn(recursoConverter,recursos);
+
+        // Callback<TableColumn<RecursoEnActividad, Recurso>, TableCell<RecursoEnActividad, Recurso>> recursoCellFactory = SearchableComboBoxTableCell
+        // .searchableComboCellFactory(recursos, recursoConverter);
 
         colRecurso.setCellFactory(recursoCellFactory);
 
         Callback<TableColumn<RecursoEnActividad, Actividad>, TableCell<RecursoEnActividad, Actividad>> actividadCellFactory = ComboBoxTableCell
-                .forTableColumn(actividadConverter,actividades);
+        .forTableColumn(actividadConverter,actividades);
+
+        // Callback<TableColumn<RecursoEnActividad, Actividad>, TableCell<RecursoEnActividad, Actividad>> actividadCellFactory = SearchableComboBoxTableCell
+        // .searchableComboCellFactory(actividades, actividadConverter);
 
         colActividad.setCellFactory(actividadCellFactory);
 

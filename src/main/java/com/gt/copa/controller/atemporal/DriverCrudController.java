@@ -115,7 +115,7 @@ public class DriverCrudController {
     public void loadData() {
 
         tblDrivers.setItems(FXCollections.observableArrayList(StreamSupport
-                .stream(driverRepo.findByEmpresa(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
+                .stream(driverRepo.findByEmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
                 .collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();

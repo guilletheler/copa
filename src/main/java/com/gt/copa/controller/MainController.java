@@ -13,6 +13,7 @@ import com.gt.copa.controller.atemporal.ObjetoDeCostoCrudController;
 import com.gt.copa.controller.atemporal.ProcesoCrudController;
 import com.gt.copa.controller.atemporal.RecursoCrudController;
 import com.gt.copa.controller.atemporal.TipoClasificacionDatoCrudController;
+import com.gt.copa.controller.periodico.ActividadEnActividadController;
 import com.gt.copa.controller.periodico.ActividadPeriodicaConfigController;
 import com.gt.copa.controller.periodico.ObjetoDeCostoPeriodicoConfigController;
 import com.gt.copa.controller.periodico.RecursoEnActividadController;
@@ -90,6 +91,9 @@ public class MainController {
 	RecursoEnActividadController recursoEnActividadController;
 
 	@Autowired
+	ActividadEnActividadController actividadEnActividadController;
+
+	@Autowired
 	EscenarioService escenarioService;
 
 	@Autowired
@@ -135,6 +139,7 @@ public class MainController {
 		fxWeaver.load(RecursoPeriodicoConfigController.class);
 		fxWeaver.load(ObjetoDeCostoPeriodicoConfigController.class);
 		fxWeaver.load(RecursoEnActividadController.class);
+		fxWeaver.load(ActividadEnActividadController.class);
 	}
 
 	@FXML
@@ -342,6 +347,25 @@ public class MainController {
 	
 		recursoEnActividadController.loadData();
 		this.mainView.setCenter(recursoEnActividadController.getNodeView());
+	}
+	
+	@FXML
+	void mnuActividadEnActividadClick(ActionEvent event) {
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar un escenario en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar un período en\nSituacion Actual");
+			return;
+		}
+	
+		actividadEnActividadController.loadData();
+		this.mainView.setCenter(actividadEnActividadController.getNodeView());
 	}
 
 	@FXML

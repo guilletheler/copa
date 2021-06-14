@@ -261,7 +261,7 @@ public class CalculatorBuilderService {
 
 	private void cargarProcesosActividades(CopaCalculator copaCalc, CopaStatus filtros) {
 
-		List<Proceso> lst = procesoRepo.findByEmpresa(filtros.getEmpresa());
+		List<Proceso> lst = procesoRepo.findByEmpresaOrderByNombre(filtros.getEmpresa());
 
 		for (Proceso p : lst) {
 			ProcesoImpl proceso = new ProcesoImpl(p.getCodigo(), p.getNombre());
@@ -283,7 +283,7 @@ public class CalculatorBuilderService {
 
 		Map<Integer, IDriver> driversMap = new HashMap<>();
 
-		List<Driver> drivers = driverRepo.findByEmpresa(filtros.getEmpresa());
+		List<Driver> drivers = driverRepo.findByEmpresaOrderByNombre(filtros.getEmpresa());
 
 		drivers.forEach(d -> driversMap.put(d.getCodigo(),
 				DriverImpl.builder().codigo(d.getCodigo()).nombre(d.getNombre()).build()));
@@ -343,7 +343,7 @@ public class CalculatorBuilderService {
 	}
 
 	private void cargarArticulos(CopaCalculator calc, CopaStatus filtros) {
-		List<Articulo> articulos = articuloRepo.findByEmpresa(filtros.getEmpresa());
+		List<Articulo> articulos = articuloRepo.findByEmpresaOrderByNombre(filtros.getEmpresa());
 
 		articulos.forEach(art -> calc.getArticulos().add(new ArticuloCalculado(calc,
 				ArticuloImpl.builder().codigo(art.getCodigo()).nombre(art.getNombre()).build())));

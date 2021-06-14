@@ -24,7 +24,7 @@ public class DatoService {
 
     @Transactional
     public List<Dato> findByEmpresa(Empresa empresa) {
-        List<Dato> ret = StreamSupport.stream(repo.findByRecurso_Empresa(empresa).spliterator(), false).collect(Collectors.toList());
+        List<Dato> ret = StreamSupport.stream(repo.findByRecurso_EmpresaOrderByNombre(empresa).spliterator(), false).collect(Collectors.toList());
 
         ret.forEach(dato -> dato.getClasificaciones().size());
 

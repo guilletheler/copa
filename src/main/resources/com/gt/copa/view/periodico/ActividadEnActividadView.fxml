@@ -21,7 +21,7 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Label>
-                  <SearchableComboBox fx:id="scmbFiltroRecurso" prefWidth="300.0">
+                  <SearchableComboBox fx:id="scmbFiltroOrigen" prefWidth="300.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" top="10.0" />
                      </HBox.margin>
@@ -31,7 +31,7 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <SearchableComboBox fx:id="scmbFiltroActividad" prefWidth="300.0">
+                  <SearchableComboBox fx:id="scmbFiltroDestino" prefWidth="300.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" top="10.0" />
                      </HBox.margin>
@@ -54,6 +54,11 @@
                   </TableView>
                   <VBox maxWidth="80.0" minWidth="80.0" prefHeight="1000">
                      <children>
+                        <Button alignment="CENTER" layoutX="15.0" layoutY="15.0" maxWidth="70.0" mnemonicParsing="false" onAction="#btnNuevoClick" text="Nuevo">
+                           <VBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Button>
                         <Button alignment="CENTER" maxWidth="70.0" mnemonicParsing="false" onAction="#btnEliminarClick" text="Eliminar">
                            <VBox.margin>
                               <Insets left="5.0" top="5.0" />

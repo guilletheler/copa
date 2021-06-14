@@ -33,7 +33,7 @@ public class RecursoPeriodicoService {
     @Transactional
     public List<RecursoPeriodico> findOrCreate(Empresa empresa, Escenario escenario, Periodo periodo) {
         List<Recurso> actividades = StreamSupport
-                .stream(actividadRepo.findByEmpresa(empresa).spliterator(), false).collect(Collectors.toList());
+                .stream(actividadRepo.findByEmpresaOrderByNombre(empresa).spliterator(), false).collect(Collectors.toList());
 
         List<RecursoPeriodico> lst = repo
                 .findByRecurso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(

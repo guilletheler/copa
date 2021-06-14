@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface ArticuloRepo
 		extends PagingAndSortingRepository<Articulo, Integer>, JpaSpecificationExecutor<Articulo> {
 
-    List<Articulo> findByEmpresa(Empresa empresa);
+    List<Articulo> findByEmpresaOrderByNombre(Empresa empresa);
 
 }

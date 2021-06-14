@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DatoRepo extends PagingAndSortingRepository<Dato, Integer>, JpaSpecificationExecutor<Dato> {
 
-    List<Dato> findByRecurso_Empresa(Empresa empresa);
+    List<Dato> findByRecurso_EmpresaOrderByNombre(Empresa empresa);
 
 }

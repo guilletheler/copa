@@ -12,10 +12,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ActividadRepo
-		extends PagingAndSortingRepository<Actividad, Integer>, JpaSpecificationExecutor<Actividad> {
+    extends PagingAndSortingRepository<Actividad, Integer>, JpaSpecificationExecutor<Actividad> {
 
-    List<Actividad> findByProceso_Empresa(Empresa empresa);
+  List<Actividad> findByProceso_EmpresaOrderByNombre(Empresa empresa);
 
-    Optional<Actividad> findByProceso_EmpresaAndNombre(Empresa empresa, String string);
+  Optional<Actividad> findByProceso_EmpresaAndNombre(Empresa empresa, String string);
+
+  List<Actividad> findByProceso_EmpresaAndPrimariaFalseOrderByNombre(Empresa empresa);
 
 }

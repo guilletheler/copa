@@ -35,7 +35,11 @@ public class ValidableTextField extends TextField {
     private void addValidatorListener() {
         textProperty().addListener((observable, oldValue, newValue) -> {
             if (validator != null && !validator.isValid(newValue)) {
-                setText(oldValue);
+                if(validator.isValid(oldValue)) {
+                    setText(oldValue);
+                } else {
+                    setText("");
+                }
             } else {
                 setText(newValue);
             }

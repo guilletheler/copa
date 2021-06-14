@@ -24,7 +24,7 @@ public class ActividadService {
 
     @Transactional
     public List<Actividad> findByEmpresa(Empresa empresa) {
-        List<Actividad> ret = StreamSupport.stream(repo.findByProceso_Empresa(empresa).spliterator(), false).collect(Collectors.toList());
+        List<Actividad> ret = StreamSupport.stream(repo.findByProceso_EmpresaOrderByNombre(empresa).spliterator(), false).collect(Collectors.toList());
 
         return ret;
     }

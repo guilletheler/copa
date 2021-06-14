@@ -115,7 +115,7 @@ public class ObjetoDeCostoCrudController {
     public void loadData() {
 
         tblObjetoDeCostos.setItems(FXCollections.observableArrayList(StreamSupport
-                .stream(objetoDeCostoRepo.findByEmpresa(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
+                .stream(objetoDeCostoRepo.findByEmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
                 .collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();

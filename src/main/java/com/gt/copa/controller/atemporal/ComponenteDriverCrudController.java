@@ -142,7 +142,7 @@ public class ComponenteDriverCrudController {
         Empresa empresa = currentStatus.getCopaStatus().getEmpresa();
 
         Callback<TableColumn<ComponenteDriver, Driver>, TableCell<ComponenteDriver, Driver>> driverCellFactory = ComboBoxTableCell
-                .forTableColumn(driverConverter, FXCollections.observableArrayList(driverRepo.findByEmpresa(empresa)));
+                .forTableColumn(driverConverter, FXCollections.observableArrayList(driverRepo.findByEmpresaOrderByNombre(empresa)));
 
         colDriver.setCellFactory(driverCellFactory);
 

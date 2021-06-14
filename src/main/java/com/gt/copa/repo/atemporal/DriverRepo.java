@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DriverRepo extends PagingAndSortingRepository<Driver, Integer>, JpaSpecificationExecutor<Driver> {
 
-    List<Driver> findByEmpresa(Empresa empresa);
+    List<Driver> findByEmpresaOrderByNombre(Empresa empresa);
 
     Optional<Driver> findByEmpresaAndNombre(Empresa empresa, String string);
 

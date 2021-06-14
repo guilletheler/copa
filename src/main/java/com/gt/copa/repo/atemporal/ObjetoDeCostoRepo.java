@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface ObjetoDeCostoRepo
 		extends PagingAndSortingRepository<ObjetoDeCosto, Integer>, JpaSpecificationExecutor<ObjetoDeCosto> {
 
-    List<ObjetoDeCosto> findByEmpresa(Empresa empresa);
+    List<ObjetoDeCosto> findByEmpresaOrderByNombre(Empresa empresa);
 
 }

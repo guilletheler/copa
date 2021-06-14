@@ -23,7 +23,7 @@ public class ComponenteDriverService {
 
     @Transactional
     public List<ComponenteDriver> findByEmpresa(Empresa empresa) {
-        List<ComponenteDriver> ret = StreamSupport.stream(repo.findByDriver_Empresa(empresa).spliterator(), false).collect(Collectors.toList());
+        List<ComponenteDriver> ret = StreamSupport.stream(repo.findByDriver_EmpresaOrderByNombre(empresa).spliterator(), false).collect(Collectors.toList());
 
         return ret;
     }

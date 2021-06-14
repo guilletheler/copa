@@ -188,7 +188,7 @@ public class ActividadCrudController {
 
         Callback<TableColumn<Actividad, Proceso>, TableCell<Actividad, Proceso>> procesoCellFactory = ComboBoxTableCell
                 .forTableColumn(procesoConverter,
-                        FXCollections.observableArrayList(procesoRepo.findByEmpresa(empresa)));
+                        FXCollections.observableArrayList(procesoRepo.findByEmpresaOrderByNombre(empresa)));
 
         colProceso.setCellFactory(procesoCellFactory);
 

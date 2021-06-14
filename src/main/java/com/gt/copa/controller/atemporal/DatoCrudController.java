@@ -163,7 +163,7 @@ public class DatoCrudController {
 
         Callback<TableColumn<Dato, Recurso>, TableCell<Dato, Recurso>> recursoCellFactory = ComboBoxTableCell
                 .forTableColumn(recursoConverter,
-                        FXCollections.observableArrayList(recursoRepo.findByEmpresa(empresa)));
+                        FXCollections.observableArrayList(recursoRepo.findByEmpresaOrderByNombre(empresa)));
 
         colRecurso.setCellFactory(recursoCellFactory);
 

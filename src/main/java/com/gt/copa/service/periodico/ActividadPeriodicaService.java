@@ -33,7 +33,7 @@ public class ActividadPeriodicaService {
     @Transactional
     public List<ActividadPeriodica> findOrCreate(Empresa empresa, Escenario escenario, Periodo periodo) {
         List<Actividad> actividades = StreamSupport
-                .stream(actividadRepo.findByProceso_Empresa(empresa).spliterator(), false).collect(Collectors.toList());
+                .stream(actividadRepo.findByProceso_EmpresaOrderByNombre(empresa).spliterator(), false).collect(Collectors.toList());
 
         List<ActividadPeriodica> lst = repo
                 .findByActividad_Proceso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(

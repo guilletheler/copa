@@ -115,7 +115,7 @@ public class ProcesoCrudController {
     public void loadData() {
 
         tblProcesos.setItems(FXCollections.observableArrayList(StreamSupport
-                .stream(procesoRepo.findByEmpresa(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
+                .stream(procesoRepo.findByEmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()).spliterator(), false)
                 .collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();

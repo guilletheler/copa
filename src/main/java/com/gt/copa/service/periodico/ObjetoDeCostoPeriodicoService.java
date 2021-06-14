@@ -34,7 +34,7 @@ public class ObjetoDeCostoPeriodicoService {
     @Transactional
     public List<ObjetoDeCostoPeriodico> findOrCreate(Empresa empresa, Escenario escenario, Periodo periodo) {
         List<ObjetoDeCosto> actividades = StreamSupport
-                .stream(actividadRepo.findByEmpresa(empresa).spliterator(), false).collect(Collectors.toList());
+                .stream(actividadRepo.findByEmpresaOrderByNombre(empresa).spliterator(), false).collect(Collectors.toList());
 
         List<ObjetoDeCostoPeriodico> lst = repo
                 .findByObjetoDeCosto_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(
