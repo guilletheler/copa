@@ -15,6 +15,6 @@ import org.springframework.stereotype.Repository;
 public interface ValorDatoRepo
 		extends PagingAndSortingRepository<ValorDato, Integer>, JpaSpecificationExecutor<ValorDato> {
 
-    List<ValorDato> findByDato_RecursoAndEscenarioAndFechaBetween(RecursoPeriodico r, Escenario escenario, Date time, Date fin);
+    List<ValorDato> findByDato_RecursoAndEscenarioAndFechaGreaterThanEqualAndFechaLessThanEqual(RecursoPeriodico r, Escenario escenario, Date time, Date fin);
 
 }

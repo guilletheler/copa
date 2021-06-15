@@ -208,7 +208,7 @@ public class CalculatorBuilderService {
 
 				Set<ClasificacionImpl> clasif = new HashSet<>();
 
-				for (ClasificacionDato cd : dato.getClasificaciones()) {
+				for (ClasificacionDato cd : dato.getDato().getClasificaciones()) {
 					clasif.add(new ClasificacionImpl(cd.getCodigo(), cd.getNombre()));
 				}
 
@@ -225,11 +225,11 @@ public class CalculatorBuilderService {
 	}
 
 	private List<ValorDato> getValoresDatos(CopaStatus filtros, RecursoPeriodico r, Calendar inicio) {
-		List<ValorDato> datos = valorDatoRepo.findByDato_RecursoAndEscenarioAndFechaBetween(r, filtros.getEscenario(),
+		List<ValorDato> datos = valorDatoRepo.findByDato_RecursoAndEscenarioAndFechaGreaterThanEqualAndFechaLessThanEqual(r, filtros.getEscenario(),
 				inicio.getTime(), r.getConfiguracionPeriodo().getPeriodo().getFin());
 
 		return datos.stream()
-				.filter(vd -> vd.getClasificaciones().stream().anyMatch(cla -> matchClasificacion(filtros, cla)))
+				.filter(vd -> vd.getDato().getClasificaciones().stream().anyMatch(cla -> matchClasificacion(filtros, cla)))
 				.collect(Collectors.toList());
 	}
 
