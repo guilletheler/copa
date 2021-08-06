@@ -26,6 +26,7 @@ import com.gt.copa.model.temporal.ValorDato;
 import com.gt.copa.repo.atemporal.ActividadRepo;
 import com.gt.copa.repo.atemporal.ObjetoDeCostoRepo;
 import com.gt.copa.service.atemporal.ComponenteDriverService;
+import com.gt.copa.service.temporal.ValorDatoService;
 
 import org.controlsfx.control.SearchableComboBox;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +87,13 @@ public class ValorDatoCrudController {
     private VBox nodeView;
 
     @FXML
+    private SearchableComboBox<Escenario> scmbFiltroEscenario;
+
+    @FXML
     private SearchableComboBox<Dato> scmbFiltroDato;
+
+    @FXML
+    private SearchableComboBox<Periodo> scmbFiltroPeriodo;
 
     @FXML
     private TableView<ValorDato> tblValoresDatos;
