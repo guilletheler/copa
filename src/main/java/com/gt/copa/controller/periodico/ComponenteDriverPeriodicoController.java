@@ -86,7 +86,7 @@ public class ComponenteDriverPeriodicoController {
 
     List<ComponenteDriverPeriodico> paraGuardar;
 
-    private ObservableList<ComponenteDriverPeriodico> rawItems;
+    private List<ComponenteDriverPeriodico> rawItems;
 
     @FXML
     void btnEliminarClick(ActionEvent event) {
@@ -177,7 +177,7 @@ public class ComponenteDriverPeriodicoController {
     private void showFiltredElements() {
         ObservableList<ComponenteDriverPeriodico> filtredItems;
         if (scmbFiltroDriver.getSelectionModel().getSelectedItem() == null) {
-            filtredItems = rawItems;
+            filtredItems = FXCollections.observableArrayList(rawItems.stream().collect(Collectors.toList()));
         } else {
             filtredItems = FXCollections.observableArrayList(
                     rawItems.stream().filter(rxa -> testInclude(rxa)).collect(Collectors.toList()));

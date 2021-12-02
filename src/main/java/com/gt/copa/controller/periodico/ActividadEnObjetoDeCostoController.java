@@ -111,7 +111,7 @@ public class ActividadEnObjetoDeCostoController {
     List<ActividadEnObjetoDeCosto> paraGuardar;
     List<ActividadEnObjetoDeCosto> paraEliminar;
 
-    private ObservableList<ActividadEnObjetoDeCosto> rawItems;
+    private List<ActividadEnObjetoDeCosto> rawItems;
 
     @FXML
     void btnNuevoClick(ActionEvent event) {
@@ -268,7 +268,7 @@ public class ActividadEnObjetoDeCostoController {
         ObservableList<ActividadEnObjetoDeCosto> filtredItems;
         if (scmbFiltroActividad.getSelectionModel().getSelectedItem() == null
                 && scmbFiltroObjetoDeCosto.getSelectionModel().getSelectedItem() == null) {
-            filtredItems = rawItems;
+            filtredItems = FXCollections.observableArrayList(rawItems.stream().collect(Collectors.toList()));
         } else {
             filtredItems = FXCollections.observableArrayList(
                     rawItems.stream().filter(rxa -> testInclude(rxa)).collect(Collectors.toList()));

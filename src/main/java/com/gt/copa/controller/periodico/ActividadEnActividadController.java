@@ -110,7 +110,7 @@ public class ActividadEnActividadController {
     List<ActividadEnActividad> paraGuardar;
     List<ActividadEnActividad> paraEliminar;
 
-    private ObservableList<ActividadEnActividad> rawItems;
+    private List<ActividadEnActividad> rawItems;
 
     @FXML
     void btnNuevoClick(ActionEvent event) {
@@ -251,9 +251,9 @@ public class ActividadEnActividadController {
 
         colDestino.setCellFactory(destinoCellFactory);
 
-        rawItems = FXCollections.observableArrayList(actividadEnActividadService.getRepo()
+        rawItems = actividadEnActividadService.getRepo()
                 .findByOrigen_Proceso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(empresa,
-                        escenario, periodo));
+                        escenario, periodo);
 
         showFiltredElements();
         paraGuardar = new ArrayList<>();
@@ -264,7 +264,7 @@ public class ActividadEnActividadController {
         ObservableList<ActividadEnActividad> filtredItems;
         if (scmbFiltroOrigen.getSelectionModel().getSelectedItem() == null
                 && scmbFiltroDestino.getSelectionModel().getSelectedItem() == null) {
-            filtredItems = rawItems;
+            filtredItems = FXCollections.observableArrayList(rawItems.stream().collect(Collectors.toList()));
         } else {
             filtredItems = FXCollections.observableArrayList(
                     rawItems.stream().filter(rxa -> testInclude(rxa)).collect(Collectors.toList()));

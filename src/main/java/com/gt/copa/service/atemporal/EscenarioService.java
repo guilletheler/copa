@@ -6,9 +6,12 @@ import com.gt.copa.repo.atemporal.EscenarioRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.Getter;
+
 @Service
 public class EscenarioService {
     
+    @Getter
     @Autowired
     EscenarioRepo repo;
 

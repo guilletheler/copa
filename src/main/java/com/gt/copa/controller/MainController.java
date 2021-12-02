@@ -21,6 +21,7 @@ import com.gt.copa.controller.periodico.ObjetoDeCostoPeriodicoConfigController;
 import com.gt.copa.controller.periodico.RecursoEnActividadController;
 import com.gt.copa.controller.periodico.RecursoPeriodicoConfigController;
 import com.gt.copa.controller.temporal.PeriodoCrudController;
+import com.gt.copa.controller.temporal.ValorDatoCrudController;
 import com.gt.copa.service.atemporal.EscenarioService;
 import com.gt.copa.service.atemporal.TipoClasificacionDatoService;
 import com.gt.copa.service.temporal.PeriodoService;
@@ -102,6 +103,9 @@ public class MainController {
 	ComponenteDriverPeriodicoController componenteDriverPeriodicoController;
 
 	@Autowired
+	ValorDatoCrudController valorDatoCrudController;
+
+	@Autowired
 	EscenarioService escenarioService;
 
 	@Autowired
@@ -150,6 +154,7 @@ public class MainController {
 		fxWeaver.load(ActividadEnActividadController.class);
 		fxWeaver.load(ActividadEnObjetoDeCostoController.class);
 		fxWeaver.load(ComponenteDriverPeriodicoController.class);
+		fxWeaver.load(ValorDatoCrudController.class);
 	}
 
 	@FXML
@@ -414,6 +419,25 @@ public class MainController {
 	
 		componenteDriverPeriodicoController.loadData();
 		this.mainView.setCenter(componenteDriverPeriodicoController.getNodeView());
+	}
+	
+	@FXML
+	void mnuValorDatoClick(ActionEvent event) {
+		if(currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar valores de datos debe\nseleccionar una empresa en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar valores de datos debe\nseleccionar un escenario en\nSituacion Actual");
+			return;
+		}
+		if(currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver, "Para asignar valores de datos debe\nseleccionar un período en\nSituacion Actual");
+			return;
+		}
+	
+		valorDatoCrudController.loadData();
+		this.mainView.setCenter(valorDatoCrudController.getNodeView());
 	}
 
 	@FXML

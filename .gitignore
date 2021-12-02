@@ -97,3 +97,5 @@
 archivosimportacion/
 
 localdb/
+.fake
+.ionide

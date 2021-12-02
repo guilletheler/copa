@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EscenarioRepo
-		extends PagingAndSortingRepository<Escenario, Integer>, JpaSpecificationExecutor<Escenario> {
+		extends JpaSpecificationExecutor<Escenario>, PagingAndSortingRepository<Escenario, Integer> {
 
     Optional<Escenario> findByNombre(String string);
 

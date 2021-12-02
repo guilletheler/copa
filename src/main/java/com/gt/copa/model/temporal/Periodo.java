@@ -46,4 +46,8 @@ public class Periodo extends CodigoNombre {
 	@Enumerated(EnumType.STRING)
 	TipoPeriodo tipoPeriodo;
 
+	public boolean inPeriodo(Date date) {
+		return (inicio == null || date.getTime() >= inicio.getTime())
+				&& (fin == null || date.getTime() <= fin.getTime());
+	}
 }

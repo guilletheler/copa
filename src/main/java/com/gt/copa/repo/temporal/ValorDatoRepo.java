@@ -17,4 +17,6 @@ public interface ValorDatoRepo
 
     List<ValorDato> findByDato_RecursoAndEscenarioAndFechaGreaterThanEqualAndFechaLessThanEqual(RecursoPeriodico r, Escenario escenario, Date time, Date fin);
 
+    List<ValorDato> findByEscenarioAndFechaGreaterThanEqualAndFechaLessThanEqual(Escenario escenario, Date time, Date fin);
+
 }
