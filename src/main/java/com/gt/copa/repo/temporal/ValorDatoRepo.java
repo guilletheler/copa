@@ -3,6 +3,7 @@ package com.gt.copa.repo.temporal;
 import java.util.Date;
 import java.util.List;
 
+import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
 import com.gt.copa.model.periodico.RecursoPeriodico;
 import com.gt.copa.model.temporal.ValorDato;
@@ -16,5 +17,8 @@ public interface ValorDatoRepo
 		extends PagingAndSortingRepository<ValorDato, Integer>, JpaSpecificationExecutor<ValorDato> {
 
     List<ValorDato> findByDato_RecursoAndEscenarioAndFechaGreaterThanEqualAndFechaLessThanEqual(RecursoPeriodico r, Escenario escenario, Date time, Date fin);
+
+    List<ValorDato> findByDato_Recurso_EmpresaAndEscenarioAndFechaGreaterThanEqualAndFechaLessThanEqual(Empresa empresa,
+            Escenario escenario, Date inicio, Date fin);
 
 }

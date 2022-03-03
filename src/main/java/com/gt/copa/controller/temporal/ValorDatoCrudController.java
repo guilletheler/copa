@@ -10,22 +10,20 @@ import java.util.stream.Collectors;
 import com.gt.copa.component.ActividadConverter;
 import com.gt.copa.component.ComponenteDriverConverter;
 import com.gt.copa.component.CurrentStatus;
+import com.gt.copa.component.DatoConverter;
 import com.gt.copa.component.ObjetoDeCostoConverter;
-import com.gt.copa.component.TipoDistribucionConverter;
+import com.gt.copa.controller.ConfirmDialogController;
+import com.gt.copa.infra.DatePickerTableCell;
 import com.gt.copa.infra.EditingTextCell;
-import com.gt.copa.model.atemporal.Actividad;
-import com.gt.copa.model.atemporal.ComponenteDriver;
 import com.gt.copa.model.atemporal.Dato;
 import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
-import com.gt.copa.model.atemporal.ObjetoDeCosto;
-import com.gt.copa.model.periodico.ConfiguracionPeriodo;
-import com.gt.copa.model.periodico.ValorAsignado;
 import com.gt.copa.model.temporal.Periodo;
 import com.gt.copa.model.temporal.ValorDato;
-import com.gt.copa.repo.atemporal.ActividadRepo;
+import com.gt.copa.repo.atemporal.DatoRepo;
 import com.gt.copa.repo.atemporal.ObjetoDeCostoRepo;
 import com.gt.copa.service.atemporal.ComponenteDriverService;
+import com.gt.copa.service.temporal.ValorDatoService;
 
 import org.controlsfx.control.SearchableComboBox;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +46,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import lombok.Getter;
+import lombok.Setter;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
@@ -58,13 +58,13 @@ public class ValorDatoCrudController {
     ValorDatoService valorDatoService;
 
     @Autowired
-    ActividadRepo actividadRepo;
+    DatoRepo datoRepo;
 
     @Autowired
     ObjetoDeCostoRepo objetoDeCostoRepo;
 
     @Autowired
-    TipoDistribucionConverter tipoDistribucionConverter;
+    DatoConverter datoConverter;
 
     @Autowired
     ComponenteDriverConverter componenteDriverConverter;
@@ -82,6 +82,10 @@ public class ValorDatoCrudController {
     CurrentStatus currentStatus;
 
     @Getter
+    @Setter
+    FxWeaver fxWeaver;
+
+    @Getter
     @FXML
     private VBox nodeView;
 
@@ -95,9 +99,6 @@ public class ValorDatoCrudController {
     private TableColumn<ValorDato, Integer> colId;
 
     @FXML
-    private TableColumn<ValorDato, Escenario> colEscenario;
-
-    @FXML
     private TableColumn<ValorDato, Dato> colDato;
 
     @FXML
@@ -106,11 +107,10 @@ public class ValorDatoCrudController {
     @FXML
     private TableColumn<ValorDato, Double> colValor;
 
-
     List<ValorDato> paraGuardar;
     List<ValorDato> paraEliminar;
 
-    private ObservableList<ValorDato> rawItems;
+    private List<ValorDato> rawItems;
 
     @FXML
     void btnNuevoClick(ActionEvent event) {
@@ -152,54 +152,47 @@ public class ValorDatoCrudController {
 
         colId.setCellValueFactory(new PropertyValueFactory<ValorDato, Integer>("id"));
 
-        colActividad.setCellValueFactory(new PropertyValueFactory<ValorDato, Actividad>("actividad"));
+        colDato.setCellValueFactory(new PropertyValueFactory<ValorDato, Dato>("dato"));
 
-        colActividad.setOnEditCommit((CellEditEvent<ValorDato, Actividad> t) -> {
-            ((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-                    .setActividad(t.getNewValue());
+        colDato.setOnEditCommit((CellEditEvent<ValorDato, Dato> t) -> {
+            ((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow())).setDato(t.getNewValue());
             modificado(((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
 
-        colObjetoDeCosto.setCellValueFactory(
-                new PropertyValueFactory<ValorDato, ObjetoDeCosto>("objetoDeCosto"));
-
-        colObjetoDeCosto.setOnEditCommit((CellEditEvent<ValorDato, ObjetoDeCosto> t) -> {
-            ((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-                    .setObjetoDeCosto(t.getNewValue());
-            modificado(((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow())));
-        });
-
-        colComponenteDriver.setCellValueFactory(
-                new Callback<TableColumn.CellDataFeatures<ValorDato, ComponenteDriver>, ObservableValue<ComponenteDriver>>() {
+        colFecha.setCellValueFactory(
+                new Callback<TableColumn.CellDataFeatures<ValorDato, Date>, ObservableValue<Date>>() {
 
                     @Override
-                    public ObservableValue<ComponenteDriver> call(
-                            TableColumn.CellDataFeatures<ValorDato, ComponenteDriver> param) {
+                    public ObservableValue<Date> call(TableColumn.CellDataFeatures<ValorDato, Date> param) {
 
-                        return new SimpleObjectProperty<>(param.getValue().getValorAsignado().getComponenteDriver());
+                        return new SimpleObjectProperty<>(param.getValue().getFecha());
                     }
                 });
-
-        colComponenteDriver.setOnEditCommit((CellEditEvent<ValorDato, ComponenteDriver> t) -> {
-            ((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-                    .getValorAsignado().setComponenteDriver(t.getNewValue());
+        colFecha.setCellFactory(DatePickerTableCell.dateCellFactory("dd/MM/yyyy"));
+        colFecha.setOnEditCommit((CellEditEvent<ValorDato, Date> t) -> {
+            if(t.getNewValue().before(currentStatus.getCopaStatus().getPeriodo().getInicio())
+            || t.getNewValue().after(currentStatus.getCopaStatus().getPeriodo().getFin())) {
+                ConfirmDialogController.message(fxWeaver, "Fecha fuera del período");
+                t.getRowValue().setFecha(t.getOldValue());
+                
+                return;
+            }
+            ((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow())).setFecha(t.getNewValue());
             modificado(((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
 
-        colValorParticular.setCellValueFactory(
+        colValor.setCellValueFactory(
                 new Callback<TableColumn.CellDataFeatures<ValorDato, Double>, ObservableValue<Double>>() {
 
                     @Override
-                    public ObservableValue<Double> call(
-                            TableColumn.CellDataFeatures<ValorDato, Double> param) {
+                    public ObservableValue<Double> call(TableColumn.CellDataFeatures<ValorDato, Double> param) {
 
-                        return new SimpleObjectProperty<>(param.getValue().getValorAsignado().getValorParticular());
+                        return new SimpleObjectProperty<>(param.getValue().getValor());
                     }
                 });
-        colValorParticular.setCellFactory(EditingTextCell.doubleCellFactory());
-        colValorParticular.setOnEditCommit((CellEditEvent<ValorDato, Double> t) -> {
-            ((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow()))
-                    .getValorAsignado().setValorParticular(t.getNewValue());
+        colValor.setCellFactory(EditingTextCell.doubleCellFactory());
+        colValor.setOnEditCommit((CellEditEvent<ValorDato, Double> t) -> {
+            ((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow())).setValor(t.getNewValue());
             modificado(((ValorDato) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
     }
@@ -216,51 +209,21 @@ public class ValorDatoCrudController {
         Escenario escenario = currentStatus.getCopaStatus().getEscenario();
         Periodo periodo = currentStatus.getCopaStatus().getPeriodo();
 
-        ObservableList<Actividad> actividades = FXCollections.observableArrayList(
-                actividadRepo.findByProceso_EmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()));
+        ObservableList<Dato> datos = FXCollections.observableArrayList(
+                datoRepo.findByRecurso_EmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()));
 
-        actividades.add(0, null);
+        datos.add(0, null);
 
-        ObservableList<ObjetoDeCosto> objetoDeCostos = FXCollections.observableArrayList(
-                objetoDeCostoRepo.findByEmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()));
+        loadScmbDatos(datos);
 
-        objetoDeCostos.add(0, null);
+        Callback<TableColumn<ValorDato, Dato>, TableCell<ValorDato, Dato>> datoCellFactory = ComboBoxTableCell
+                .forTableColumn(datoConverter, datos);
 
-        loadScmbActividades(actividades);
-        loadScmbObjetoDeCostos(objetoDeCostos);
+        colDato.setCellFactory(datoCellFactory);
 
-        ObservableList<ComponenteDriver> componentesDrivers = FXCollections
-                .observableArrayList(componenteDriverService.findByEmpresa(empresa));
-        componentesDrivers.add(0, null);
-
-        Callback<TableColumn<ValorDato, ComponenteDriver>, TableCell<ValorDato, ComponenteDriver>> componenteDriverCellFactory = ComboBoxTableCell
-                .forTableColumn(componenteDriverConverter, componentesDrivers);
-
-        colComponenteDriver.setCellFactory(componenteDriverCellFactory);
-
-        Callback<TableColumn<ValorDato, Actividad>, TableCell<ValorDato, Actividad>> actividadCellFactory = ComboBoxTableCell
-                .forTableColumn(actividadConverter, actividades);
-
-        // Callback<TableColumn<ValorDato, Actividad>,
-        // TableCell<ValorDato, Actividad>> actividadCellFactory =
-        // SearchableComboBoxTableCell
-        // .searchableComboCellFactory(actividades, actividadConverter);
-
-        colActividad.setCellFactory(actividadCellFactory);
-
-        Callback<TableColumn<ValorDato, ObjetoDeCosto>, TableCell<ValorDato, ObjetoDeCosto>> objetoDeCostoCellFactory = ComboBoxTableCell
-                .forTableColumn(objetoDeCostoConverter, objetoDeCostos);
-
-        // Callback<TableColumn<ValorDato, ObjetoDeCosto>,
-        // TableCell<ValorDato, ObjetoDeCosto>> objetoDeCostoCellFactory
-        // = SearchableComboBoxTableCell
-        // .searchableComboCellFactory(objetoDeCostos, objetoDeCostoConverter);
-
-        colObjetoDeCosto.setCellFactory(objetoDeCostoCellFactory);
-
-        rawItems = FXCollections.observableArrayList(ValorDatoService.getRepo()
-                .findByActividad_Proceso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(
-                        empresa, escenario, periodo));
+        rawItems = FXCollections.observableArrayList(valorDatoService.getRepo()
+                .findByDato_Recurso_EmpresaAndEscenarioAndFechaGreaterThanEqualAndFechaLessThanEqual(empresa, escenario,
+                        periodo.getInicio(), periodo.getFin()));
 
         showFiltredElements();
         paraGuardar = new ArrayList<>();
@@ -269,9 +232,8 @@ public class ValorDatoCrudController {
 
     private void showFiltredElements() {
         ObservableList<ValorDato> filtredItems;
-        if (scmbFiltroActividad.getSelectionModel().getSelectedItem() == null
-                && scmbFiltroObjetoDeCosto.getSelectionModel().getSelectedItem() == null) {
-            filtredItems = rawItems;
+        if (scmbFiltroDato.getSelectionModel().getSelectedItem() == null) {
+            filtredItems = FXCollections.observableArrayList(rawItems);
         } else {
             filtredItems = FXCollections.observableArrayList(
                     rawItems.stream().filter(rxa -> testInclude(rxa)).collect(Collectors.toList()));
@@ -279,39 +241,23 @@ public class ValorDatoCrudController {
         tblValoresDatos.setItems(filtredItems);
     }
 
-    private boolean testInclude(ValorDato rxa) {
+    private boolean testInclude(ValorDato vd) {
         boolean ret = true;
-        ret = ret && (scmbFiltroActividad.getSelectionModel().getSelectedItem() == null
-                || scmbFiltroActividad.getSelectionModel().getSelectedItem().equals(rxa.getActividad()));
-        ret = ret && (scmbFiltroObjetoDeCosto.getSelectionModel().getSelectedItem() == null
-                || scmbFiltroObjetoDeCosto.getSelectionModel().getSelectedItem().equals(rxa.getObjetoDeCosto()));
+        ret = ret && (scmbFiltroDato.getSelectionModel().getSelectedItem() == null
+                || scmbFiltroDato.getSelectionModel().getSelectedItem().equals(vd.getDato()));
+
         return ret;
     }
 
-    private void loadScmbActividades(ObservableList<Actividad> actividades) {
+    private void loadScmbDatos(ObservableList<Dato> datos) {
 
-        scmbFiltroActividad.setCellFactory(ComboBoxListCell.forListView(actividadConverter, actividades));
+        scmbFiltroDato.setCellFactory(ComboBoxListCell.forListView(datoConverter, datos));
 
-        scmbFiltroActividad.setItems(actividades);
+        scmbFiltroDato.setItems(datos);
 
-        scmbFiltroActividad.setConverter(actividadConverter);
+        scmbFiltroDato.setConverter(datoConverter);
 
-        scmbFiltroActividad.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent ae) {
-                showFiltredElements();
-            }
-        });
-    }
-
-    private void loadScmbObjetoDeCostos(ObservableList<ObjetoDeCosto> objetoDeCostos) {
-
-        scmbFiltroObjetoDeCosto.setCellFactory(ComboBoxListCell.forListView(objetoDeCostoConverter, objetoDeCostos));
-
-        scmbFiltroObjetoDeCosto.setItems(objetoDeCostos);
-
-        scmbFiltroObjetoDeCosto.setConverter(objetoDeCostoConverter);
-
-        scmbFiltroObjetoDeCosto.setOnAction(new EventHandler<ActionEvent>() {
+        scmbFiltroDato.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent ae) {
                 showFiltredElements();
             }
@@ -322,13 +268,13 @@ public class ValorDatoCrudController {
 
         paraGuardar.forEach(dto -> guardar(dto));
         paraEliminar.stream().filter(ds -> ds.getId() != null).map(ds -> ds.getId()).distinct()
-                .forEach(id -> ValorDatoService.getRepo().deleteById(id));
+                .forEach(id -> valorDatoService.getRepo().deleteById(id));
         this.loadData();
     }
 
     private void guardar(ValorDato dto) {
         Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando actividad " + dto.toString());
-        ValorDatoService.getRepo().save(dto);
+        valorDatoService.getRepo().save(dto);
     }
 
     public void show() {

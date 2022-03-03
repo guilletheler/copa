@@ -111,7 +111,7 @@ public class ActividadEnObjetoDeCostoController {
     List<ActividadEnObjetoDeCosto> paraGuardar;
     List<ActividadEnObjetoDeCosto> paraEliminar;
 
-    private ObservableList<ActividadEnObjetoDeCosto> rawItems;
+    private List<ActividadEnObjetoDeCosto> rawItems;
 
     @FXML
     void btnNuevoClick(ActionEvent event) {
@@ -255,9 +255,9 @@ public class ActividadEnObjetoDeCostoController {
 
         colObjetoDeCosto.setCellFactory(objetoDeCostoCellFactory);
 
-        rawItems = FXCollections.observableArrayList(actividadEnObjetoDeCostoService.getRepo()
+        rawItems = actividadEnObjetoDeCostoService.getRepo()
                 .findByActividad_Proceso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(
-                        empresa, escenario, periodo));
+                        empresa, escenario, periodo);
 
         showFiltredElements();
         paraGuardar = new ArrayList<>();
@@ -268,7 +268,7 @@ public class ActividadEnObjetoDeCostoController {
         ObservableList<ActividadEnObjetoDeCosto> filtredItems;
         if (scmbFiltroActividad.getSelectionModel().getSelectedItem() == null
                 && scmbFiltroObjetoDeCosto.getSelectionModel().getSelectedItem() == null) {
-            filtredItems = rawItems;
+            filtredItems = FXCollections.observableArrayList(rawItems);
         } else {
             filtredItems = FXCollections.observableArrayList(
                     rawItems.stream().filter(rxa -> testInclude(rxa)).collect(Collectors.toList()));

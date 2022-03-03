@@ -111,7 +111,7 @@ public class RecursoEnActividadController {
     List<RecursoEnActividad> paraGuardar;
     List<RecursoEnActividad> paraEliminar;
 
-    private ObservableList<RecursoEnActividad> rawItems;
+    private List<RecursoEnActividad> rawItems;
 
     @FXML
     void btnNuevoClick(ActionEvent event) {
@@ -250,9 +250,9 @@ public class RecursoEnActividadController {
 
         colActividad.setCellFactory(actividadCellFactory);
 
-        rawItems = FXCollections.observableArrayList(recursoEnActividadService.getRepo()
+        rawItems = recursoEnActividadService.getRepo()
         .findByRecurso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(empresa,
-                escenario, periodo));
+                escenario, periodo);
 
         showFiltredElements();
         paraGuardar = new ArrayList<>();
@@ -262,7 +262,7 @@ public class RecursoEnActividadController {
     private void showFiltredElements() {
         ObservableList<RecursoEnActividad> filtredItems;
         if(scmbFiltroRecurso.getSelectionModel().getSelectedItem() == null && scmbFiltroActividad.getSelectionModel().getSelectedItem() == null) {
-            filtredItems = rawItems;
+            filtredItems = FXCollections.observableArrayList(rawItems);
         } else {
             filtredItems = FXCollections.observableArrayList(
                 rawItems.stream()

@@ -51,7 +51,7 @@
               </Menu>
               <MenuItem mnemonicParsing="false" onAction="#mnuComponenteDriverPeriodicoClick" text="Valores de Drivers" />
             </Menu>
-            <MenuItem mnemonicParsing="false" text="Valores de datos" />
+            <MenuItem mnemonicParsing="false" onAction="#mnuValorDatoClick" text="Valores de datos" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Costeo integral">
