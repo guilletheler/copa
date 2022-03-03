@@ -6,8 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.gt.copa.component.CurrentStatus;
-import com.gt.copa.component.ProcesoConverter;
+import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.components.ProcesoConverter;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Actividad;
 import com.gt.copa.model.atemporal.Empresa;

@@ -1,7 +1,7 @@
-package com.gt.copa.component;
+package com.gt.copa.components;
 
-import com.gt.copa.model.atemporal.Driver;
-import com.gt.copa.repo.atemporal.DriverRepo;
+import com.gt.copa.model.atemporal.Recurso;
+import com.gt.copa.repo.atemporal.RecursoRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 import javafx.util.StringConverter;
 
 @Component
-public class DriverConverter extends StringConverter<Driver> {
+public class RecursoConverter extends StringConverter<Recurso> {
 
     @Autowired
-    DriverRepo driverRepo;
+    RecursoRepo recursoRepo;
 
     @Autowired
     CurrentStatus currentStatus;
 
     @Override
-    public String toString(Driver object) {
+    public String toString(Recurso object) {
         if (object == null) {
             return "";
         }
@@ -26,12 +26,12 @@ public class DriverConverter extends StringConverter<Driver> {
     }
 
     @Override
-    public Driver fromString(String string) {
+    public Recurso fromString(String string) {
         if (currentStatus.getCopaStatus() == null || currentStatus.getCopaStatus().getEmpresa() == null
                 || string == null || string.isEmpty()) {
             return null;
         }
-        return driverRepo.findByEmpresaAndNombre(currentStatus.getCopaStatus().getEmpresa(), string).orElse(null);
+        return recursoRepo.findByEmpresaAndNombre(currentStatus.getCopaStatus().getEmpresa(), string).orElse(null);
     }
 
 }

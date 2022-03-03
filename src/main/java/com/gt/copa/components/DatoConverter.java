@@ -1,7 +1,7 @@
-package com.gt.copa.component;
+package com.gt.copa.components;
 
-import com.gt.copa.model.atemporal.Actividad;
-import com.gt.copa.repo.atemporal.ActividadRepo;
+import com.gt.copa.model.atemporal.Dato;
+import com.gt.copa.repo.atemporal.DatoRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 import javafx.util.StringConverter;
 
 @Component
-public class ActividadConverter extends StringConverter<Actividad> {
+public class DatoConverter extends StringConverter<Dato> {
 
     @Autowired
-    ActividadRepo ActividadRepo;
+    DatoRepo datoRepo;
 
     @Autowired
     CurrentStatus currentStatus;
 
     @Override
-    public String toString(Actividad object) {
+    public String toString(Dato object) {
         if (object == null) {
             return "";
         }
@@ -26,12 +26,12 @@ public class ActividadConverter extends StringConverter<Actividad> {
     }
 
     @Override
-    public Actividad fromString(String string) {
+    public Dato fromString(String string) {
         if (currentStatus.getCopaStatus() == null || currentStatus.getCopaStatus().getEmpresa() == null
                 || string == null || string.isEmpty()) {
             return null;
         }
-        return ActividadRepo.findByProceso_EmpresaAndNombre(currentStatus.getCopaStatus().getEmpresa(), string).orElse(null);
+        return datoRepo.findByRecurso_EmpresaAndNombre(currentStatus.getCopaStatus().getEmpresa(), string).orElse(null);
     }
 
 }

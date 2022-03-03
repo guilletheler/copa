@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.gt.copa.component.ClasificacionDatoConverter;
-import com.gt.copa.component.CurrentStatus;
-import com.gt.copa.component.EmpresaConverter;
-import com.gt.copa.component.EscenarioConverter;
-import com.gt.copa.component.PeriodoConverter;
-import com.gt.copa.component.TipoClasificacionDatoConverter;
+import com.gt.copa.components.ClasificacionDatoConverter;
+import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.components.EmpresaConverter;
+import com.gt.copa.components.EscenarioConverter;
+import com.gt.copa.components.PeriodoConverter;
+import com.gt.copa.components.TipoClasificacionDatoConverter;
 import com.gt.copa.model.atemporal.ClasificacionDato;
 import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;

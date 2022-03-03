@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.gt.copa.component.CurrentStatus;
-import com.gt.copa.component.DriverConverter;
+import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.components.DriverConverter;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.ComponenteDriver;
 import com.gt.copa.model.atemporal.Driver;

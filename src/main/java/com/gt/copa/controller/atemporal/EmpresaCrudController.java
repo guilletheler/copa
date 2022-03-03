@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.repo.atemporal.EmpresaRepo;
@@ -25,7 +26,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/EmpresaCrudView.fxml")
-public class EmpresaCrudController {
+public class EmpresaCrudController implements ModificadorDatos {
 
     @Autowired
     EmpresaRepo empresaRepo;
@@ -49,18 +50,21 @@ public class EmpresaCrudController {
     List<Empresa> paraGuardar;
     List<Empresa> paraEliminar;
 
+    boolean modificado;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblEmpresas.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblEmpresas.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblEmpresas.getSelectionModel().getSelectedItems());
             tblEmpresas.getItems().removeAll(tblEmpresas.getSelectionModel().getSelectedItems());
+            modificado = true;
         }
     }
 
     @FXML
     void btnGuardarClick(ActionEvent event) {
-        this.persist();
+        this.saveDataModificada();
     }
 
     @FXML
@@ -79,6 +83,8 @@ public class EmpresaCrudController {
         Empresa.setCodigo(codigo);
 
         tblEmpresas.getItems().add(Empresa);
+
+        this.modificado = true;
     }
 
     @FXML
@@ -105,6 +111,7 @@ public class EmpresaCrudController {
         if (!paraGuardar.contains(empresa)) {
             paraGuardar.add(empresa);
         }
+        modificado = true;
     }
 
     public void loadData() {
@@ -113,9 +120,11 @@ public class EmpresaCrudController {
                 StreamSupport.stream(empresaRepo.findAll().spliterator(), false).collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        modificado = false;
     }
 
-    public void persist() {
+    @Override
+    public void saveDataModificada() {
         paraGuardar.forEach(dto -> empresaRepo.save(dto));
         paraEliminar.stream().filter(ds -> ds.getId() != null).map(ds -> ds.getId()).distinct()
                 .forEach(id -> empresaRepo.deleteById(id));
@@ -136,5 +145,10 @@ public class EmpresaCrudController {
         } else {
             this.show();
         }
+    }
+
+    @Override
+    public boolean isDataModificada() {
+        return modificado;
     }
 }

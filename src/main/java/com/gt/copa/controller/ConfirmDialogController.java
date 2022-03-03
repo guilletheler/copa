@@ -25,80 +25,108 @@ public class ConfirmDialogController {
 
     @Getter
     @Setter
-    Boolean algo = false;
-    
+    Integer retVal = null;
+
     @FXML
     BorderPane confirmDialog;
-    
+
     @Getter
     @FXML
     Button leftButton;
 
     @Getter
     @FXML
+    Button centreButton;
+
+    @Getter
+    @FXML
     Button rightButton;
-    
+
     @Getter
     @FXML
     Label lblTitle;
-    
+
     @Getter
     @FXML
     Label lblMessage;
 
     @FXML
     void btnNoClick(ActionEvent event) {
-        algo = false;
+        retVal = 0;
+        stage.close();
+    }
+
+    @FXML
+    void btnCancelClick(ActionEvent event) {
+        retVal = 1;
         stage.close();
     }
 
     @FXML
     void btnSiClick(ActionEvent event) {
-        algo = true;
+        retVal = 2;
         stage.close();
     }
-    
+
     @FXML
     public void initialize() {
         this.stage = new Stage();
         stage.setScene(new Scene(confirmDialog));
 
         stage.initStyle(StageStyle.UNDECORATED);
-		stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
     }
 
-    public boolean show() {
-        algo = false;
+    public int show() {
+        retVal = null;
         stage.showAndWait();
-        return algo;
+        return retVal;
     }
 
-    public static boolean question(FxWeaver fxWeaver, String question) {
-        return question(fxWeaver, null, question, false);
+    public static Integer question(FxWeaver fxWeaver, String question) {
+        return question(fxWeaver, null, question, false, 0);
     }
 
-    public static boolean question(FxWeaver fxWeaver, String title, String question) {
-        return question(fxWeaver, title, question, false);
-    }
-    
-    public static boolean question(FxWeaver fxWeaver, String question, boolean rightFocus) {
-        return question(fxWeaver, null, question, rightFocus);
+    public static Integer question(FxWeaver fxWeaver, String title, String question) {
+        return question(fxWeaver, title, question, false, 0);
     }
 
-    public static boolean question(FxWeaver fxWeaver, String title, String question, boolean rightFocus) {
+    public static Integer question(FxWeaver fxWeaver, String question, boolean showCancelButton,
+            int buttonFocus) {
+        return question(fxWeaver, null, question, showCancelButton, buttonFocus);
+    }
 
-        FxControllerAndView<ConfirmDialogController, BorderPane> tiledDialog = fxWeaver.load(ConfirmDialogController.class);
+    public static Integer question(FxWeaver fxWeaver, String title, String question, boolean showCancelButton) {
+        return question(fxWeaver, null, question, showCancelButton, 0);
+    }
 
-        if(title != null) {
-		    tiledDialog.getController().getLblTitle().setText(title);
+    public static Integer question(FxWeaver fxWeaver, String title, String question, boolean showCancelButton,
+            int buttonFocus) {
+
+        FxControllerAndView<ConfirmDialogController, BorderPane> tiledDialog = fxWeaver
+                .load(ConfirmDialogController.class);
+
+        if (title != null) {
+            tiledDialog.getController().getLblTitle().setText(title);
         }
-		tiledDialog.getController().getLblMessage().setText(question);
-        if(rightFocus) {
-            tiledDialog.getController().getRightButton().requestFocus();
+        tiledDialog.getController().getLblMessage().setText(question);
+
+        tiledDialog.getController().getCentreButton().setVisible(showCancelButton);
+
+        switch (buttonFocus) {
+            case 0:
+                tiledDialog.getController().getLeftButton().requestFocus();
+            case 1:
+                if (tiledDialog.getController().getCentreButton().isVisible()) {
+                    tiledDialog.getController().getCentreButton().requestFocus();
+                }
+            case 2:
+                tiledDialog.getController().getRightButton().requestFocus();
+            default:
         }
 
-		return(tiledDialog.getController().show());	
+        return (tiledDialog.getController().show());
     }
 
     public static void message(FxWeaver fxWeaver, String message) {
@@ -107,16 +135,17 @@ public class ConfirmDialogController {
 
     public static void message(FxWeaver fxWeaver, String title, String message) {
 
-        FxControllerAndView<ConfirmDialogController, BorderPane> tiledDialog = fxWeaver.load(ConfirmDialogController.class);
+        FxControllerAndView<ConfirmDialogController, BorderPane> tiledDialog = fxWeaver
+                .load(ConfirmDialogController.class);
 
-        if(title != null) {
-		    tiledDialog.getController().getLblTitle().setText(title);
+        if (title != null) {
+            tiledDialog.getController().getLblTitle().setText(title);
         }
-		tiledDialog.getController().getLblMessage().setText(message);
+        tiledDialog.getController().getLblMessage().setText(message);
         tiledDialog.getController().getRightButton().setText("Cerrar");
         tiledDialog.getController().getRightButton().requestFocus();
         tiledDialog.getController().getLeftButton().setVisible(false);
 
-		tiledDialog.getController().show();	
+        tiledDialog.getController().show();
     }
 }

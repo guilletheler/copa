@@ -6,11 +6,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.gt.copa.component.ActividadConverter;
-import com.gt.copa.component.ComponenteDriverConverter;
-import com.gt.copa.component.CurrentStatus;
-import com.gt.copa.component.RecursoConverter;
-import com.gt.copa.component.TipoDistribucionConverter;
+import com.gt.copa.components.ActividadConverter;
+import com.gt.copa.components.ComponenteDriverConverter;
+import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.components.RecursoConverter;
+import com.gt.copa.components.TipoDistribucionConverter;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Actividad;
 import com.gt.copa.model.atemporal.ComponenteDriver;
@@ -251,9 +251,9 @@ public class ActividadEnActividadController {
 
         colDestino.setCellFactory(destinoCellFactory);
 
-        rawItems = FXCollections.observableArrayList(actividadEnActividadService.getRepo()
+        rawItems = actividadEnActividadService.getRepo()
                 .findByOrigen_Proceso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(empresa,
-                        escenario, periodo));
+                        escenario, periodo);
 
         showFiltredElements();
         paraGuardar = new ArrayList<>();
@@ -264,7 +264,7 @@ public class ActividadEnActividadController {
         ObservableList<ActividadEnActividad> filtredItems;
         if (scmbFiltroOrigen.getSelectionModel().getSelectedItem() == null
                 && scmbFiltroDestino.getSelectionModel().getSelectedItem() == null) {
-            filtredItems = FXCollections.observableArrayList(rawItems);
+            filtredItems = FXCollections.observableArrayList(rawItems.stream().collect(Collectors.toList()));
         } else {
             filtredItems = FXCollections.observableArrayList(
                     rawItems.stream().filter(rxa -> testInclude(rxa)).collect(Collectors.toList()));

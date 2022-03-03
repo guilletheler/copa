@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@../copa.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.temporal.ValorDatoCrudController">
+<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@../copa.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.temporal.ValorDatoCrudController">
    <children>
       <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" styleClass="pane-header" text="Valores de datos" />
       <HBox prefHeight="100.0" prefWidth="200.0">

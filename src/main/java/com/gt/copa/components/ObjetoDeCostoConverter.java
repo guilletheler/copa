@@ -1,7 +1,7 @@
-package com.gt.copa.component;
+package com.gt.copa.components;
 
-import com.gt.copa.model.atemporal.Dato;
-import com.gt.copa.repo.atemporal.DatoRepo;
+import com.gt.copa.model.atemporal.ObjetoDeCosto;
+import com.gt.copa.repo.atemporal.ObjetoDeCostoRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 import javafx.util.StringConverter;
 
 @Component
-public class DatoConverter extends StringConverter<Dato> {
+public class ObjetoDeCostoConverter extends StringConverter<ObjetoDeCosto> {
 
     @Autowired
-    DatoRepo DatoRepo;
+    ObjetoDeCostoRepo objetoDeCostoRepo;
 
     @Autowired
     CurrentStatus currentStatus;
 
     @Override
-    public String toString(Dato object) {
+    public String toString(ObjetoDeCosto object) {
         if (object == null) {
             return "";
         }
@@ -26,12 +26,12 @@ public class DatoConverter extends StringConverter<Dato> {
     }
 
     @Override
-    public Dato fromString(String string) {
+    public ObjetoDeCosto fromString(String string) {
         if (currentStatus.getCopaStatus() == null || currentStatus.getCopaStatus().getEmpresa() == null
                 || string == null || string.isEmpty()) {
             return null;
         }
-        return DatoRepo.findByRecurso_EmpresaAndNombreOrderByNombre(currentStatus.getCopaStatus().getEmpresa(), string).orElse(null);
+        return objetoDeCostoRepo.findByEmpresaAndNombre(currentStatus.getCopaStatus().getEmpresa(), string).orElse(null);
     }
 
 }

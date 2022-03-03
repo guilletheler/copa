@@ -1,4 +1,4 @@
-package com.gt.copa.component;
+package com.gt.copa.components;
 
 import com.gt.copa.calc.engine.CopaCalculator;
 import com.gt.copa.infra.CopaStatus;
