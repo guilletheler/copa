@@ -6,11 +6,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.gt.copa.component.ActividadConverter;
-import com.gt.copa.component.ComponenteDriverConverter;
-import com.gt.copa.component.CurrentStatus;
-import com.gt.copa.component.ObjetoDeCostoConverter;
-import com.gt.copa.component.TipoDistribucionConverter;
+import com.gt.copa.components.ActividadConverter;
+import com.gt.copa.components.ComponenteDriverConverter;
+import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.components.ObjetoDeCostoConverter;
+import com.gt.copa.components.TipoDistribucionConverter;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Actividad;
 import com.gt.copa.model.atemporal.ComponenteDriver;

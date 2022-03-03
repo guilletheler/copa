@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.gt.copa.component.TipoClasificacionDatoConverter;
+import com.gt.copa.components.TipoClasificacionDatoConverter;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.ClasificacionDato;
 import com.gt.copa.model.atemporal.TipoClasificacionDato;

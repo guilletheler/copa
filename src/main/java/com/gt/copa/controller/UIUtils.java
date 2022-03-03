@@ -16,7 +16,7 @@ public class UIUtils {
 	public static final String ICON_IMAGE_LOC = "/com/gt/copa/view/copa.png";
 	
 	public static void setStageIcon(Stage stage) {
-		stage.getIcons().add(new Image(MainController.class.getResourceAsStream(ICON_IMAGE_LOC)));
+		stage.getIcons().add(new Image(MainViewController.class.getResourceAsStream(ICON_IMAGE_LOC)));
 	}
 
 	public static Object loadWindow(URL loc, String title, Stage parentStage) {

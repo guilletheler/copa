@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.gt.copa.component.CurrentStatus;
+import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Driver;
 import com.gt.copa.repo.atemporal.DriverRepo;

@@ -1,7 +1,11 @@
 package com.gt.copa.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import com.gt.copa.CopaApplication;
-import com.gt.copa.component.CurrentStatus;
+import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.controller.atemporal.ActividadCrudController;
 import com.gt.copa.controller.atemporal.ClasificacionDatoCrudController;
 import com.gt.copa.controller.atemporal.ComponenteDriverCrudController;
@@ -31,13 +35,15 @@ import org.springframework.stereotype.Component;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
+import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/MainView.fxml")
-public class MainController {
+public class MainViewController {
 
 	@Autowired
 	ConfigPaneController configPaneController;
@@ -122,9 +128,11 @@ public class MainController {
 
 	private final FxWeaver fxWeaver;
 
-	public MainController(FxWeaver fxWeaver) {
+	public MainViewController(FxWeaver fxWeaver) {
 		this.fxWeaver = fxWeaver;
 	}
+
+	List<FxControllerAndView<? extends ModificadorDatos, Node>> viewControllers = new ArrayList<>();
 
 	@FXML
 	void initialize() {
@@ -134,7 +142,7 @@ public class MainController {
 		tipoClasificacionDatoService.checkDefaults();
 
 		fxWeaver.load(ConfigPaneController.class);
-		fxWeaver.load(EmpresaCrudController.class);
+		viewControllers.add(fxWeaver.load(EmpresaCrudController.class));
 		fxWeaver.load(EscenarioCrudController.class);
 		fxWeaver.load(PeriodoCrudController.class);
 		fxWeaver.load(TipoClasificacionDatoCrudController.class);
@@ -173,8 +181,10 @@ public class MainController {
 	@FXML
 	void mnuEscenariosClick(ActionEvent event) {
 
-		escenarioCrudController.loadData();
-		this.mainView.setCenter(escenarioCrudController.getNodeView());
+		if (confirmarGuardarDatos()) {
+			escenarioCrudController.loadData();
+			this.mainView.setCenter(escenarioCrudController.getNodeView());
+		}
 	}
 
 	@FXML
@@ -208,8 +218,9 @@ public class MainController {
 	@FXML
 	void mnuRecursosClick(ActionEvent event) {
 
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para administrar los recursos debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para administrar los recursos debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
 
@@ -220,8 +231,9 @@ public class MainController {
 	@FXML
 	void mnuDatosClick(ActionEvent event) {
 
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para administrar los datos debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para administrar los datos debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
 
@@ -232,8 +244,9 @@ public class MainController {
 	@FXML
 	void mnuProcesosClick(ActionEvent event) {
 
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para administrar los procesos debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para administrar los procesos debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
 
@@ -243,199 +256,227 @@ public class MainController {
 
 	@FXML
 	void mnuActividadesClick(ActionEvent event) {
-		
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para administrar las actividades debe\nseleccionar una empresa en\nSituacion Actual");
+
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para administrar las actividades debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-		
+
 		actividadCrudController.loadData();
 		this.mainView.setCenter(actividadCrudController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuObjetosDeCostoClick(ActionEvent event) {
-		
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para administrar los objetos de costo debe\nseleccionar una empresa en\nSituacion Actual");
+
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para administrar los objetos de costo debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
 
 		objetoDeCostoCrudController.loadData();
 		this.mainView.setCenter(objetoDeCostoCrudController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuDriversClick(ActionEvent event) {
-		
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para administrar los drivers debe\nseleccionar una empresa en\nSituacion Actual");
+
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para administrar los drivers debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-	
+
 		driverCrudController.loadData();
 		this.mainView.setCenter(driverCrudController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuComponentesDriverClick(ActionEvent event) {
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para administrar los componentes de driver debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para administrar los componentes de driver debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-	
+
 		componenteDriverCrudController.loadData();
 		this.mainView.setCenter(componenteDriverCrudController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuConfigActividadPeriodicaClick(ActionEvent event) {
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para configurar las actividades debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para configurar las actividades debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getEscenario() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para configurar las actividades debe\nseleccionar un escenario en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para configurar las actividades debe\nseleccionar un escenario en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getPeriodo() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para configurar las actividades debe\nseleccionar un período en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para configurar las actividades debe\nseleccionar un período en\nSituacion Actual");
 			return;
 		}
-	
+
 		actividadPeriodicaConfigController.loadData();
 		this.mainView.setCenter(actividadPeriodicaConfigController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuConfigRecursoPeriodicoClick(ActionEvent event) {
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para configurar los recursos debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getEscenario() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar un escenario en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para configurar los recursos debe\nseleccionar un escenario en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getPeriodo() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar un período en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para configurar los recursos debe\nseleccionar un período en\nSituacion Actual");
 			return;
 		}
-	
+
 		recursoPeriodicoConfigController.loadData();
 		this.mainView.setCenter(recursoPeriodicoConfigController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuConfigObjetoDeCostoPeriodicoClick(ActionEvent event) {
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para configurar los recursos debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getEscenario() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar un escenario en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para configurar los recursos debe\nseleccionar un escenario en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getPeriodo() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para configurar los recursos debe\nseleccionar un período en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para configurar los recursos debe\nseleccionar un período en\nSituacion Actual");
 			return;
 		}
-	
+
 		objetoDeCostoPeriodicoConfigController.loadData();
 		this.mainView.setCenter(objetoDeCostoPeriodicoConfigController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuRecursoEnActividadClick(ActionEvent event) {
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar recursos debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar recursos debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getEscenario() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar recursos debe\nseleccionar un escenario en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar recursos debe\nseleccionar un escenario en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getPeriodo() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar recursos debe\nseleccionar un período en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar recursos debe\nseleccionar un período en\nSituacion Actual");
 			return;
 		}
-	
+
 		recursoEnActividadController.loadData();
 		this.mainView.setCenter(recursoEnActividadController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuActividadEnActividadClick(ActionEvent event) {
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar actividades debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getEscenario() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar un escenario en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar actividades debe\nseleccionar un escenario en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getPeriodo() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar un período en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar actividades debe\nseleccionar un período en\nSituacion Actual");
 			return;
 		}
-	
+
 		actividadEnActividadController.loadData();
 		this.mainView.setCenter(actividadEnActividadController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuActividadEnObjetoDeCostoClick(ActionEvent event) {
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar actividades debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getEscenario() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar un escenario en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar actividades debe\nseleccionar un escenario en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getPeriodo() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar actividades debe\nseleccionar un período en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar actividades debe\nseleccionar un período en\nSituacion Actual");
 			return;
 		}
-	
+
 		actividadEnObjetoDeCostoController.loadData();
 		this.mainView.setCenter(actividadEnObjetoDeCostoController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuComponenteDriverPeriodicoClick(ActionEvent event) {
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar valores de componentes de driver debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar valores de componentes de driver debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getEscenario() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar valores de componentes de driver debe\nseleccionar un escenario en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar valores de componentes de driver debe\nseleccionar un escenario en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getPeriodo() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar valores de componentes de driver debe\nseleccionar un período en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar valores de componentes de driver debe\nseleccionar un período en\nSituacion Actual");
 			return;
 		}
-	
+
 		componenteDriverPeriodicoController.loadData();
 		this.mainView.setCenter(componenteDriverPeriodicoController.getNodeView());
 	}
-	
+
 	@FXML
 	void mnuValorDatoClick(ActionEvent event) {
-		if(currentStatus.getCopaStatus().getEmpresa() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar valores de datos debe\nseleccionar una empresa en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEmpresa() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar valores de datos debe\nseleccionar una empresa en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getEscenario() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar valores de datos debe\nseleccionar un escenario en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getEscenario() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar valores de datos debe\nseleccionar un escenario en\nSituacion Actual");
 			return;
 		}
-		if(currentStatus.getCopaStatus().getPeriodo() == null) {
-			ConfirmDialogController.message(fxWeaver, "Para asignar valores de datos debe\nseleccionar un período en\nSituacion Actual");
+		if (currentStatus.getCopaStatus().getPeriodo() == null) {
+			ConfirmDialogController.message(fxWeaver,
+					"Para asignar valores de datos debe\nseleccionar un período en\nSituacion Actual");
 			return;
 		}
-	
+
 		valorDatoCrudController.loadData();
 		this.mainView.setCenter(valorDatoCrudController.getNodeView());
 	}
@@ -455,10 +496,56 @@ public class MainController {
 		openOtherWindows();
 	}
 
+	public boolean confirmarCerrar() {
+		return ConfirmDialogController.question(fxWeaver, "Cerrar", "¿Desea salir de CoPA?") == 2;
+	}
+
+	public boolean confirmarGuardarDatos() {
+
+		boolean continuar = true;
+
+		ModificadorDatos currentModificadorDatos = this.getCurrentModificadorDatos();
+
+		if (currentModificadorDatos != null && currentModificadorDatos.isDataModificada()) {
+			switch (ConfirmDialogController.question(fxWeaver, "Atención",
+					"Los datos no están guardados,\n ¿Desea guardar los datos?", true, 2)) {
+				case 0:
+					// NO
+					continuar = true;
+					break;
+				case 1:
+					// Cancelar
+					continuar = false;
+					break;
+				case 2:
+					// SI
+					currentModificadorDatos.saveDataModificada();
+					continuar = true;
+					break;
+			}
+		}
+
+		return continuar;
+	}
+
 	public void openOtherWindows() {
 
-		System.out.println(ConfirmDialogController.question(fxWeaver, "Dialogo de prueba\n\n¿Desea continuar?", true));	
+		System.out.println(
+				ConfirmDialogController.question(fxWeaver, "Dialogo de prueba\n\n¿Desea continuar?", false, 2) == 2);
 		ConfirmDialogController.message(fxWeaver, "Informe", "Este es un mensaje");
 	}
 
+	public ModificadorDatos getCurrentModificadorDatos() {
+
+		ModificadorDatos md = null;
+
+		if (this.mainView != null && this.mainView.getCenter() != null) {
+			md = viewControllers.stream()
+					.filter(vc -> Objects.equals(vc.getView().orElse(null), this.mainView.getCenter()))
+					.map(vc -> vc.getController())
+					.findFirst().orElse(null);
+		}
+
+		return md;
+	}
 }

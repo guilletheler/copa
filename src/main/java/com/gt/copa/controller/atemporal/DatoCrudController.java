@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.gt.copa.component.ClasificacionDatoConverter;
-import com.gt.copa.component.CurrentStatus;
-import com.gt.copa.component.RecursoConverter;
+import com.gt.copa.components.ClasificacionDatoConverter;
+import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.components.RecursoConverter;
 import com.gt.copa.infra.CheckComboBoxTableCell;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.ClasificacionDato;

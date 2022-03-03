@@ -1,7 +1,7 @@
-package com.gt.copa.component;
+package com.gt.copa.components;
 
-import com.gt.copa.model.temporal.Periodo;
-import com.gt.copa.repo.temporal.PeriodoRepo;
+import com.gt.copa.model.atemporal.Empresa;
+import com.gt.copa.repo.atemporal.EmpresaRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 import javafx.util.StringConverter;
 
 @Component
-public class PeriodoConverter extends StringConverter<Periodo> {
+public class EmpresaConverter extends StringConverter<Empresa> {
 
     @Autowired
-    PeriodoRepo periodoRepo;
+    EmpresaRepo empresaRepo;
 
     @Override
-    public String toString(Periodo object) {
+    public String toString(Empresa object) {
         if (object == null) {
             return "";
         }
@@ -23,11 +23,11 @@ public class PeriodoConverter extends StringConverter<Periodo> {
     }
 
     @Override
-    public Periodo fromString(String string) {
+    public Empresa fromString(String string) {
         if (string == null || string.isEmpty()) {
             return null;
         }
-        return periodoRepo.findByNombre(string).orElse(null);
+        return empresaRepo.findByNombre(string).orElse(null);
     }
 
 }

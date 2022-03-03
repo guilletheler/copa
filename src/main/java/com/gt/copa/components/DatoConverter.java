@@ -1,9 +1,7 @@
-package com.gt.copa.component;
+package com.gt.copa.components;
 
 import com.gt.copa.model.atemporal.Dato;
-import com.gt.copa.model.atemporal.Driver;
 import com.gt.copa.repo.atemporal.DatoRepo;
-import com.gt.copa.repo.atemporal.DriverRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

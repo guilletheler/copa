@@ -1,4 +1,4 @@
-package com.gt.copa.component;
+package com.gt.copa.components;
 
 import com.gt.copa.model.atemporal.ClasificacionDato;
 import com.gt.copa.repo.atemporal.ClasificacionDatoRepo;
