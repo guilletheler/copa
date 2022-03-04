@@ -17,4 +17,6 @@ public interface DatoRepo extends PagingAndSortingRepository<Dato, Integer>, Jpa
     
     Optional<Dato> findByRecurso_EmpresaAndNombre(Empresa empresa, String nombre);
 
+    Optional<Dato> findByRecurso_EmpresaAndNombreOrderByNombre(Empresa empresa, String string);
+
 }

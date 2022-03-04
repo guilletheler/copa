@@ -44,6 +44,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import lombok.Getter;
+import lombok.Setter;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
@@ -57,7 +59,7 @@ public class ValorDatoCrudController implements ModificadorDatos {
     DatoService datoService;
 
     @Autowired
-    TipoDistribucionConverter tipoDistribucionConverter;
+    DatoConverter datoConverter;
 
     @Autowired
     ComponenteDriverConverter componenteDriverConverter;
@@ -78,6 +80,10 @@ public class ValorDatoCrudController implements ModificadorDatos {
     EscenarioService escenarioService;
 
     @Getter
+    @Setter
+    FxWeaver fxWeaver;
+
+    @Getter
     @FXML
     private VBox nodeView;
 
@@ -95,9 +101,6 @@ public class ValorDatoCrudController implements ModificadorDatos {
 
     @FXML
     private TableColumn<ValorDato, Integer> colId;
-
-    @FXML
-    private TableColumn<ValorDato, Escenario> colEscenario;
 
     @FXML
     private TableColumn<ValorDato, Dato> colDato;
@@ -185,8 +188,7 @@ public class ValorDatoCrudController implements ModificadorDatos {
                 new Callback<TableColumn.CellDataFeatures<ValorDato, Double>, ObservableValue<Double>>() {
 
                     @Override
-                    public ObservableValue<Double> call(
-                            TableColumn.CellDataFeatures<ValorDato, Double> param) {
+                    public ObservableValue<Double> call(TableColumn.CellDataFeatures<ValorDato, Double> param) {
 
                         return new SimpleObjectProperty<>(param.getValue().getValor());
                     }

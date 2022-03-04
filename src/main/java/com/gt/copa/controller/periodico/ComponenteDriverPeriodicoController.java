@@ -171,8 +171,7 @@ public class ComponenteDriverPeriodicoController implements ModificadorDatos {
 
         loadScmbDrivers(drivers);
 
-        rawItems = FXCollections
-                .observableArrayList(componenteDriverPeriodicoService.findOrCreate(empresa, escenario, periodo));
+        rawItems = componenteDriverPeriodicoService.findOrCreate(empresa, escenario, periodo);
 
         showFiltredElements();
         paraGuardar = new ArrayList<>();

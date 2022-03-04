@@ -259,9 +259,9 @@ public class ActividadEnObjetoDeCostoController implements ModificadorDatos {
 
         colObjetoDeCosto.setCellFactory(objetoDeCostoCellFactory);
 
-        rawItems = FXCollections.observableArrayList(actividadEnObjetoDeCostoService.getRepo()
+        rawItems = actividadEnObjetoDeCostoService.getRepo()
                 .findByActividad_Proceso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(
-                        empresa, escenario, periodo));
+                        empresa, escenario, periodo);
 
         showFiltredElements();
         paraGuardar = new ArrayList<>();
