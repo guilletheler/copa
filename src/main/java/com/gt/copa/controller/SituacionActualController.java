@@ -37,7 +37,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/SituacionActualView.fxml")
-public class SituacionActualController {
+public class SituacionActualController implements ModificadorDatos {
 
     @Getter
     @FXML
@@ -91,6 +91,9 @@ public class SituacionActualController {
     @Autowired
     ClasificacionDatoConverter clasificacionDatoConverter;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     public void initialize() {
         cmbEmpresa.setConverter(empresaConverter);
@@ -114,6 +117,8 @@ public class SituacionActualController {
         lstClasificaciones.getCheckModel().clearChecks();
         currentStatus.getCopaStatus().getFiltroClasificaciones()
                 .forEach(cla -> lstClasificaciones.getCheckModel().check(cla));
+
+        dataModificada = false;
     }
 
     private void configCmbEmpresas() {
@@ -125,6 +130,10 @@ public class SituacionActualController {
         cmbEmpresa.setCellFactory(ComboBoxListCell.forListView(empresaConverter, empresas));
 
         cmbEmpresa.setItems(empresas);
+
+        cmbEmpresa.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            dataModificada = true;
+        });
     }
 
     private void configCmbEscenario() {
@@ -136,6 +145,10 @@ public class SituacionActualController {
         cmbEscenario.setCellFactory(ComboBoxListCell.forListView(escenarioConverter, escenarios));
 
         cmbEscenario.setItems(escenarios);
+
+        cmbEscenario.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            dataModificada = true;
+        });
     }
 
     private void configCmbPeriodo() {
@@ -147,6 +160,10 @@ public class SituacionActualController {
         cmbPeriodo.setCellFactory(ComboBoxListCell.forListView(periodoConverter, periodos));
 
         cmbPeriodo.setItems(periodos);
+
+        cmbPeriodo.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            dataModificada = true;
+        });
     }
 
     private void configCmbTipoClasificacion() {
@@ -155,19 +172,29 @@ public class SituacionActualController {
 
         tiposClasificacion.add(0, null);
 
-        cmbTipoClasificacion.setCellFactory(ComboBoxListCell.forListView(tipoClasificacionDatoConverter, tiposClasificacion));
+        cmbTipoClasificacion
+                .setCellFactory(ComboBoxListCell.forListView(tipoClasificacionDatoConverter, tiposClasificacion));
 
         cmbTipoClasificacion.setItems(tiposClasificacion);
+
+        cmbTipoClasificacion.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            dataModificada = true;
+        });
     }
 
     void configLstClasificaciones() {
 
-        List<ClasificacionDato> clasifDatos = StreamSupport.stream(clasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList());
+        List<ClasificacionDato> clasifDatos = StreamSupport.stream(clasificacionDatoRepo.findAll().spliterator(), false)
+                .collect(Collectors.toList());
 
         lstClasificaciones.getItems().clear();
 
         lstClasificaciones.getItems().addAll(clasifDatos);
 
+        lstClasificaciones.getCheckModel().getCheckedItems()
+                .addListener((javafx.collections.ListChangeListener.Change<? extends ClasificacionDato> arg0) -> {
+                    dataModificada = true;
+                });
     }
 
     @FXML
@@ -180,6 +207,11 @@ public class SituacionActualController {
         currentStatus.getCopaStatus().getFiltroClasificaciones().clear();
         currentStatus.getCopaStatus().getFiltroClasificaciones()
                 .addAll(lstClasificaciones.getCheckModel().getCheckedItems());
+        dataModificada = false;
     }
 
+    @Override
+    public void persist() {
+        this.btnAplicarClick(null);
+    }
 }

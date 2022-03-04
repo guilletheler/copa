@@ -50,7 +50,8 @@ public class EmpresaCrudController implements ModificadorDatos {
     List<Empresa> paraGuardar;
     List<Empresa> paraEliminar;
 
-    boolean modificado;
+    @Getter
+    boolean dataModificada;
 
     @FXML
     void btnEliminarClick(ActionEvent event) {
@@ -58,13 +59,13 @@ public class EmpresaCrudController implements ModificadorDatos {
             paraEliminar.addAll(tblEmpresas.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblEmpresas.getSelectionModel().getSelectedItems());
             tblEmpresas.getItems().removeAll(tblEmpresas.getSelectionModel().getSelectedItems());
-            modificado = true;
+            dataModificada = true;
         }
     }
 
     @FXML
     void btnGuardarClick(ActionEvent event) {
-        this.saveDataModificada();
+        this.persist();
     }
 
     @FXML
@@ -84,7 +85,7 @@ public class EmpresaCrudController implements ModificadorDatos {
 
         tblEmpresas.getItems().add(Empresa);
 
-        this.modificado = true;
+        this.dataModificada = true;
     }
 
     @FXML
@@ -111,7 +112,7 @@ public class EmpresaCrudController implements ModificadorDatos {
         if (!paraGuardar.contains(empresa)) {
             paraGuardar.add(empresa);
         }
-        modificado = true;
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -120,11 +121,11 @@ public class EmpresaCrudController implements ModificadorDatos {
                 StreamSupport.stream(empresaRepo.findAll().spliterator(), false).collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
-        modificado = false;
+        dataModificada = false;
     }
 
     @Override
-    public void saveDataModificada() {
+    public void persist() {
         paraGuardar.forEach(dto -> empresaRepo.save(dto));
         paraEliminar.stream().filter(ds -> ds.getId() != null).map(ds -> ds.getId()).distinct()
                 .forEach(id -> empresaRepo.deleteById(id));
@@ -147,8 +148,4 @@ public class EmpresaCrudController implements ModificadorDatos {
         }
     }
 
-    @Override
-    public boolean isDataModificada() {
-        return modificado;
-    }
 }

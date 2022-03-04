@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Escenario;
 import com.gt.copa.repo.atemporal.EscenarioRepo;
@@ -25,7 +26,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/EscenarioCrudView.fxml")
-public class EscenarioCrudController {
+public class EscenarioCrudController implements ModificadorDatos {
 
     @Autowired
     EscenarioRepo escenarioRepo;
@@ -49,12 +50,16 @@ public class EscenarioCrudController {
     List<Escenario> paraGuardar;
     List<Escenario> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblEscenarios.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblEscenarios.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblEscenarios.getSelectionModel().getSelectedItems());
             tblEscenarios.getItems().removeAll(tblEscenarios.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -79,6 +84,7 @@ public class EscenarioCrudController {
         Escenario.setCodigo(codigo);
 
         tblEscenarios.getItems().add(Escenario);
+        
     }
 
     @FXML
@@ -105,6 +111,7 @@ public class EscenarioCrudController {
         if (!paraGuardar.contains(escenario)) {
             paraGuardar.add(escenario);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -113,6 +120,7 @@ public class EscenarioCrudController {
                 StreamSupport.stream(escenarioRepo.findAll().spliterator(), false).collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {

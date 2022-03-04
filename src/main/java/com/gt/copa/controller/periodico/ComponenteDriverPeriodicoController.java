@@ -2,13 +2,12 @@ package com.gt.copa.controller.periodico;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.gt.copa.components.ComponenteDriverConverter;
 import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.components.DriverConverter;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Driver;
 import com.gt.copa.model.atemporal.Empresa;
@@ -42,7 +41,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/periodico/ComponenteDriverPeriodicoView.fxml")
-public class ComponenteDriverPeriodicoController {
+public class ComponenteDriverPeriodicoController implements ModificadorDatos {
 
     @Autowired
     ComponenteDriverPeriodicoService componenteDriverPeriodicoService;
@@ -88,12 +87,16 @@ public class ComponenteDriverPeriodicoController {
 
     private List<ComponenteDriverPeriodico> rawItems;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblComponentesDriver.getSelectionModel().getSelectedItems() != null) {
             for (ComponenteDriverPeriodico cdp : tblComponentesDriver.getSelectionModel().getSelectedItems()) {
                 cdp.setValor(null);
             }
+            dataModificada = true;
         }
     }
 
@@ -152,6 +155,7 @@ public class ComponenteDriverPeriodicoController {
         if (!paraGuardar.contains(recurso)) {
             paraGuardar.add(recurso);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -172,6 +176,8 @@ public class ComponenteDriverPeriodicoController {
 
         showFiltredElements();
         paraGuardar = new ArrayList<>();
+
+        dataModificada = false;
     }
 
     private void showFiltredElements() {
@@ -221,7 +227,7 @@ public class ComponenteDriverPeriodicoController {
     }
 
     private void guardar(ComponenteDriverPeriodico dto) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando cdp " + dto.toString());
+        // Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando cdp " + dto.toString());
         componenteDriverPeriodicoService.getRepo().save(dto);
     }
 

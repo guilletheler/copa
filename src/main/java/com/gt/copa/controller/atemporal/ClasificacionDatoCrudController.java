@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.gt.copa.components.TipoClasificacionDatoConverter;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.ClasificacionDato;
 import com.gt.copa.model.atemporal.TipoClasificacionDato;
@@ -31,7 +32,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/ClasificacionDatoCrudView.fxml")
-public class ClasificacionDatoCrudController {
+public class ClasificacionDatoCrudController implements ModificadorDatos {
 
     @Autowired
     ClasificacionDatoRepo clasificacionDatoRepo;
@@ -64,12 +65,16 @@ public class ClasificacionDatoCrudController {
     List<ClasificacionDato> paraGuardar;
     List<ClasificacionDato> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblClasificacionDatos.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblClasificacionDatos.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblClasificacionDatos.getSelectionModel().getSelectedItems());
             tblClasificacionDatos.getItems().removeAll(tblClasificacionDatos.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -132,6 +137,7 @@ public class ClasificacionDatoCrudController {
         if (!paraGuardar.contains(clasificacionDato)) {
             paraGuardar.add(clasificacionDato);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -145,6 +151,7 @@ public class ClasificacionDatoCrudController {
                 .stream(clasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {

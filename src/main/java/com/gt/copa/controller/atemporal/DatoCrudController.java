@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 import com.gt.copa.components.ClasificacionDatoConverter;
 import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.components.RecursoConverter;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.CheckComboBoxTableCell;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.ClasificacionDato;
@@ -38,7 +39,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/DatoCrudView.fxml")
-public class DatoCrudController {
+public class DatoCrudController implements ModificadorDatos {
 
     @Autowired
     DatoService datoService;
@@ -83,12 +84,16 @@ public class DatoCrudController {
     List<Dato> paraGuardar;
     List<Dato> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblDatos.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblDatos.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblDatos.getSelectionModel().getSelectedItems());
             tblDatos.getItems().removeAll(tblDatos.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -155,6 +160,7 @@ public class DatoCrudController {
         if (!paraGuardar.contains(dato)) {
             paraGuardar.add(dato);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -175,6 +181,7 @@ public class DatoCrudController {
                 .observableArrayList(datoService.findByEmpresa(empresa)));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {

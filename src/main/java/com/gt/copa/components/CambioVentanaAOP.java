@@ -1,12 +1,7 @@
 package com.gt.copa.components;
 
-import com.gt.copa.controller.MainViewController;
-import com.gt.copa.controller.ModificadorDatos;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Aspect

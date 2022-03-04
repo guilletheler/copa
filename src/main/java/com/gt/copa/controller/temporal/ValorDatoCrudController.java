@@ -3,8 +3,6 @@ package com.gt.copa.controller.temporal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.gt.copa.components.ComponenteDriverConverter;
@@ -12,6 +10,7 @@ import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.components.DatoConverter;
 import com.gt.copa.components.EscenarioConverter;
 import com.gt.copa.components.TipoDistribucionConverter;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.DatePickerTableCell;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Dato;
@@ -49,7 +48,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/temporal/ValorDatoCrudView.fxml")
-public class ValorDatoCrudController {
+public class ValorDatoCrudController implements ModificadorDatos {
 
     @Autowired
     ValorDatoService valorDatoService;
@@ -114,6 +113,9 @@ public class ValorDatoCrudController {
 
     private List<ValorDato> rawItems;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnNuevoClick(ActionEvent event) {
 
@@ -136,6 +138,7 @@ public class ValorDatoCrudController {
             paraGuardar.removeAll(tblValoresDatos.getSelectionModel().getSelectedItems());
             rawItems.removeAll(tblValoresDatos.getSelectionModel().getSelectedItems());
             tblValoresDatos.getItems().removeAll(tblValoresDatos.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -200,6 +203,7 @@ public class ValorDatoCrudController {
         if (!paraGuardar.contains(valorDato)) {
             paraGuardar.add(valorDato);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -238,6 +242,8 @@ public class ValorDatoCrudController {
         showFiltredElements();
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+
+        dataModificada = false;
     }
 
     private void showFiltredElements() {
@@ -306,7 +312,7 @@ public class ValorDatoCrudController {
     }
 
     private void guardar(ValorDato dto) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando valor de dato " + dto.toString());
+        // Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando valor de dato " + dto.toString());
         valorDatoService.getValorDatoRepo().save(dto);
     }
 

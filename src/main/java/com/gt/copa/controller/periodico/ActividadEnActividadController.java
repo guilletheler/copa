@@ -2,8 +2,6 @@ package com.gt.copa.controller.periodico;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.gt.copa.components.ActividadConverter;
@@ -11,6 +9,7 @@ import com.gt.copa.components.ComponenteDriverConverter;
 import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.components.RecursoConverter;
 import com.gt.copa.components.TipoDistribucionConverter;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Actividad;
 import com.gt.copa.model.atemporal.ComponenteDriver;
@@ -50,7 +49,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/periodico/ActividadEnActividadView.fxml")
-public class ActividadEnActividadController {
+public class ActividadEnActividadController implements ModificadorDatos {
 
     @Autowired
     ActividadEnActividadService actividadEnActividadService;
@@ -112,6 +111,9 @@ public class ActividadEnActividadController {
 
     private List<ActividadEnActividad> rawItems;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnNuevoClick(ActionEvent event) {
 
@@ -135,6 +137,7 @@ public class ActividadEnActividadController {
             paraGuardar.removeAll(tblAsignaciones.getSelectionModel().getSelectedItems());
             rawItems.removeAll(tblAsignaciones.getSelectionModel().getSelectedItems());
             tblAsignaciones.getItems().removeAll(tblAsignaciones.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -203,6 +206,7 @@ public class ActividadEnActividadController {
         if (!paraGuardar.contains(recurso)) {
             paraGuardar.add(recurso);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -258,6 +262,7 @@ public class ActividadEnActividadController {
         showFiltredElements();
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     private void showFiltredElements() {
@@ -320,7 +325,7 @@ public class ActividadEnActividadController {
     }
 
     private void guardar(ActividadEnActividad dto) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando recurso " + dto.toString());
+        // Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando recurso " + dto.toString());
         actividadEnActividadService.getRepo().save(dto);
     }
 

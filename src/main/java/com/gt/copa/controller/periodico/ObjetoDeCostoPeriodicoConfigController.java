@@ -2,14 +2,13 @@ package com.gt.copa.controller.periodico;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.gt.copa.calc.api.TipoDistribucion;
 import com.gt.copa.components.ComponenteDriverConverter;
 import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.components.TipoDistribucionConverter;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.ComponenteDriver;
 import com.gt.copa.model.atemporal.Empresa;
@@ -43,7 +42,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/periodico/ObjetoDeCostoPeriodicoConfigView.fxml")
-public class ObjetoDeCostoPeriodicoConfigController {
+public class ObjetoDeCostoPeriodicoConfigController implements ModificadorDatos {
 
     @Autowired
     ObjetoDeCostoPeriodicoService recursoPeriodicoService;
@@ -90,13 +89,16 @@ public class ObjetoDeCostoPeriodicoConfigController {
 
     List<ObjetoDeCostoPeriodico> paraGuardar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblObjetoDeCostosPeriodicas.getSelectionModel().getSelectedItems() != null) {
             tblObjetoDeCostosPeriodicas.getSelectionModel().getSelectedItems()
                     .forEach(ap -> ap.setTipoDistribucion(null));
             paraGuardar.addAll(tblObjetoDeCostosPeriodicas.getSelectionModel().getSelectedItems());
-
+            dataModificada = true;
         }
     }
 
@@ -138,15 +140,16 @@ public class ObjetoDeCostoPeriodicoConfigController {
 
         colTipoDistribucion.setCellFactory(tipoDistribucionCellFactory);
 
-        colComponenteDriver.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObjetoDeCostoPeriodico, ComponenteDriver>, ObservableValue<ComponenteDriver>>() {
+        colComponenteDriver.setCellValueFactory(
+                new Callback<TableColumn.CellDataFeatures<ObjetoDeCostoPeriodico, ComponenteDriver>, ObservableValue<ComponenteDriver>>() {
 
-            @Override
-            public ObservableValue<ComponenteDriver> call(
-                    TableColumn.CellDataFeatures<ObjetoDeCostoPeriodico, ComponenteDriver> param) {
+                    @Override
+                    public ObservableValue<ComponenteDriver> call(
+                            TableColumn.CellDataFeatures<ObjetoDeCostoPeriodico, ComponenteDriver> param) {
 
-                return new SimpleObjectProperty<>(param.getValue().getValorAsignado().getComponenteDriver());
-            }
-        });
+                        return new SimpleObjectProperty<>(param.getValue().getValorAsignado().getComponenteDriver());
+                    }
+                });
 
         colComponenteDriver.setOnEditCommit((CellEditEvent<ObjetoDeCostoPeriodico, ComponenteDriver> t) -> {
             ((ObjetoDeCostoPeriodico) t.getTableView().getItems().get(t.getTablePosition().getRow())).getValorAsignado()
@@ -154,15 +157,16 @@ public class ObjetoDeCostoPeriodicoConfigController {
             modificado(((ObjetoDeCostoPeriodico) t.getTableView().getItems().get(t.getTablePosition().getRow())));
         });
 
-        colValorParticular.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObjetoDeCostoPeriodico, Double>, ObservableValue<Double>>() {
+        colValorParticular.setCellValueFactory(
+                new Callback<TableColumn.CellDataFeatures<ObjetoDeCostoPeriodico, Double>, ObservableValue<Double>>() {
 
-            @Override
-            public ObservableValue<Double> call(
-                    TableColumn.CellDataFeatures<ObjetoDeCostoPeriodico, Double> param) {
+                    @Override
+                    public ObservableValue<Double> call(
+                            TableColumn.CellDataFeatures<ObjetoDeCostoPeriodico, Double> param) {
 
-                return new SimpleObjectProperty<>(param.getValue().getValorAsignado().getValorParticular());
-            }
-        });
+                        return new SimpleObjectProperty<>(param.getValue().getValorAsignado().getValorParticular());
+                    }
+                });
         colValorParticular.setCellFactory(EditingTextCell.doubleCellFactory());
         colValorParticular.setOnEditCommit((CellEditEvent<ObjetoDeCostoPeriodico, Double> t) -> {
             ((ObjetoDeCostoPeriodico) t.getTableView().getItems().get(t.getTablePosition().getRow())).getValorAsignado()
@@ -175,6 +179,7 @@ public class ObjetoDeCostoPeriodicoConfigController {
         if (!paraGuardar.contains(recurso)) {
             paraGuardar.add(recurso);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -195,6 +200,7 @@ public class ObjetoDeCostoPeriodicoConfigController {
         tblObjetoDeCostosPeriodicas.setItems(
                 FXCollections.observableArrayList(recursoPeriodicoService.findOrCreate(empresa, escenario, periodo)));
         paraGuardar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {
@@ -211,7 +217,7 @@ public class ObjetoDeCostoPeriodicoConfigController {
     }
 
     private void guardar(ObjetoDeCostoPeriodico dto) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando recurso " + dto.toString());
+        // Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando recurso " + dto.toString());
         recursoPeriodicoService.getRepo().save(dto);
     }
 

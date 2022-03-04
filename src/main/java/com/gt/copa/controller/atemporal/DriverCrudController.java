@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Driver;
 import com.gt.copa.repo.atemporal.DriverRepo;
@@ -26,7 +27,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/DriverCrudView.fxml")
-public class DriverCrudController {
+public class DriverCrudController implements ModificadorDatos {
 
     @Autowired
     DriverRepo driverRepo;
@@ -53,12 +54,16 @@ public class DriverCrudController {
     List<Driver> paraGuardar;
     List<Driver> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblDrivers.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblDrivers.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblDrivers.getSelectionModel().getSelectedItems());
             tblDrivers.getItems().removeAll(tblDrivers.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -110,6 +115,7 @@ public class DriverCrudController {
         if (!paraGuardar.contains(driver)) {
             paraGuardar.add(driver);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -119,6 +125,7 @@ public class DriverCrudController {
                 .collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {

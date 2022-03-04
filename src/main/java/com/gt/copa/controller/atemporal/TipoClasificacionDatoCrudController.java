@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.TipoClasificacionDato;
 import com.gt.copa.repo.atemporal.TipoClasificacionDatoRepo;
@@ -25,7 +26,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/TipoClasificacionDatoCrudView.fxml")
-public class TipoClasificacionDatoCrudController {
+public class TipoClasificacionDatoCrudController implements ModificadorDatos {
 
     @Autowired
     TipoClasificacionDatoRepo tipoClasificacionDatoRepo;
@@ -49,12 +50,16 @@ public class TipoClasificacionDatoCrudController {
     List<TipoClasificacionDato> paraGuardar;
     List<TipoClasificacionDato> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblTipoClasificacionDatos.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblTipoClasificacionDatos.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblTipoClasificacionDatos.getSelectionModel().getSelectedItems());
             tblTipoClasificacionDatos.getItems().removeAll(tblTipoClasificacionDatos.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -105,6 +110,7 @@ public class TipoClasificacionDatoCrudController {
         if (!paraGuardar.contains(tipoClasificacionDato)) {
             paraGuardar.add(tipoClasificacionDato);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -113,6 +119,7 @@ public class TipoClasificacionDatoCrudController {
                 StreamSupport.stream(tipoClasificacionDatoRepo.findAll().spliterator(), false).collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {

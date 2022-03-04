@@ -2,8 +2,6 @@ package com.gt.copa.controller.periodico;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.gt.copa.components.ActividadConverter;
@@ -11,6 +9,7 @@ import com.gt.copa.components.ComponenteDriverConverter;
 import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.components.RecursoConverter;
 import com.gt.copa.components.TipoDistribucionConverter;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Actividad;
 import com.gt.copa.model.atemporal.ComponenteDriver;
@@ -51,7 +50,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/periodico/RecursoEnActividadView.fxml")
-public class RecursoEnActividadController {
+public class RecursoEnActividadController implements ModificadorDatos {
 
     @Autowired
     RecursoEnActividadService recursoEnActividadService;
@@ -113,6 +112,9 @@ public class RecursoEnActividadController {
 
     private List<RecursoEnActividad> rawItems;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnNuevoClick(ActionEvent event) {
 
@@ -126,7 +128,7 @@ public class RecursoEnActividadController {
 
         rawItems.add(rxa);
         tblAsignaciones.getItems().add(rxa);
-        
+
     }
 
     @FXML
@@ -136,6 +138,7 @@ public class RecursoEnActividadController {
             paraGuardar.removeAll(tblAsignaciones.getSelectionModel().getSelectedItems());
             rawItems.removeAll(tblAsignaciones.getSelectionModel().getSelectedItems());
             tblAsignaciones.getItems().removeAll(tblAsignaciones.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -204,6 +207,7 @@ public class RecursoEnActividadController {
         if (!paraGuardar.contains(recurso)) {
             paraGuardar.add(recurso);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -213,12 +217,14 @@ public class RecursoEnActividadController {
         Periodo periodo = currentStatus.getCopaStatus().getPeriodo();
 
         ObservableList<Recurso> recursos = FXCollections
-                .observableArrayList(recursoRepo.findByEmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()));
+                .observableArrayList(
+                        recursoRepo.findByEmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()));
 
         recursos.add(0, null);
 
         ObservableList<Actividad> actividades = FXCollections
-                .observableArrayList(actividadRepo.findByProceso_EmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()));
+                .observableArrayList(
+                        actividadRepo.findByProceso_EmpresaOrderByNombre(currentStatus.getCopaStatus().getEmpresa()));
 
         actividades.add(0, null);
 
@@ -235,48 +241,55 @@ public class RecursoEnActividadController {
         colComponenteDriver.setCellFactory(componenteDriverCellFactory);
 
         Callback<TableColumn<RecursoEnActividad, Recurso>, TableCell<RecursoEnActividad, Recurso>> recursoCellFactory = ComboBoxTableCell
-        .forTableColumn(recursoConverter,recursos);
+                .forTableColumn(recursoConverter, recursos);
 
-        // Callback<TableColumn<RecursoEnActividad, Recurso>, TableCell<RecursoEnActividad, Recurso>> recursoCellFactory = SearchableComboBoxTableCell
+        // Callback<TableColumn<RecursoEnActividad, Recurso>,
+        // TableCell<RecursoEnActividad, Recurso>> recursoCellFactory =
+        // SearchableComboBoxTableCell
         // .searchableComboCellFactory(recursos, recursoConverter);
 
         colRecurso.setCellFactory(recursoCellFactory);
 
         Callback<TableColumn<RecursoEnActividad, Actividad>, TableCell<RecursoEnActividad, Actividad>> actividadCellFactory = ComboBoxTableCell
-        .forTableColumn(actividadConverter,actividades);
+                .forTableColumn(actividadConverter, actividades);
 
-        // Callback<TableColumn<RecursoEnActividad, Actividad>, TableCell<RecursoEnActividad, Actividad>> actividadCellFactory = SearchableComboBoxTableCell
+        // Callback<TableColumn<RecursoEnActividad, Actividad>,
+        // TableCell<RecursoEnActividad, Actividad>> actividadCellFactory =
+        // SearchableComboBoxTableCell
         // .searchableComboCellFactory(actividades, actividadConverter);
 
         colActividad.setCellFactory(actividadCellFactory);
 
         rawItems = FXCollections.observableArrayList(recursoEnActividadService.getRepo()
-        .findByRecurso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(empresa,
-                escenario, periodo));
+                .findByRecurso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(empresa,
+                        escenario, periodo));
 
         showFiltredElements();
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     private void showFiltredElements() {
         ObservableList<RecursoEnActividad> filtredItems;
-        if(scmbFiltroRecurso.getSelectionModel().getSelectedItem() == null && scmbFiltroActividad.getSelectionModel().getSelectedItem() == null) {
+        if (scmbFiltroRecurso.getSelectionModel().getSelectedItem() == null
+                && scmbFiltroActividad.getSelectionModel().getSelectedItem() == null) {
             filtredItems = FXCollections.observableArrayList(rawItems.stream().collect(Collectors.toList()));
         } else {
             filtredItems = FXCollections.observableArrayList(
-                rawItems.stream()
-                .filter(rxa -> testInclude(rxa))
-                .collect(Collectors.toList())
-            );
+                    rawItems.stream()
+                            .filter(rxa -> testInclude(rxa))
+                            .collect(Collectors.toList()));
         }
         tblAsignaciones.setItems(filtredItems);
     }
 
     private boolean testInclude(RecursoEnActividad rxa) {
         boolean ret = true;
-        ret = ret && (scmbFiltroRecurso.getSelectionModel().getSelectedItem() == null || scmbFiltroRecurso.getSelectionModel().getSelectedItem().equals(rxa.getRecurso()));
-        ret = ret && (scmbFiltroActividad.getSelectionModel().getSelectedItem() == null || scmbFiltroActividad.getSelectionModel().getSelectedItem().equals(rxa.getActividad()));
+        ret = ret && (scmbFiltroRecurso.getSelectionModel().getSelectedItem() == null
+                || scmbFiltroRecurso.getSelectionModel().getSelectedItem().equals(rxa.getRecurso()));
+        ret = ret && (scmbFiltroActividad.getSelectionModel().getSelectedItem() == null
+                || scmbFiltroActividad.getSelectionModel().getSelectedItem().equals(rxa.getActividad()));
         return ret;
     }
 
@@ -292,7 +305,7 @@ public class RecursoEnActividadController {
             public void handle(ActionEvent ae) {
                 showFiltredElements();
             }
-         });
+        });
     }
 
     private void loadScmbActividades(ObservableList<Actividad> actividades) {
@@ -300,14 +313,14 @@ public class RecursoEnActividadController {
         scmbFiltroActividad.setCellFactory(ComboBoxListCell.forListView(actividadConverter, actividades));
 
         scmbFiltroActividad.setItems(actividades);
-        
+
         scmbFiltroActividad.setConverter(actividadConverter);
 
         scmbFiltroActividad.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent ae) {
                 showFiltredElements();
             }
-         });
+        });
     }
 
     public void persist() {
@@ -319,7 +332,7 @@ public class RecursoEnActividadController {
     }
 
     private void guardar(RecursoEnActividad dto) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando recurso " + dto.toString());
+        // Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando recurso " + dto.toString());
         recursoEnActividadService.getRepo().save(dto);
     }
 

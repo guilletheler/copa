@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Recurso;
 import com.gt.copa.repo.atemporal.RecursoRepo;
@@ -26,7 +27,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/RecursoCrudView.fxml")
-public class RecursoCrudController {
+public class RecursoCrudController implements ModificadorDatos {
 
     @Autowired
     RecursoRepo recursoRepo;
@@ -53,12 +54,16 @@ public class RecursoCrudController {
     List<Recurso> paraGuardar;
     List<Recurso> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblRecursos.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblRecursos.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblRecursos.getSelectionModel().getSelectedItems());
             tblRecursos.getItems().removeAll(tblRecursos.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -110,6 +115,7 @@ public class RecursoCrudController {
         if (!paraGuardar.contains(recurso)) {
             paraGuardar.add(recurso);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -119,6 +125,7 @@ public class RecursoCrudController {
                 .collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.DatePickerTableCell;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.temporal.Periodo;
@@ -29,7 +30,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/temporal/PeriodoCrudView.fxml")
-public class PeriodoCrudController {
+public class PeriodoCrudController implements ModificadorDatos {
 
     @Autowired
     PeriodoRepo periodoRepo;
@@ -62,12 +63,16 @@ public class PeriodoCrudController {
     List<Periodo> paraGuardar;
     List<Periodo> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblPeriodos.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblPeriodos.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblPeriodos.getSelectionModel().getSelectedItems());
             tblPeriodos.getItems().removeAll(tblPeriodos.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -142,6 +147,7 @@ public class PeriodoCrudController {
         if (!paraGuardar.contains(periodo)) {
             paraGuardar.add(periodo);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -150,6 +156,7 @@ public class PeriodoCrudController {
                 StreamSupport.stream(periodoRepo.findAll().spliterator(), false).collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.ObjetoDeCosto;
 import com.gt.copa.repo.atemporal.ObjetoDeCostoRepo;
@@ -26,7 +27,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/ObjetoDeCostoCrudView.fxml")
-public class ObjetoDeCostoCrudController {
+public class ObjetoDeCostoCrudController implements ModificadorDatos {
 
     @Autowired
     ObjetoDeCostoRepo objetoDeCostoRepo;
@@ -53,12 +54,16 @@ public class ObjetoDeCostoCrudController {
     List<ObjetoDeCosto> paraGuardar;
     List<ObjetoDeCosto> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblObjetoDeCostos.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblObjetoDeCostos.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblObjetoDeCostos.getSelectionModel().getSelectedItems());
             tblObjetoDeCostos.getItems().removeAll(tblObjetoDeCostos.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -110,6 +115,7 @@ public class ObjetoDeCostoCrudController {
         if (!paraGuardar.contains(objetoDeCosto)) {
             paraGuardar.add(objetoDeCosto);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -119,6 +125,7 @@ public class ObjetoDeCostoCrudController {
                 .collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {

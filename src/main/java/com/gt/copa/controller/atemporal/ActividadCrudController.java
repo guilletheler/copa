@@ -2,12 +2,11 @@ package com.gt.copa.controller.atemporal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.components.ProcesoConverter;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Actividad;
 import com.gt.copa.model.atemporal.Empresa;
@@ -39,7 +38,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/ActividadCrudView.fxml")
-public class ActividadCrudController {
+public class ActividadCrudController implements ModificadorDatos {
 
     @Autowired
     ActividadService actividadService;
@@ -78,12 +77,16 @@ public class ActividadCrudController {
     List<Actividad> paraGuardar;
     List<Actividad> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblActividades.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblActividades.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblActividades.getSelectionModel().getSelectedItems());
             tblActividades.getItems().removeAll(tblActividades.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -180,6 +183,7 @@ public class ActividadCrudController {
         if (!paraGuardar.contains(actividad)) {
             paraGuardar.add(actividad);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -195,6 +199,7 @@ public class ActividadCrudController {
         tblActividades.setItems(FXCollections.observableArrayList(actividadService.findByEmpresa(empresa)));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {
@@ -205,7 +210,7 @@ public class ActividadCrudController {
     }
 
     private void guardar(Actividad dto) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando actividad " + dto.toString());
+        // Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando actividad " + dto.toString());
         actividadService.getRepo().save(dto);
     }
 

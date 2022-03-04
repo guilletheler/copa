@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.components.DriverConverter;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.ComponenteDriver;
 import com.gt.copa.model.atemporal.Driver;
@@ -32,7 +33,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/ComponenteDriverCrudView.fxml")
-public class ComponenteDriverCrudController {
+public class ComponenteDriverCrudController implements ModificadorDatos {
 
     @Autowired
     ComponenteDriverService componanteDriverService;
@@ -68,12 +69,16 @@ public class ComponenteDriverCrudController {
     List<ComponenteDriver> paraGuardar;
     List<ComponenteDriver> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblComponenteDrivers.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblComponenteDrivers.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblComponenteDrivers.getSelectionModel().getSelectedItems());
             tblComponenteDrivers.getItems().removeAll(tblComponenteDrivers.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -135,6 +140,7 @@ public class ComponenteDriverCrudController {
         if (!paraGuardar.contains(componanteDriver)) {
             paraGuardar.add(componanteDriver);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -150,6 +156,7 @@ public class ComponenteDriverCrudController {
                 .setItems(FXCollections.observableArrayList(componanteDriverService.findByEmpresa(empresa)));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {

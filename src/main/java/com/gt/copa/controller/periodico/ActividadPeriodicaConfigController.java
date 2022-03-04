@@ -2,14 +2,13 @@ package com.gt.copa.controller.periodico;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.gt.copa.calc.api.TipoDistribucion;
 import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.components.ProcesoConverter;
 import com.gt.copa.components.TipoDistribucionConverter;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.model.atemporal.Empresa;
 import com.gt.copa.model.atemporal.Escenario;
 import com.gt.copa.model.periodico.ActividadPeriodica;
@@ -39,7 +38,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/periodico/ActividadPeriodicaConfigView.fxml")
-public class ActividadPeriodicaConfigController {
+public class ActividadPeriodicaConfigController implements ModificadorDatos {
 
     @Autowired
     ActividadPeriodicaService actividadPeriodicaService;
@@ -74,12 +73,15 @@ public class ActividadPeriodicaConfigController {
 
     List<ActividadPeriodica> paraGuardar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblActividadesPeriodicas.getSelectionModel().getSelectedItems() != null) {
             tblActividadesPeriodicas.getSelectionModel().getSelectedItems().forEach(ap -> ap.setTipoDistribucion(null));
             paraGuardar.addAll(tblActividadesPeriodicas.getSelectionModel().getSelectedItems());
-
+            dataModificada = true;
         }
     }
 
@@ -121,6 +123,7 @@ public class ActividadPeriodicaConfigController {
         if (!paraGuardar.contains(actividad)) {
             paraGuardar.add(actividad);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -131,6 +134,7 @@ public class ActividadPeriodicaConfigController {
 
         tblActividadesPeriodicas.setItems(FXCollections.observableArrayList(actividadPeriodicaService.findOrCreate(empresa, escenario, periodo)));
         paraGuardar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {
@@ -145,7 +149,7 @@ public class ActividadPeriodicaConfigController {
     }
 
     private void guardar(ActividadPeriodica dto) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando actividad " + dto.toString());
+        // Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando actividad " + dto.toString());
         actividadPeriodicaService.getRepo().save(dto);
     }
 

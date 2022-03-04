@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.EditingTextCell;
 import com.gt.copa.model.atemporal.Proceso;
 import com.gt.copa.repo.atemporal.ProcesoRepo;
@@ -26,7 +27,7 @@ import net.rgielen.fxweaver.core.FxmlView;
 
 @Component
 @FxmlView("/com/gt/copa/view/atemporal/ProcesoCrudView.fxml")
-public class ProcesoCrudController {
+public class ProcesoCrudController implements ModificadorDatos {
 
     @Autowired
     ProcesoRepo procesoRepo;
@@ -53,12 +54,16 @@ public class ProcesoCrudController {
     List<Proceso> paraGuardar;
     List<Proceso> paraEliminar;
 
+    @Getter
+    boolean dataModificada;
+
     @FXML
     void btnEliminarClick(ActionEvent event) {
         if (tblProcesos.getSelectionModel().getSelectedItems() != null) {
             paraEliminar.addAll(tblProcesos.getSelectionModel().getSelectedItems());
             paraGuardar.removeAll(tblProcesos.getSelectionModel().getSelectedItems());
             tblProcesos.getItems().removeAll(tblProcesos.getSelectionModel().getSelectedItems());
+            dataModificada = true;
         }
     }
 
@@ -110,6 +115,7 @@ public class ProcesoCrudController {
         if (!paraGuardar.contains(proceso)) {
             paraGuardar.add(proceso);
         }
+        dataModificada = true;
     }
 
     public void loadData() {
@@ -119,6 +125,7 @@ public class ProcesoCrudController {
                 .collect(Collectors.toList())));
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
+        dataModificada = false;
     }
 
     public void persist() {
