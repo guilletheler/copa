@@ -9,7 +9,7 @@ import com.gt.copa.components.ComponenteDriverConverter;
 import com.gt.copa.components.CurrentStatus;
 import com.gt.copa.components.DatoConverter;
 import com.gt.copa.components.EscenarioConverter;
-import com.gt.copa.components.TipoDistribucionConverter;
+import com.gt.copa.components.PeriodoConverter;
 import com.gt.copa.controller.ModificadorDatos;
 import com.gt.copa.infra.DatePickerTableCell;
 import com.gt.copa.infra.EditingTextCell;
@@ -20,6 +20,7 @@ import com.gt.copa.model.temporal.ValorDato;
 import com.gt.copa.service.atemporal.ComponenteDriverService;
 import com.gt.copa.service.atemporal.DatoService;
 import com.gt.copa.service.atemporal.EscenarioService;
+import com.gt.copa.service.temporal.PeriodoService;
 import com.gt.copa.service.temporal.ValorDatoService;
 
 import org.apache.commons.collections4.IteratorUtils;
@@ -59,7 +60,7 @@ public class ValorDatoCrudController implements ModificadorDatos {
     DatoService datoService;
 
     @Autowired
-    DatoConverter datoConverter;
+    PeriodoService periodoService;
 
     @Autowired
     ComponenteDriverConverter componenteDriverConverter;
@@ -69,6 +70,9 @@ public class ValorDatoCrudController implements ModificadorDatos {
 
     @Autowired
     EscenarioConverter escenarioConverter;
+
+    @Autowired
+    PeriodoConverter periodoConverter;
 
     @Autowired
     DatoConverter datoConverter;
@@ -101,6 +105,9 @@ public class ValorDatoCrudController implements ModificadorDatos {
 
     @FXML
     private TableColumn<ValorDato, Integer> colId;
+
+    @FXML
+    private TableColumn<ValorDato, Escenario> colEscenario;
 
     @FXML
     private TableColumn<ValorDato, Dato> colDato;
@@ -241,6 +248,13 @@ public class ValorDatoCrudController implements ModificadorDatos {
                 .findByEscenarioAndFechaGreaterThanEqualAndFechaLessThanEqual(
                         escenario, periodo.getInicio(), periodo.getFin()));
 
+        ObservableList<Periodo> periodos = FXCollections.observableArrayList(
+                IteratorUtils.toList(periodoService.getRepo().findAll().iterator()));
+
+        periodos.add(0, null);
+
+        loadScmbPeriodos(periodos);
+
         showFiltredElements();
         paraGuardar = new ArrayList<>();
         paraEliminar = new ArrayList<>();
@@ -305,6 +319,21 @@ public class ValorDatoCrudController implements ModificadorDatos {
         });
     }
 
+    private void loadScmbPeriodos(ObservableList<Periodo> datos) {
+
+        scmbFiltroPeriodo.setCellFactory(ComboBoxListCell.forListView(periodoConverter, datos));
+
+        scmbFiltroPeriodo.setItems(datos);
+
+        scmbFiltroPeriodo.setConverter(periodoConverter);
+
+        scmbFiltroPeriodo.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                showFiltredElements();
+            }
+        });
+    }
+
     public void persist() {
 
         paraGuardar.forEach(dto -> guardar(dto));
@@ -314,7 +343,8 @@ public class ValorDatoCrudController implements ModificadorDatos {
     }
 
     private void guardar(ValorDato dto) {
-        // Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando valor de dato " + dto.toString());
+        // Logger.getLogger(getClass().getName()).log(Level.INFO, "guardando valor de
+        // dato " + dto.toString());
         valorDatoService.getValorDatoRepo().save(dto);
     }
 

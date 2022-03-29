@@ -11,10 +11,14 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.Getter;
+
 @Service
 public class PeriodoService {
+
+    @Getter
     @Autowired
-    PeriodoRepo periodoRepo;
+    PeriodoRepo repo;
 
     /**
      * Agrega los meses del año pasado, de este año y del año siguiente
@@ -32,7 +36,7 @@ public class PeriodoService {
             cFin.add(Calendar.MONTH, 1);
             cFin.add(Calendar.DAY_OF_MONTH, -1);
 
-            Periodo periodo = periodoRepo.findByInicioAndFin(cal.getTime(), cFin.getTime()).orElse(null);
+            Periodo periodo = repo.findByInicioAndFin(cal.getTime(), cFin.getTime()).orElse(null);
 
             if(periodo == null) {
                 periodo = new Periodo();
@@ -41,7 +45,7 @@ public class PeriodoService {
                 periodo.setInicio(cal.getTime());
                 periodo.setFin(cFin.getTime());
                 periodo.setTipoPeriodo(TipoPeriodo.MENSUAL);
-                periodoRepo.save(periodo);
+                repo.save(periodo);
             }
 
             cal.add(Calendar.MONTH, 1);
