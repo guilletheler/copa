@@ -27,9 +27,9 @@ public class RecursoLabel extends Label {
             this.setStyle("-fx-font-size: 14; -fx-border-color: blue; -fx-border-width: 1px; -fx-font-style: bold;");
         });
         
-        // this.setOnDragDone(arg0 -> {
-        //     this.setStyle("-fx-font-size: 12; -fx-border-width: 0px; -fx-font-style: normal;");
-        // });
+        this.setOnDragDone(arg0 -> {
+            this.setStyle("-fx-font-size: 12; -fx-border-width: 0px; -fx-font-style: normal;");
+        });
         
         this.setWidth(width);
         this.setMinWidth(width);
