@@ -7,15 +7,18 @@ import com.gt.copa.repo.atemporal.TipoClasificacionDatoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.Getter;
+
 @Service
 public class TipoClasificacionDatoService {
-    
+
+    @Getter
     @Autowired
     TipoClasificacionDatoRepo repo;
 
     public void checkDefaults() {
-        
-        if(repo.count() == 0) {
+
+        if (repo.count() == 0) {
             TipoClasificacionDato rela = new TipoClasificacionDato();
             rela.setCodigo(1);
             rela.setNombre("Relacion Actividad");

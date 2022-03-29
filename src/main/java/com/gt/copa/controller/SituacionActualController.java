@@ -207,6 +207,7 @@ public class SituacionActualController implements ModificadorDatos {
         currentStatus.getCopaStatus().getFiltroClasificaciones().clear();
         currentStatus.getCopaStatus().getFiltroClasificaciones()
                 .addAll(lstClasificaciones.getCheckModel().getCheckedItems());
+        currentStatus.saveInParams();
         dataModificada = false;
     }
 

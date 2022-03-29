@@ -7,8 +7,6 @@
 <ScrollPane fx:id="nodeView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.CopaCalculatorController">
    <content>
       <Pane fx:id="copaCalcPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="425.0" prefWidth="626.0">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" layoutX="372.0" layoutY="163.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-         </children></Pane>
+      </Pane>
    </content>
 </ScrollPane>

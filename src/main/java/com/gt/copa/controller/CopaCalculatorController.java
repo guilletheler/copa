@@ -1,12 +1,19 @@
 package com.gt.copa.controller;
 
+import java.util.List;
+
+import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.infra.CalculatorNodes.RecursoLabel;
+import com.gt.copa.model.periodico.RecursoPeriodico;
+import com.gt.copa.service.periodico.RecursoEnActividadService;
+import com.gt.copa.service.periodico.RecursoPeriodicoService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import lombok.Getter;
 import net.rgielen.fxweaver.core.FxmlView;
@@ -27,6 +34,15 @@ public class CopaCalculatorController implements ModificadorDatos {
 
     private Line curLine;
 
+    @Autowired
+    RecursoEnActividadService recursoEnActividadService;
+
+    @Autowired
+    RecursoPeriodicoService recursoPeriodicoService;
+
+    @Autowired
+    CurrentStatus currentStatus;
+
     @FXML
     public void initialize() {
 
@@ -37,14 +53,31 @@ public class CopaCalculatorController implements ModificadorDatos {
     }
 
     private void redraw() {
-        // copaCalcPane.getChildren().clear();
-        
-        Circle circle = new Circle(100);
-        circle.setLayoutX(100);
-        circle.setLayoutY(100);
-        circle.setFill(Color.BLUE);
+        copaCalcPane.getChildren().clear();
 
-        copaCalcPane.getChildren().add(circle);
+        // List<RecursoEnActividad> rxa = recursoEnActividadService.getRepo()
+        // .findByRecurso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(
+        // currentStatus.getCopaStatus().getEmpresa(),
+        // currentStatus.getCopaStatus().getEscenario(),
+        // currentStatus.getCopaStatus().getPeriodo());
+
+        List<RecursoPeriodico> recursos = recursoPeriodicoService.getRepo()
+                .findByRecurso_EmpresaAndConfiguracionPeriodo_EscenarioAndConfiguracionPeriodo_Periodo(
+                        currentStatus.getCopaStatus().getEmpresa(), currentStatus.getCopaStatus().getEscenario(),
+                        currentStatus.getCopaStatus().getPeriodo());
+
+        int posX = 0;
+        int posY = 0;
+
+        for (RecursoPeriodico recurso : recursos) {
+            RecursoLabel rl = new RecursoLabel(copaCalcPane, recurso.getRecurso(), (int) (300));
+            rl.setLayoutX(posX);
+            rl.setLayoutY(posY);
+            rl.setMinHeight(25);
+            
+            posY += rl.getMinHeight() + 1;
+            copaCalcPane.getChildren().add(rl);
+        }
 
         copaCalcPane.setOnMousePressed(event -> {
             if (!event.isPrimaryButtonDown()) {
@@ -52,10 +85,16 @@ public class CopaCalculatorController implements ModificadorDatos {
             }
 
             curLine = new Line(
-                event.getX(), event.getY(), 
-                event.getX(), event.getY()
-            );
+                    event.getX(), event.getY(),
+                    event.getX(), event.getY());
             copaCalcPane.getChildren().add(curLine);
+        });
+
+        copaCalcPane.setOnMouseReleased(event -> {
+            if(curLine != null) {
+                copaCalcPane.getChildren().remove(curLine);
+                curLine = null;
+            }
         });
 
         copaCalcPane.setOnMouseDragged(event -> {
@@ -82,7 +121,6 @@ public class CopaCalculatorController implements ModificadorDatos {
             }
         });
 
-
     }
 
     public void hide() {
@@ -100,7 +138,7 @@ public class CopaCalculatorController implements ModificadorDatos {
     @Override
     public void persist() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
