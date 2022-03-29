@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.SearchableComboBox?>
 
-<VBox fx:id="nodeView" prefHeight="600.0" prefWidth="800.0" stylesheets="@../copa.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.periodico.ActividadEnActividadController">
+<VBox fx:id="nodeView" prefHeight="100.0" prefWidth="800.0" stylesheets="@../copa.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gt.copa.controller.periodico.ActividadEnActividadController">
    <children>
       <Label id="titulo-panel" alignment="CENTER" prefWidth="5000.0" styleClass="pane-header" text="Actividades en Actividades" />
       <VBox>

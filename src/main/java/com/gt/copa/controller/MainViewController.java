@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.gt.copa.CopaApplication;
 import com.gt.copa.components.CurrentStatus;
+import com.gt.copa.config.CopaConfig;
 import com.gt.copa.controller.atemporal.ActividadCrudController;
 import com.gt.copa.controller.atemporal.ClasificacionDatoCrudController;
 import com.gt.copa.controller.atemporal.ComponenteDriverCrudController;
@@ -110,6 +111,9 @@ public class MainViewController {
 	ComponenteDriverPeriodicoController componenteDriverPeriodicoController;
 
 	@Autowired
+	CopaCalculatorController copaCalculatorController;
+
+	@Autowired
 	ValorDatoCrudController valorDatoCrudController;
 
 	@Autowired
@@ -123,6 +127,9 @@ public class MainViewController {
 
 	@Autowired
 	TipoClasificacionDatoService tipoClasificacionDatoService;
+
+	@Autowired
+	CopaConfig copaConfig;
 
 	@FXML
 	private BorderPane mainView;
@@ -165,6 +172,7 @@ public class MainViewController {
 		viewControllers.add(fxWeaver.load(ActividadEnObjetoDeCostoController.class));
 		viewControllers.add(fxWeaver.load(ComponenteDriverPeriodicoController.class));
 		viewControllers.add(fxWeaver.load(ValorDatoCrudController.class));
+		viewControllers.add(fxWeaver.load(CopaCalculatorController.class));
 	}
 
 	@FXML
@@ -517,6 +525,14 @@ public class MainViewController {
 	}
 
 	@FXML
+	void mnuCalculoClick(ActionEvent event) {
+		if (confirmarGuardarDatos()) {
+			copaCalculatorController.loadData();
+			this.mainView.setCenter(copaCalculatorController.getNodeView());
+		}
+	}
+
+	@FXML
 	void reiniciarClick(ActionEvent event) {
 		if (confirmarGuardarDatos()) {
 			restartApp();
@@ -546,21 +562,27 @@ public class MainViewController {
 		ModificadorDatos currentModificadorDatos = this.getCurrentModificadorDatos();
 
 		if (currentModificadorDatos != null && currentModificadorDatos.isDataModificada()) {
-			switch (ConfirmDialogController.question(fxWeaver, "Atención",
-					"Los datos no están guardados,\n ¿Desea guardar los datos?", true, 2)) {
-				case 0:
-					// NO
-					continuar = true;
-					break;
-				case 1:
-					// Cancelar
-					continuar = false;
-					break;
-				case 2:
-					// SI
-					currentModificadorDatos.persist();
-					continuar = true;
-					break;
+
+			if (copaConfig.getAutosave() != null && copaConfig.getAutosave()) {
+				currentModificadorDatos.persist();
+			} else {
+
+				switch (ConfirmDialogController.question(fxWeaver, "Atención",
+						"Los datos no están guardados,\n ¿Desea guardar los datos?", true, 2)) {
+					case 0:
+						// NO
+						continuar = true;
+						break;
+					case 1:
+						// Cancelar
+						continuar = false;
+						break;
+					case 2:
+						// SI
+						currentModificadorDatos.persist();
+						continuar = true;
+						break;
+				}
 			}
 		}
 

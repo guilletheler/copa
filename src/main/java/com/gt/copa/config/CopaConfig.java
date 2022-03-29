@@ -22,4 +22,7 @@ public class CopaConfig {
 
 	@Value("${default.folder}")
     String defaultFolder;
+
+	@Value("${autosave}")
+    Boolean autosave;
 }
